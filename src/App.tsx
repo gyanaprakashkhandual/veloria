@@ -4,6 +4,8 @@ import { ConfirmProvider } from "./context/confirm/Confirm.context";
 import ConfirmTestPage from "./test/confirm/Confirm.test";
 import { AlertProvider } from "./context/alert/Alert.context";
 import AlertTestPage from "./test/alert/Alert.test";
+import { ButtonProvider } from "./context/button/Button.context";
+import ButtonTestPage from "./test/button/Button.test";
 
 function AppRoutes() {
   return (
@@ -24,6 +26,9 @@ function AppRoutes() {
         <Route path="/test/components/alerts" element={<AlertTestPage dark={false} setDark={function (): void {
           throw new Error("Function not implemented.");
         } }/>}/>
+        <Route path="/test/components/buttons" element={<ButtonTestPage dark={false} setDark={function (): void {
+          throw new Error("Function not implemented.");
+        } }/>}/>
       </Routes>
     </Router>
   );
@@ -31,10 +36,12 @@ function AppRoutes() {
 
 export default function App() {
   return (
+    <ButtonProvider>
     <AlertProvider>
     <ConfirmProvider>
       <AppRoutes />
     </ConfirmProvider>
     </AlertProvider>
+    </ButtonProvider>
   );
 }
