@@ -10,3 +10,5 @@
 8. Time Picker
 9. Input Boxes
 10. Tooltip
+11. alert
+12. confirm

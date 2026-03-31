@@ -6,6 +6,10 @@
     "button-type": "off",
     "axe/name-role-value": "off",
     "no-inline-styles": "off",
-    "axe/forms": "off"
+    "axe/forms": "off",
+    "axe/aria": "off",
+    "typescript-config/is-valid": "off",
+    "typescript-config/strict": "off",
+    "typescript-config/consistent-casing": "off"
   }
 }

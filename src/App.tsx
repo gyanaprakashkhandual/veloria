@@ -7,6 +7,9 @@ import AlertTestPage from "./test/alert/Alert.test";
 import { ButtonProvider } from "./context/button/Button.context";
 import ButtonTestPage from "./test/button/Button.test";
 
+import HomePage from "./pages/app/Home.page";
+import MainPage from "./docs/pages/Main.page";
+
 function AppRoutes() {
   return (
     <Router>
@@ -29,6 +32,8 @@ function AppRoutes() {
         <Route path="/test/components/buttons" element={<ButtonTestPage dark={false} setDark={function (): void {
           throw new Error("Function not implemented.");
         } }/>}/>
+        <Route path="/" element={<HomePage/>}/>
+        <Route path="/docs" element={<MainPage/>}/>
       </Routes>
     </Router>
   );
