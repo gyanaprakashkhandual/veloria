@@ -9,6 +9,8 @@ import ButtonTestPage from "./test/button/Button.test";
 
 import HomePage from "./pages/app/Home.page";
 import MainPage from "./docs/pages/Main.page";
+import ShowcasePage from "./pages/package/Showcase.page";
+import AlertDoc from "./docs/mdx/alert/Alert";
 
 function AppRoutes() {
   return (
@@ -34,6 +36,8 @@ function AppRoutes() {
         } }/>}/>
         <Route path="/" element={<HomePage/>}/>
         <Route path="/docs" element={<MainPage/>}/>
+        <Route path="/showcase" element={<ShowcasePage/>}/>
+        <Route path="/docs/components/alerts" element={<AlertDoc/>}/>
       </Routes>
     </Router>
   );
