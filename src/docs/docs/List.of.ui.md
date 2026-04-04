@@ -31,11 +31,15 @@
 3. Alerts
 4. Snackbar
 5. Dialog
+6. Message
 
 # Overlays
 
 1. Connect Window
 2. Confirm Window
+3. Authentication Window
+4. Message Window
+5. Backdrop
 
 # Navigation
 
@@ -59,3 +63,11 @@
 2. Container
 3. Gird
 4. Box
+
+# Forms
+
+1. Login
+2. Register
+3. Forgot Password
+4. Reset Password
+5. OTP
