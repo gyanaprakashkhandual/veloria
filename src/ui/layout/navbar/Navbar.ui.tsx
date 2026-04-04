@@ -27,7 +27,7 @@ import {
   type NavbarVariant,
   type NavbarPosition,
   type NavbarTheme,
-} from "../../context/navbar/Navbar.context";
+} from "../../../context/navbar/Navbar.context";
 
 const sizeConfig = {
   sm: {

@@ -9,7 +9,7 @@ import {
   type BreadcrumbSize,
   type BreadcrumbVariant,
   type BreadcrumbSeparatorType,
-} from "../../context/breadcrumb/Breadcrumb.context";
+} from "../../../context/breadcrumb/Breadcrumb.context";
 
 const sizeConfig = {
   sm: {

@@ -6,7 +6,7 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
-import ConfirmModal from "../../ui/confirm/Confirm.ui";
+import ConfirmModal from "../../ui/overlay/confirm/Confirm.ui";
 
 type ModalType = "default" | "success" | "danger" | "warning" | "info";
 

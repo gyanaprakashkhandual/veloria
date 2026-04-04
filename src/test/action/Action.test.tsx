@@ -45,7 +45,7 @@ import {
   ActionMenu,
   DefaultTrigger,
   IconTrigger,
-} from "../../ui/action/Action.menu.ui"; // adjust path
+} from "../../ui/core/action/Action.menu.ui"; // adjust path
 import type { ActionItem } from "../../context/action/Action.menu.context"; // adjust path
 
 // ─── Shared item sets ─────────────────────────────────────────────────────────

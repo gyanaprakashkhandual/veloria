@@ -24,7 +24,7 @@ import {
   type AlertPosition,
   type AlertType,
 } from "../../context/alert/Alert.context";
-import AlertContainer from "../../ui/alert/Alert.ui";
+import AlertContainer from "../../ui/messages/alert/Alert.ui";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface UseCaseConfig {

@@ -14,7 +14,7 @@ import {
   type WindowPosition,
   type WindowSize,
   type WindowTab,
-} from "../../context/window/Window.context";
+} from "../../../context/window/Window.context";
 
 const sizeConfig = {
   sm: {

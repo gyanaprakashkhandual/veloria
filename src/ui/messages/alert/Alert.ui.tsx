@@ -4,7 +4,7 @@ import {
   type AlertConfig,
   type AlertPosition,
   useAlert,
-} from "../../context/alert/Alert.context";
+} from "../../../context/alert/Alert.context";
 import { CheckCircle, XCircle, AlertCircle, Info, X } from "lucide-react";
 
 

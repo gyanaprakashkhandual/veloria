@@ -15,7 +15,7 @@ import {
   type OptionSize,
   type MenuPosition,
   type SelectionMode,
-} from "../../context/options/Option.conetxt";
+} from "../../../context/options/Option.conetxt";
 
 const sizeConfig = {
   sm: {

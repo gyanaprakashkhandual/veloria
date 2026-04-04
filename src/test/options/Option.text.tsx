@@ -19,8 +19,8 @@ import {
   Lock,
   Unlock,
 } from "lucide-react";
-import { OptionMenu } from "../../ui/options/Option.ui"; // adjust path as needed
-import type { OptionItem } from "../../ui/options/Option.ui";    // adjust path as needed
+import { OptionMenu } from "../../ui/core/options/Option.ui"; // adjust path as needed
+import type { OptionItem } from "../../ui/core/options/Option.ui";    // adjust path as needed
 import { FiFigma } from "react-icons/fi";
 import { BsSlack } from "react-icons/bs";
 import { DiChrome } from "react-icons/di";

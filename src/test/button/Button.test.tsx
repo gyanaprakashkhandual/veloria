@@ -29,7 +29,7 @@ import {
 } from "lucide-react";
 
 import { type ButtonVariant, type ButtonSize, type ButtonShape } from "../../context/button/Button.context";
-import { Button, AsyncButton, ToggleButton, ButtonGroup, IconButton } from "../../ui/button/Button.ui";
+import { Button, AsyncButton, ToggleButton, ButtonGroup, IconButton } from "../../ui/core/button/Button.ui";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 

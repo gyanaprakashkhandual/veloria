@@ -16,7 +16,7 @@ import {
   type PaginationVariant,
   type PaginationShape,
   type PaginationLayout,
-} from "../../context/pagination/Pagination.context";
+} from "../../../context/pagination/Pagination.context";
 
 const sizeConfig = {
   sm: {
