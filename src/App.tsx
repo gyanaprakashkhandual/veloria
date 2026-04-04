@@ -23,6 +23,8 @@ import { InputProvider } from "./context/inputs/Input.context";
 import InputShowcase from "./test/input/Input.test";
 import { SidebarProvider } from "./context/sidebar/Sidebar.context";
 import { NavbarProvider } from "./context/navbar/Navbar.context";
+import { BreadcrumbProvider } from "./context/breadcrumb/Breadcrumb.context";
+import { PaginationProvider } from "./context/pagination/Pagination.context";
 
 function AppRoutes() {
   return (
@@ -62,6 +64,8 @@ function AppRoutes() {
 
 export default function App() {
   return (
+    <PaginationProvider>
+    <BreadcrumbProvider>
     <NavbarProvider>
     <SidebarProvider>
     <InputProvider>
@@ -83,5 +87,7 @@ export default function App() {
     </InputProvider>
     </SidebarProvider>
     </NavbarProvider>
+    </BreadcrumbProvider>
+    </PaginationProvider>
   );
 }
