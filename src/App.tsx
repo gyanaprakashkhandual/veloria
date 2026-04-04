@@ -19,11 +19,14 @@ import { ActionMenuProvider } from "./context/action/Action.menu.context";
 import ActionMenuShowcase from "./test/action/Action.test";
 import { WindowProvider } from "./context/window/Window.context";
 import WindowShowcase from "./test/window/Window.test";
+import { InputProvider } from "./context/inputs/Input.context";
+import InputShowcase from "./test/input/Input.test";
 
 function AppRoutes() {
   return (
     <Router>
       <Routes>
+        <Route path="test/components/inputs" element={<InputShowcase/>}/>
         <Route path="/test/components/window" element={<WindowShowcase/>}/>
         <Route path="/test/components/action-menu" element={<ActionMenuShowcase/>}/>
         <Route path="/test/components/options" element={<OptionMenuShowcase/>}/>
@@ -57,6 +60,7 @@ function AppRoutes() {
 
 export default function App() {
   return (
+    <InputProvider>
     <WindowProvider>
     <ActionMenuProvider>
     <OptionProvider>
@@ -72,5 +76,6 @@ export default function App() {
     </OptionProvider>
     </ActionMenuProvider>
     </WindowProvider>
+    </InputProvider>
   );
 }
