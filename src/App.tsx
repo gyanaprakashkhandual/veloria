@@ -13,11 +13,14 @@ import ShowcasePage from "./pages/package/Showcase.page";
 import AlertDoc from "./docs/mdx/alert/Alert";
 import { DateTimeProvider } from "./context/time/Time.context";
 import DateTimeShowcasePage from "./test/time/Time.test";
+import { OptionProvider } from "./context/options/Option.conetxt";
+import OptionMenuShowcase from "./test/options/Option.text";
 
 function AppRoutes() {
   return (
     <Router>
       <Routes>
+        <Route path="/test/components/options" element={<OptionMenuShowcase/>}/>
         <Route path="/test/components/date-and-time" element={<DateTimeShowcasePage/>}/>
         <Route path="/test/components/tooltip" element={<TooltipTestPage />} />
         <Route
@@ -48,6 +51,7 @@ function AppRoutes() {
 
 export default function App() {
   return (
+    <OptionProvider>
     <DateTimeProvider>
     <ButtonProvider>
     <AlertProvider>
@@ -57,5 +61,6 @@ export default function App() {
     </AlertProvider>
     </ButtonProvider>
     </DateTimeProvider>
+    </OptionProvider>
   );
 }
