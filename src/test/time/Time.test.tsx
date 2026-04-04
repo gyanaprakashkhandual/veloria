@@ -4,8 +4,8 @@ import {
   DateTimePicker,
   StandaloneDatePicker,
   StandaloneTimePicker,
-} from "./components/ui/DateTimePicker"; // adjust path as needed
-import type { DateTimeValue } from "./context/time/Time.context"; // adjust path as needed
+} from "../../ui/time/Time.ui"; // adjust path as needed
+import type { DateTimeValue } from "../../context/time/Time.context"; // adjust path as needed
 
 // ─── Fade-in section wrapper ────────────────────────────────────────────────
 function Section({

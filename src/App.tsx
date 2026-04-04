@@ -18,7 +18,7 @@ function AppRoutes() {
   return (
     <Router>
       <Routes>
-        <Route path="/test/component/data-and-time" element={<DateTimeShowcasePage/>}/>
+        <Route path="/test/components/date-and-time" element={<DateTimeShowcasePage/>}/>
         <Route path="/test/components/tooltip" element={<TooltipTestPage />} />
         <Route
           path="/test/components/confirm-modal"
