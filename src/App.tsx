@@ -25,6 +25,7 @@ import { SidebarProvider } from "./context/sidebar/Sidebar.context";
 import { NavbarProvider } from "./context/navbar/Navbar.context";
 import { BreadcrumbProvider } from "./context/breadcrumb/Breadcrumb.context";
 import { PaginationProvider } from "./context/pagination/Pagination.context";
+import { TableProvider } from "./context/table/table.context";
 
 function AppRoutes() {
   return (
@@ -64,6 +65,7 @@ function AppRoutes() {
 
 export default function App() {
   return (
+    <TableProvider>
     <PaginationProvider>
     <BreadcrumbProvider>
     <NavbarProvider>
@@ -89,5 +91,6 @@ export default function App() {
     </NavbarProvider>
     </BreadcrumbProvider>
     </PaginationProvider>
+    </TableProvider>
   );
 }
