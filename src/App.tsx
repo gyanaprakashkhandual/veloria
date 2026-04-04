@@ -11,11 +11,14 @@ import HomePage from "./pages/app/Home.page";
 import MainPage from "./docs/pages/Main.page";
 import ShowcasePage from "./pages/package/Showcase.page";
 import AlertDoc from "./docs/mdx/alert/Alert";
+import { DateTimeProvider } from "./context/time/Time.context";
+import DateTimeShowcasePage from "./test/time/Time.test";
 
 function AppRoutes() {
   return (
     <Router>
       <Routes>
+        <Route path="/test/component/data-and-time" element={<DateTimeShowcasePage/>}/>
         <Route path="/test/components/tooltip" element={<TooltipTestPage />} />
         <Route
           path="/test/components/confirm-modal"
@@ -45,6 +48,7 @@ function AppRoutes() {
 
 export default function App() {
   return (
+    <DateTimeProvider>
     <ButtonProvider>
     <AlertProvider>
     <ConfirmProvider>
@@ -52,5 +56,6 @@ export default function App() {
     </ConfirmProvider>
     </AlertProvider>
     </ButtonProvider>
+    </DateTimeProvider>
   );
 }
