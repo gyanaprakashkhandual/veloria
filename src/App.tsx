@@ -15,11 +15,14 @@ import { DateTimeProvider } from "./context/time/Time.context";
 import DateTimeShowcasePage from "./test/time/Time.test";
 import { OptionProvider } from "./context/options/Option.conetxt";
 import OptionMenuShowcase from "./test/options/Option.text";
+import { ActionMenuProvider } from "./context/action/Action.menu.context";
+import ActionMenuShowcase from "./test/action/Action.test";
 
 function AppRoutes() {
   return (
     <Router>
       <Routes>
+        <Route path="/test/components/action-menu" element={<ActionMenuShowcase/>}/>
         <Route path="/test/components/options" element={<OptionMenuShowcase/>}/>
         <Route path="/test/components/date-and-time" element={<DateTimeShowcasePage/>}/>
         <Route path="/test/components/tooltip" element={<TooltipTestPage />} />
@@ -51,6 +54,7 @@ function AppRoutes() {
 
 export default function App() {
   return (
+    <ActionMenuProvider>
     <OptionProvider>
     <DateTimeProvider>
     <ButtonProvider>
@@ -62,5 +66,6 @@ export default function App() {
     </ButtonProvider>
     </DateTimeProvider>
     </OptionProvider>
+    </ActionMenuProvider>
   );
 }
