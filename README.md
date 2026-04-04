@@ -1,73 +1,107 @@
-# React + TypeScript + Vite
+# UI Component Library – Component List
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Existing Components
+- Action Menu
+- Inputs
+- Option Menu
+- Tooltip
+- Window
+- Date and Time Picker
+- Confirm Modal
+- Alerts
+- Buttons
 
-Currently, two official plugins are available:
+## Layout Components
+- Container
+- Grid
+- Flex / Stack
+- Box
+- Divider
+- Spacer
+- Section
+- Sidebar
+- Navbar / Header
+- Footer
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Navigation Components
+- Breadcrumbs
+- Pagination
+- Tabs
+- Stepper
+- Drawer (Side panel)
+- Menu Bar
+- Command Palette
+- Mega Menu
 
-## React Compiler
+## Data Display Components
+- Card
+- Table
+- Data Grid
+- List
+- Avatar
+- Badge
+- Tag / Chip
+- Timeline
+- Accordion
+- Tree View
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Feedback Components
+- Toast Notifications
+- Snackbar
+- Progress Bar
+- Skeleton Loader
+- Spinner / Loader
+- Empty State
 
-## Expanding the ESLint configuration
+## Overlay Components
+- Modal
+- Dialog
+- Popover
+- Bottom Sheet
+- Lightbox
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Form Components
+- Checkbox
+- Radio Button
+- Select Dropdown
+- Multi Select
+- Switch / Toggle
+- Slider
+- Date Picker
+- Time Picker
+- File Upload
+- OTP Input
+- Search Input
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Advanced Components
+- Rich Text Editor
+- Code Editor
+- Drag and Drop (Kanban)
+- Calendar
+- Charts (Bar, Line, Pie)
+- Virtualized List
+- Infinite Scroll
+- Command Menu
+- Theme Switcher
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Utility Components
+- Portal
+- Error Boundary
+- Resize Observer
+- Intersection Observer Wrapper
+- Keyboard Shortcut Handler
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Animation Components
+- Motion Wrapper
+- Fade Component
+- Slide Component
+- Scale Component
+- Page Transition
+- Parallax Container
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Authentication and UX Components
+- Login Form UI
+- Signup Form UI
+- Profile Card
+- User Dropdown
+- Permissions Wrapper

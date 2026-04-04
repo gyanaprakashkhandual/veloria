@@ -21,6 +21,8 @@ import { WindowProvider } from "./context/window/Window.context";
 import WindowShowcase from "./test/window/Window.test";
 import { InputProvider } from "./context/inputs/Input.context";
 import InputShowcase from "./test/input/Input.test";
+import { SidebarProvider } from "./context/sidebar/Sidebar.context";
+import { NavbarProvider } from "./context/navbar/Navbar.context";
 
 function AppRoutes() {
   return (
@@ -60,6 +62,8 @@ function AppRoutes() {
 
 export default function App() {
   return (
+    <NavbarProvider>
+    <SidebarProvider>
     <InputProvider>
     <WindowProvider>
     <ActionMenuProvider>
@@ -77,5 +81,7 @@ export default function App() {
     </ActionMenuProvider>
     </WindowProvider>
     </InputProvider>
+    </SidebarProvider>
+    </NavbarProvider>
   );
 }
