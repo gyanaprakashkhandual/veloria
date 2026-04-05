@@ -1,107 +1,81 @@
-# UI Component Library – Component List
+# Inputs
 
-## Existing Components
-- Action Menu
-- Inputs
-- Option Menu
-- Tooltip
-- Window
-- Date and Time Picker
-- Confirm Modal
-- Alerts
-- Buttons
+1. Buttons - Done
+2. Date Picker - Done
+3. Time Picker - Done
+4. Option Menu - Done
+5. Autocomplete
+6. Check Box - Done
+7. Radio Buttons - Done
+8. Toggle Button -Done
+9. Slider - Done
+10. Switch - Done
+11. Colors - Done
+12. Text Editor - Done
 
-## Layout Components
-- Container
-- Grid
-- Flex / Stack
-- Box
-- Divider
-- Spacer
-- Section
-- Sidebar
-- Navbar / Header
-- Footer
+# Data
 
-## Navigation Components
-- Breadcrumbs
-- Pagination
-- Tabs
-- Stepper
-- Drawer (Side panel)
-- Menu Bar
-- Command Palette
-- Mega Menu
+1. Table -Done
+2. List - Done
+3. Avatar - Done
+4. Tooltip - Done
+5. Chip - Done
+6. Image - Done
+7. Card - Done
 
-## Data Display Components
-- Card
-- Table
-- Data Grid
-- List
-- Avatar
-- Badge
-- Tag / Chip
-- Timeline
-- Accordion
-- Tree View
+# Feedback
 
-## Feedback Components
-- Toast Notifications
-- Snackbar
-- Progress Bar
-- Skeleton Loader
-- Spinner / Loader
-- Empty State
+1. Loader - Done
+2. Skeleton - Done
+3. Alerts - Done
+4. Snackbar - Done
+5. Dialog - Done
+6. Message - Done
 
-## Overlay Components
-- Modal
-- Dialog
-- Popover
-- Bottom Sheet
-- Lightbox
+# Overlays
 
-## Form Components
-- Checkbox
-- Radio Button
-- Select Dropdown
-- Multi Select
-- Switch / Toggle
-- Slider
-- Date Picker
-- Time Picker
-- File Upload
-- OTP Input
-- Search Input
+1. Connect Window - Done
+2. Confirm Window - Done
+3. Authentication Window
+4. Message Window
+5. Backdrop - Done
 
-## Advanced Components
-- Rich Text Editor
-- Code Editor
-- Drag and Drop (Kanban)
-- Calendar
-- Charts (Bar, Line, Pie)
-- Virtualized List
-- Infinite Scroll
-- Command Menu
-- Theme Switcher
+# Navigation
 
-## Utility Components
-- Portal
-- Error Boundary
-- Resize Observer
-- Intersection Observer Wrapper
-- Keyboard Shortcut Handler
+1. Navbar - Done
+2. Sidebar - Done
+3. Toolbar
+4. Tabs
+5. Stepper
+6. Tree
+7. Breadcrumb - Done
+8. Link
+9. Drawer
+10. Action Menu - Done
+11. Pagination - Done
+12. Speed Dial -
+13. Dropdown -
 
-## Animation Components
-- Motion Wrapper
-- Fade Component
-- Slide Component
-- Scale Component
-- Page Transition
-- Parallax Container
+# Layout
 
-## Authentication and UX Components
-- Login Form UI
-- Signup Form UI
-- Profile Card
-- User Dropdown
-- Permissions Wrapper
+1. Layout - Done
+2. Container - Done
+3. Grid - Done
+4. Box - Done
+
+# Forms
+
+1. Login
+2. Register
+3. Forgot Password
+4. Reset Password
+5. OTP
+
+# Chars
+
+1. Pie Chart
+2. Bar Chart
+3. Stick Chart
+4. Table Chart
+5. Container
+6. Card
