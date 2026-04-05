@@ -42,6 +42,8 @@ import { BoxProvider } from "./ui/layout/box/Box.context";
 import { GridProvider } from "./ui/layout/grid/Grid.context";
 import LoaderShowcase from "./test/feedback/laoder/Loader.test";
 import SnackbarShowcase from "./test/feedback/snackbar/Snack.bar.test";
+import MessageShowcase from "./test/feedback/message/Message.test";
+import TestHomePage from "./test/pages/Home.page";
 
 function AppRoutes() {
   return (
@@ -110,6 +112,8 @@ function AppRoutes() {
         <Route path="/showcase" element={<ShowcasePage />} />
         <Route path="/docs/components/alerts" element={<AlertDoc />} />
         <Route path="/test/components/snack-bar" element={<SnackbarShowcase/>}/>
+        <Route path="/test/components/message" element={<MessageShowcase/>}/>
+        <Route path="/preview" element={<TestHomePage/>}/>
       </Routes>
     </Router>
   );
