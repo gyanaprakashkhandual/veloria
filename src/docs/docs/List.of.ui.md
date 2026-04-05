@@ -1,18 +1,18 @@
 # Inputs
 
-1. Buttons
-2. Text Fields
-3. Date Picker
-4. Time Picker
-5. Option Menu
+1. Buttons - Done
+2. Text Fields - Done
+3. Date Picker - Done
+4. Time Picker - Done
+5. Option Menu - Done
 6. Autocomplete
-7. Check Box
-8. Radio Buttons
-9. Toggle Button
-10. Slider
-11. Switch
-12. Colors
-13. Text Editor
+7. Check Box - Done
+8. Radio Buttons - Done
+9. Toggle Button -Done
+10. Slider - Done
+11. Switch - Done 
+12. Colors 
+13. Text Editor - Done
 
 # Data
 

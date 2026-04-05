@@ -22,7 +22,7 @@ import {
   Send,
   ArrowRight,
 } from "lucide-react";
-import { Input } from "../../ui/core/inputs/Input.ui"; // adjust path
+import { Input } from "../../ui/inputs/inputs/Input.ui"; // adjust path
 
 // ─── Layout helpers ───────────────────────────────────────────────────────────
 

@@ -4,7 +4,7 @@ import {
   DateTimePicker,
   StandaloneDatePicker,
   StandaloneTimePicker,
-} from "../../ui/core/time/Time.ui"; // adjust path as needed
+} from "../../ui/inputs/time/Time.ui"; // adjust path as needed
 import type { DateTimeValue } from "../../context/time/Time.context"; // adjust path as needed
 
 // ─── Fade-in section wrapper ────────────────────────────────────────────────
