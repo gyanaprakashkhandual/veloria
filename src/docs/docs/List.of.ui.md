@@ -1,6 +1,6 @@
 # Inputs
 
-1. Buttons - Done
+1. Buttons - Done - '../mdx/Button.doc.mdx'
 2. Text Fields - Done
 3. Date Picker - Done
 4. Time Picker - Done
