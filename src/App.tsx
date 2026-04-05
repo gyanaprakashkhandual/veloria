@@ -30,6 +30,8 @@ import BreadcrumbShowcase from "./test/navigation/breadcrumb/Bread.crumb.test";
 import NavbarShowcase from "./test/navigation/navbar/Navbar.test";
 import TextEditorShowcase from "./test/inputs/text-editor/Test.editor.test";
 import { LoaderProvider } from "./ui/feedback/loader/Loader.context";
+import { DialogProvider } from "./ui/feedback/dialog/Dialog.context";
+import { MessageProvider } from "./ui/feedback/message/Message.context";
 
 function AppRoutes() {
   return (
@@ -97,6 +99,8 @@ function AppRoutes() {
 
 export default function App() {
   return (
+    <MessageProvider>
+    <DialogProvider>
     <LoaderProvider>
       <PaginationProvider>
         <BreadcrumbProvider>
@@ -124,5 +128,7 @@ export default function App() {
         </BreadcrumbProvider>
       </PaginationProvider>
       </LoaderProvider>
+      </DialogProvider>
+      </MessageProvider>
   );
 }

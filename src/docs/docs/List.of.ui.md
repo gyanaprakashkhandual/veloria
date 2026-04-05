@@ -25,12 +25,12 @@
 
 # Feedback
 
-1. Loader
-2. Skeleton
+1. Loader - Done
+2. Skeleton - Done
 3. Alerts - Done
-4. Snackbar
-5. Dialog
-6. Message
+4. Snackbar - Done
+5. Dialog - Done
+6. Message - Done
 
 # Overlays
 
