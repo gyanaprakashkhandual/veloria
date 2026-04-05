@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { forwardRef, useId } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -9,6 +10,7 @@ import {
   type CheckboxVariant,
   type CheckboxShape,
   type CheckboxGroupProviderProps,
+  CheckboxProvider,
 } from "./Checkbox.context";
 
 function cx(...classes: (string | undefined | null | false)[]): string {
