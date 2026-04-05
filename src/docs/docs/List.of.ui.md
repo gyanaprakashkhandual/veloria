@@ -16,7 +16,7 @@
 # Data
 
 1. Table -Done 
-2. List
+2. List - Done
 3. Avatar - Done
 4. Tooltip - Done
 5. Chip - Done
