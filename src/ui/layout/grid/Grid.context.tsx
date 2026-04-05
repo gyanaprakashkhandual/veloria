@@ -476,8 +476,5 @@ export function buildGridTemplateColumns(
 }
 
 export {
-  GridContext,
-  DEFAULT_GRID_BREAKPOINTS,
-  getBreakpoint,
-  gridReducer,
+  GridContext
 };

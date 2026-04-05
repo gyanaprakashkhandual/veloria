@@ -58,10 +58,10 @@
 
 # Layout
 
-1. Layout
-2. Container
-3. Grid
-4. Box
+1. Layout - Done
+2. Container - Done
+3. Grid - Done
+4. Box - Done
 
 # Forms
 

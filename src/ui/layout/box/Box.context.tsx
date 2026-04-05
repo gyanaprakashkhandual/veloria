@@ -553,8 +553,5 @@ export function resolveResponsiveValue<T>(
 }
 
 export {
-  BoxContext,
-  DEFAULT_BOX_BREAKPOINTS,
-  getBreakpoint,
-  boxReducer,
+  BoxContext
 };

@@ -25,7 +25,6 @@ import { SidebarProvider } from "./ui/navigations/sidebar/Sidebar.context";
 import { NavbarProvider } from "./ui/navigations/navbar/Navbar.context";
 import { BreadcrumbProvider } from "./ui/navigations/breadcrumb/Breadcrumb.context";
 import { PaginationProvider } from "./ui/navigations/pagination/Pagination.context";
-import { TableProvider } from "./ui/data/table/Table.context";
 import BreadcrumbShowcase from "./test/navigation/breadcrumb/Bread.crumb.test";
 import NavbarShowcase from "./test/navigation/navbar/Navbar.test";
 import TextEditorShowcase from "./test/inputs/text-editor/Test.editor.test";
@@ -39,11 +38,15 @@ import { AvatarProvider } from "./ui/data/avatar/Avatar.context";
 import { SnackbarProvider } from "./ui/feedback/snackbar/Snackbar.context";
 import { PageLayoutProvider } from "./ui/layout/layout/Layout.context";
 import { ContainerProvider } from "./ui/layout/container/Container.context";
+import { BoxProvider } from "./ui/layout/box/Box.context";
+import { GridProvider } from "./ui/layout/grid/Grid.context";
+import LoaderShowcase from "./test/feedback/laoder/Loader.test";
 
 function AppRoutes() {
   return (
     <Router>
       <Routes>
+        <Route path="/test/components/loader" element={<LoaderShowcase/>}/>
         <Route
           path="/test/components/text-editor"
           element={<TextEditorShowcase />}
@@ -112,50 +115,54 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <ContainerProvider>
-    <PageLayoutProvider>
-    <SnackbarProvider>
-      <AvatarProvider>
-        <ImageProvider>
-          <ChipProvider>
-            <CardProvider>
-              <MessageProvider>
-                <DialogProvider>
-                  <LoaderProvider>
-                    <PaginationProvider>
-                      <BreadcrumbProvider>
-                        <NavbarProvider>
-                          <SidebarProvider>
-                            <InputProvider>
-                              <WindowProvider>
-                                <ActionMenuProvider>
-                                  <OptionProvider>
-                                    <DateTimeProvider>
-                                      <ButtonProvider>
-                                        <AlertProvider>
-                                          <ConfirmProvider>
-                                            <AppRoutes />
-                                          </ConfirmProvider>
-                                        </AlertProvider>
-                                      </ButtonProvider>
-                                    </DateTimeProvider>
-                                  </OptionProvider>
-                                </ActionMenuProvider>
-                              </WindowProvider>
-                            </InputProvider>
-                          </SidebarProvider>
-                        </NavbarProvider>
-                      </BreadcrumbProvider>
-                    </PaginationProvider>
-                  </LoaderProvider>
-                </DialogProvider>
-              </MessageProvider>
-            </CardProvider>
-          </ChipProvider>
-        </ImageProvider>
-      </AvatarProvider>
-    </SnackbarProvider>
-    </PageLayoutProvider>
-    </ContainerProvider>
+    <GridProvider>
+      <BoxProvider>
+        <ContainerProvider>
+          <PageLayoutProvider>
+            <SnackbarProvider>
+              <AvatarProvider>
+                <ImageProvider>
+                  <ChipProvider>
+                    <CardProvider>
+                      <MessageProvider>
+                        <DialogProvider>
+                          <LoaderProvider>
+                            <PaginationProvider>
+                              <BreadcrumbProvider>
+                                <NavbarProvider>
+                                  <SidebarProvider>
+                                    <InputProvider>
+                                      <WindowProvider>
+                                        <ActionMenuProvider>
+                                          <OptionProvider>
+                                            <DateTimeProvider>
+                                              <ButtonProvider>
+                                                <AlertProvider>
+                                                  <ConfirmProvider>
+                                                    <AppRoutes />
+                                                  </ConfirmProvider>
+                                                </AlertProvider>
+                                              </ButtonProvider>
+                                            </DateTimeProvider>
+                                          </OptionProvider>
+                                        </ActionMenuProvider>
+                                      </WindowProvider>
+                                    </InputProvider>
+                                  </SidebarProvider>
+                                </NavbarProvider>
+                              </BreadcrumbProvider>
+                            </PaginationProvider>
+                          </LoaderProvider>
+                        </DialogProvider>
+                      </MessageProvider>
+                    </CardProvider>
+                  </ChipProvider>
+                </ImageProvider>
+              </AvatarProvider>
+            </SnackbarProvider>
+          </PageLayoutProvider>
+        </ContainerProvider>
+      </BoxProvider>
+    </GridProvider>
   );
 }
