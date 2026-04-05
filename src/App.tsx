@@ -50,12 +50,15 @@ import { SwitchProvider } from "./ui/inputs/switch/Switch.context";
 import SwitchShowcase from "./test/inputs/switch/Switch.test";
 import SliderShowcase from "./test/inputs/slider/Slider.test";
 import ColorPickerShowcase from "./test/inputs/colors/Color.test";
+import { ColorPickerProvider } from "./ui/inputs/colors/Color.context";
+import { SkeletonProvider } from "./ui/feedback/skeleton/Skeleton.context";
+import SkeletonShowcase from "./test/feedback/skeleton/Skeleton.test";
 
 function AppRoutes() {
   return (
     <Router>
       <Routes>
-        <Route path="/test/components/loader" element={<LoaderShowcase/>}/>
+        <Route path="/test/components/loader" element={<LoaderShowcase />} />
         <Route
           path="/test/components/text-editor"
           element={<TextEditorShowcase />}
@@ -117,13 +120,14 @@ function AppRoutes() {
         <Route path="/docs" element={<MainPage />} />
         <Route path="/showcase" element={<ShowcasePage />} />
         <Route path="/docs/components/alerts" element={<AlertDoc />} />
-        <Route path="/test/components/snack-bar" element={<SnackbarShowcase/>}/>
-        <Route path="/test/components/message" element={<MessageShowcase/>}/>
-        <Route path="/preview" element={<TestHomePage/>}/>
-        <Route path="/test/components/radio-buttons" element={<RadioShowcase/>}/>
-        <Route path="/test/components/switch-buttons" element={<SwitchShowcase/>}/>
-        <Route path="/test/components/slider" element={<SliderShowcase/>}/>
-        <Route path="/test/components/color" element={<ColorPickerShowcase/>}/>
+        <Route path="/test/components/snack-bar" element={<SnackbarShowcase />} />
+        <Route path="/test/components/message" element={<MessageShowcase />} />
+        <Route path="/preview" element={<TestHomePage />} />
+        <Route path="/test/components/radio-buttons" element={<RadioShowcase />} />
+        <Route path="/test/components/switch-buttons" element={<SwitchShowcase />} />
+        <Route path="/test/components/slider" element={<SliderShowcase />} />
+        <Route path="/test/components/color" element={<ColorPickerShowcase />} />
+        <Route path="/test/components/skeleton" element={<SkeletonShowcase />} />
       </Routes>
     </Router>
   );
@@ -131,58 +135,62 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <SwitchProvider>
-    <RadioProvider>
-    <GridProvider>
-      <BoxProvider>
-        <ContainerProvider>
-          <PageLayoutProvider>
-            <SnackbarProvider>
-              <AvatarProvider>
-                <ImageProvider>
-                  <ChipProvider>
-                    <CardProvider>
-                      <MessageProvider>
-                        <DialogProvider>
-                          <LoaderProvider>
-                            <PaginationProvider>
-                              <BreadcrumbProvider>
-                                <NavbarProvider>
-                                  <SidebarProvider>
-                                    <InputProvider>
-                                      <WindowProvider>
-                                        <ActionMenuProvider>
-                                          <OptionProvider>
-                                            <DateTimeProvider>
-                                              <ButtonProvider>
-                                                <AlertProvider>
-                                                  <ConfirmProvider>
-                                                    <AppRoutes />
-                                                  </ConfirmProvider>
-                                                </AlertProvider>
-                                              </ButtonProvider>
-                                            </DateTimeProvider>
-                                          </OptionProvider>
-                                        </ActionMenuProvider>
-                                      </WindowProvider>
-                                    </InputProvider>
-                                  </SidebarProvider>
-                                </NavbarProvider>
-                              </BreadcrumbProvider>
-                            </PaginationProvider>
-                          </LoaderProvider>
-                        </DialogProvider>
-                      </MessageProvider>
-                    </CardProvider>
-                  </ChipProvider>
-                </ImageProvider>
-              </AvatarProvider>
-            </SnackbarProvider>
-          </PageLayoutProvider>
-        </ContainerProvider>
-      </BoxProvider>
-    </GridProvider>
-    </RadioProvider>
-    </SwitchProvider>
+    <SkeletonProvider>
+    <ColorPickerProvider>
+      <SwitchProvider>
+        <RadioProvider>
+          <GridProvider>
+            <BoxProvider>
+              <ContainerProvider>
+                <PageLayoutProvider>
+                  <SnackbarProvider>
+                    <AvatarProvider>
+                      <ImageProvider>
+                        <ChipProvider>
+                          <CardProvider>
+                            <MessageProvider>
+                              <DialogProvider>
+                                <LoaderProvider>
+                                  <PaginationProvider>
+                                    <BreadcrumbProvider>
+                                      <NavbarProvider>
+                                        <SidebarProvider>
+                                          <InputProvider>
+                                            <WindowProvider>
+                                              <ActionMenuProvider>
+                                                <OptionProvider>
+                                                  <DateTimeProvider>
+                                                    <ButtonProvider>
+                                                      <AlertProvider>
+                                                        <ConfirmProvider>
+                                                          <AppRoutes />
+                                                        </ConfirmProvider>
+                                                      </AlertProvider>
+                                                    </ButtonProvider>
+                                                  </DateTimeProvider>
+                                                </OptionProvider>
+                                              </ActionMenuProvider>
+                                            </WindowProvider>
+                                          </InputProvider>
+                                        </SidebarProvider>
+                                      </NavbarProvider>
+                                    </BreadcrumbProvider>
+                                  </PaginationProvider>
+                                </LoaderProvider>
+                              </DialogProvider>
+                            </MessageProvider>
+                          </CardProvider>
+                        </ChipProvider>
+                      </ImageProvider>
+                    </AvatarProvider>
+                  </SnackbarProvider>
+                </PageLayoutProvider>
+              </ContainerProvider>
+            </BoxProvider>
+          </GridProvider>
+        </RadioProvider>
+      </SwitchProvider>
+    </ColorPickerProvider>
+    </SkeletonProvider>
   );
 }
