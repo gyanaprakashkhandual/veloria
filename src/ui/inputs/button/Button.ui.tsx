@@ -8,7 +8,7 @@ import {
   type ButtonVariant,
   type ButtonSize,
   type ButtonShape,
-} from "../../../context/button/Button.context";
+} from "./Button.context";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 

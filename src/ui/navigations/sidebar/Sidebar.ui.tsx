@@ -18,7 +18,7 @@ import {
   type SidebarVariant,
   type SidebarPosition,
   type SidebarState_Mode,
-} from "../../../context/sidebar/Sidebar.context";
+} from "./Sidebar.context";
 
 const sizeConfig = {
   sm: {

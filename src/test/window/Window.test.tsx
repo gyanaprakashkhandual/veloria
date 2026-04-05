@@ -25,7 +25,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { Window, useWindow } from "../../ui/overlay/window/Window.ui";
-import type { WindowTab } from "../../context/window/Window.context"; // adjust path
+import type { WindowTab } from "../../ui/overlay/window/Window.context"; // adjust path
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 

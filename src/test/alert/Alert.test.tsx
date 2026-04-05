@@ -23,7 +23,7 @@ import {
   useAlert,
   type AlertPosition,
   type AlertType,
-} from "../../context/alert/Alert.context";
+} from "../../ui/feedback/alert/Alert.context";
 import AlertContainer from "../../ui/feedback/alert/Alert.ui";
 
 // ─── Types ────────────────────────────────────────────────────────────────────

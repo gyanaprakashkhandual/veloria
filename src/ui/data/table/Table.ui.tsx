@@ -22,7 +22,7 @@ import {
   type TableDensity,
   type SelectionMode,
   type SortDirection,
-} from "../../../context/table/table.context";
+} from "./Table.context";
 
 const sizeConfig = {
   sm: {

@@ -15,7 +15,7 @@ import {
   type ActionMenuSize,
   type ActionItemVariant,
   type MenuAlign,
-} from "../../../context/action/Action.menu.context";
+} from "./Action.menu.context";
 
 const sizeConfig = {
   sm: {

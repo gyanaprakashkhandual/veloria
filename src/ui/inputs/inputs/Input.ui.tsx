@@ -8,7 +8,7 @@ import {
   type InputVariant,
   type InputStatus,
   type InputType,
-} from "../../../context/inputs/Input.context";
+} from "./Input.context";
 
 const sizeConfig = {
   sm: {

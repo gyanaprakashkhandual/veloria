@@ -2,30 +2,30 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { TooltipTestPage } from "./test/tooltip/Tooltip.test";
 import { ConfirmProvider } from "./context/confirm/Confirm.context";
 import ConfirmTestPage from "./test/confirm/Confirm.test";
-import { AlertProvider } from "./context/alert/Alert.context";
+import { AlertProvider } from "./ui/feedback/alert/Alert.context";
 import AlertTestPage from "./test/alert/Alert.test";
-import { ButtonProvider } from "./context/button/Button.context";
+import { ButtonProvider } from "./ui/inputs/button/Button.context";
 import ButtonTestPage from "./test/button/Button.test";
 
 import HomePage from "./pages/app/Home.page";
 import MainPage from "./docs/pages/Main.page";
 import ShowcasePage from "./pages/package/Showcase.page";
 import AlertDoc from "./docs/mdx/alert/Alert";
-import { DateTimeProvider } from "./context/time/Time.context";
+import { DateTimeProvider } from "./ui/inputs/time/Time.context";
 import DateTimeShowcasePage from "./test/time/Time.test";
-import { OptionProvider } from "./context/options/Option.conetxt";
+import { OptionProvider } from "./ui/inputs/options/Option.conetxt";
 import OptionMenuShowcase from "./test/options/Option.text";
-import { ActionMenuProvider } from "./context/action/Action.menu.context";
+import { ActionMenuProvider } from "./ui/navigations/action/Action.menu.context";
 import ActionMenuShowcase from "./test/action/Action.test";
-import { WindowProvider } from "./context/window/Window.context";
+import { WindowProvider } from "./ui/overlay/window/Window.context";
 import WindowShowcase from "./test/window/Window.test";
-import { InputProvider } from "./context/inputs/Input.context";
+import { InputProvider } from "./ui/inputs/inputs/Input.context";
 import InputShowcase from "./test/input/Input.test";
-import { SidebarProvider } from "./context/sidebar/Sidebar.context";
-import { NavbarProvider } from "./context/navbar/Navbar.context";
-import { BreadcrumbProvider } from "./context/breadcrumb/Breadcrumb.context";
-import { PaginationProvider } from "./context/pagination/Pagination.context";
-import { TableProvider } from "./context/table/table.context";
+import { SidebarProvider } from "./ui/navigations/sidebar/Sidebar.context";
+import { NavbarProvider } from "./ui/navigations/navbar/Navbar.context";
+import { BreadcrumbProvider } from "./ui/navigations/breadcrumb/Breadcrumb.context";
+import { PaginationProvider } from "./ui/navigations/pagination/Pagination.context";
+import { TableProvider } from "./ui/data/table/Table.context";
 
 function AppRoutes() {
   return (
