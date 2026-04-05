@@ -55,6 +55,7 @@ import { SkeletonProvider } from "./ui/feedback/skeleton/Skeleton.context";
 import SkeletonShowcase from "./test/feedback/skeleton/Skeleton.test";
 import CheckboxShowcase from "./test/inputs/check-box/Check.box.test";
 import { CheckboxProvider } from "./ui/inputs/checkbox/Checkbox.context";
+import DialogShowcase from "./test/feedback/dialog/Dialog.test";
 
 function AppRoutes() {
   return (
@@ -131,6 +132,7 @@ function AppRoutes() {
         <Route path="/test/components/color" element={<ColorPickerShowcase />} />
         <Route path="/test/components/skeleton" element={<SkeletonShowcase />} />
         <Route path="/test/components/check-box" element={<CheckboxShowcase />} />
+        <Route path="/test/components/dialog" element={<DialogShowcase />} />
       </Routes>
     </Router>
   );
@@ -138,6 +140,7 @@ function AppRoutes() {
 
 export default function App() {
   return (
+    <DialogProvider>
     <CheckboxProvider>
     <SkeletonProvider>
     <ColorPickerProvider>
@@ -197,5 +200,6 @@ export default function App() {
     </ColorPickerProvider>
     </SkeletonProvider>
     </CheckboxProvider>
+    </DialogProvider>
   );
 }

@@ -426,11 +426,11 @@ function FeedbackDialogInner({
           aria-modal="true"
           onClick={handleOverlayClick}
         >
-          <motion.div
+          <motion.div>
             {...overlayMotion}
             className="absolute inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-[2px]"
             onClick={handleOverlayClick}
-          />
+          </motion.div>
           <motion.div
             {...buildPanelMotion(state.position)}
             className={`relative w-full ${sizeConfig[state.size].maxWidth} bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl shadow-black/10 dark:shadow-black/40 overflow-hidden mx-4 ${panelClassName}`}
