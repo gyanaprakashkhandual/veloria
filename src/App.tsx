@@ -44,6 +44,10 @@ import LoaderShowcase from "./test/feedback/laoder/Loader.test";
 import SnackbarShowcase from "./test/feedback/snackbar/Snack.bar.test";
 import MessageShowcase from "./test/feedback/message/Message.test";
 import TestHomePage from "./test/pages/Home.page";
+import { RadioProvider } from "./ui/inputs/radio/Radio.context";
+import RadioShowcase from "./test/inputs/radio/Radio.test";
+import { SwitchProvider } from "./ui/inputs/switch/Switch.context";
+import SwitchShowcase from "./test/inputs/switch/Switch.test";
 
 function AppRoutes() {
   return (
@@ -114,6 +118,8 @@ function AppRoutes() {
         <Route path="/test/components/snack-bar" element={<SnackbarShowcase/>}/>
         <Route path="/test/components/message" element={<MessageShowcase/>}/>
         <Route path="/preview" element={<TestHomePage/>}/>
+        <Route path="/test/components/radio-buttons" element={<RadioShowcase/>}/>
+        <Route path="/test/components/switch-buttons" element={<SwitchShowcase/>}/>
       </Routes>
     </Router>
   );
@@ -121,6 +127,8 @@ function AppRoutes() {
 
 export default function App() {
   return (
+    <SwitchProvider>
+    <RadioProvider>
     <GridProvider>
       <BoxProvider>
         <ContainerProvider>
@@ -170,5 +178,7 @@ export default function App() {
         </ContainerProvider>
       </BoxProvider>
     </GridProvider>
+    </RadioProvider>
+    </SwitchProvider>
   );
 }
