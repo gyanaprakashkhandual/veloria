@@ -26,11 +26,18 @@ import { NavbarProvider } from "./ui/navigations/navbar/Navbar.context";
 import { BreadcrumbProvider } from "./ui/navigations/breadcrumb/Breadcrumb.context";
 import { PaginationProvider } from "./ui/navigations/pagination/Pagination.context";
 import { TableProvider } from "./ui/data/table/Table.context";
+import BreadcrumbShowcase from "./test/navigation/breadcrumb/Bread.crumb.test";
+import NavbarShowcase from "./test/navigation/navbar/Navbar.test";
+import TextEditorShowcase from "./test/inputs/text-editor/Test.editor.test";
+import { LoaderProvider } from "./ui/feedback/loader/Loader.context";
 
 function AppRoutes() {
   return (
     <Router>
       <Routes>
+        <Route path="/test/components/text-editor" element={<TextEditorShowcase/>}/>
+        <Route path="/test/components/navbar" element={<NavbarShowcase/>}/>
+        <Route path="/test/components/breadcrumb" element={<BreadcrumbShowcase/>}/>
         <Route path="test/components/inputs" element={<InputShowcase />} />
         <Route path="/test/components/window" element={<WindowShowcase />} />
         <Route
@@ -90,6 +97,7 @@ function AppRoutes() {
 
 export default function App() {
   return (
+    <LoaderProvider>
       <PaginationProvider>
         <BreadcrumbProvider>
           <NavbarProvider>
@@ -115,5 +123,6 @@ export default function App() {
           </NavbarProvider>
         </BreadcrumbProvider>
       </PaginationProvider>
+      </LoaderProvider>
   );
 }
