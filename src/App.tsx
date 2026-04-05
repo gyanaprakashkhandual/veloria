@@ -48,6 +48,8 @@ import { RadioProvider } from "./ui/inputs/radio/Radio.context";
 import RadioShowcase from "./test/inputs/radio/Radio.test";
 import { SwitchProvider } from "./ui/inputs/switch/Switch.context";
 import SwitchShowcase from "./test/inputs/switch/Switch.test";
+import SliderShowcase from "./test/inputs/slider/Slider.test";
+import ColorPickerShowcase from "./test/inputs/colors/Color.test";
 
 function AppRoutes() {
   return (
@@ -120,6 +122,8 @@ function AppRoutes() {
         <Route path="/preview" element={<TestHomePage/>}/>
         <Route path="/test/components/radio-buttons" element={<RadioShowcase/>}/>
         <Route path="/test/components/switch-buttons" element={<SwitchShowcase/>}/>
+        <Route path="/test/components/slider" element={<SliderShowcase/>}/>
+        <Route path="/test/components/color" element={<ColorPickerShowcase/>}/>
       </Routes>
     </Router>
   );
