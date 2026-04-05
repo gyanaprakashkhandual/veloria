@@ -18,11 +18,11 @@
 
 1. Table -Done 
 2. List
-3. Avatar
+3. Avatar - Done
 4. Tooltip - Done
 5. Chip
 6. Image
-7. Card
+7. Card - Done
 
 # Feedback
 
