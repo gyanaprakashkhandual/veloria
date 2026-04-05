@@ -32,14 +32,25 @@ import TextEditorShowcase from "./test/inputs/text-editor/Test.editor.test";
 import { LoaderProvider } from "./ui/feedback/loader/Loader.context";
 import { DialogProvider } from "./ui/feedback/dialog/Dialog.context";
 import { MessageProvider } from "./ui/feedback/message/Message.context";
+import { CardProvider } from "./ui/data/card/Card.context";
+import { ChipProvider } from "./ui/data/chip/Chip.context";
+import { ImageProvider } from "./ui/data/image/Image.context";
+import { AvatarProvider } from "./ui/data/avatar/Avatar.context";
+import { SnackbarProvider } from "./ui/feedback/snackbar/Snackbar.context";
 
 function AppRoutes() {
   return (
     <Router>
       <Routes>
-        <Route path="/test/components/text-editor" element={<TextEditorShowcase/>}/>
-        <Route path="/test/components/navbar" element={<NavbarShowcase/>}/>
-        <Route path="/test/components/breadcrumb" element={<BreadcrumbShowcase/>}/>
+        <Route
+          path="/test/components/text-editor"
+          element={<TextEditorShowcase />}
+        />
+        <Route path="/test/components/navbar" element={<NavbarShowcase />} />
+        <Route
+          path="/test/components/breadcrumb"
+          element={<BreadcrumbShowcase />}
+        />
         <Route path="test/components/inputs" element={<InputShowcase />} />
         <Route path="/test/components/window" element={<WindowShowcase />} />
         <Route
@@ -99,36 +110,46 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <MessageProvider>
-    <DialogProvider>
-    <LoaderProvider>
-      <PaginationProvider>
-        <BreadcrumbProvider>
-          <NavbarProvider>
-            <SidebarProvider>
-              <InputProvider>
-                <WindowProvider>
-                  <ActionMenuProvider>
-                    <OptionProvider>
-                      <DateTimeProvider>
-                        <ButtonProvider>
-                          <AlertProvider>
-                            <ConfirmProvider>
-                              <AppRoutes />
-                            </ConfirmProvider>
-                          </AlertProvider>
-                        </ButtonProvider>
-                      </DateTimeProvider>
-                    </OptionProvider>
-                  </ActionMenuProvider>
-                </WindowProvider>
-              </InputProvider>
-            </SidebarProvider>
-          </NavbarProvider>
-        </BreadcrumbProvider>
-      </PaginationProvider>
-      </LoaderProvider>
-      </DialogProvider>
-      </MessageProvider>
+    <SnackbarProvider>
+      <AvatarProvider>
+        <ImageProvider>
+          <ChipProvider>
+            <CardProvider>
+              <MessageProvider>
+                <DialogProvider>
+                  <LoaderProvider>
+                    <PaginationProvider>
+                      <BreadcrumbProvider>
+                        <NavbarProvider>
+                          <SidebarProvider>
+                            <InputProvider>
+                              <WindowProvider>
+                                <ActionMenuProvider>
+                                  <OptionProvider>
+                                    <DateTimeProvider>
+                                      <ButtonProvider>
+                                        <AlertProvider>
+                                          <ConfirmProvider>
+                                            <AppRoutes />
+                                          </ConfirmProvider>
+                                        </AlertProvider>
+                                      </ButtonProvider>
+                                    </DateTimeProvider>
+                                  </OptionProvider>
+                                </ActionMenuProvider>
+                              </WindowProvider>
+                            </InputProvider>
+                          </SidebarProvider>
+                        </NavbarProvider>
+                      </BreadcrumbProvider>
+                    </PaginationProvider>
+                  </LoaderProvider>
+                </DialogProvider>
+              </MessageProvider>
+            </CardProvider>
+          </ChipProvider>
+        </ImageProvider>
+      </AvatarProvider>
+    </SnackbarProvider>
   );
 }
