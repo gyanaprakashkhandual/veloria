@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   positionClasses,
   calculatePosition,
-} from "../../context/tooltip/Tooltip.context";
+} from "./Tooltip.context";
 
 interface TooltipProps {
   content?: string;

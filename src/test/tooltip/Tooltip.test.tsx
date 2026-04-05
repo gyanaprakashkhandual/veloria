@@ -51,7 +51,7 @@ import {
   HelpCircle,
 } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
-import { Tooltip } from "../../ui/tooltip/Tooltip.ui";
+import { Tooltip } from "../../ui/data/tooltip/Tooltip.ui";
 
 // ─── Section wrapper ────────────────────────────────────────────────────────
 const Section = ({

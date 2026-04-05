@@ -20,8 +20,8 @@
 2. List
 3. Avatar - Done
 4. Tooltip - Done
-5. Chip
-6. Image
+5. Chip - Done
+6. Image - Done
 7. Card - Done
 
 # Feedback
@@ -78,3 +78,5 @@
 2. Bar Chart
 3. Stick Chart
 4. Table Chart
+6. Container
+7. Card

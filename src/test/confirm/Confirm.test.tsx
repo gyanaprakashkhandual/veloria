@@ -14,7 +14,7 @@ import {
   Moon,
   Sun,
 } from "lucide-react";
-import { useConfirm } from "../../context/confirm/Confirm.context";
+import { useConfirm } from "../../ui/overlay/confirm/Confirm.context";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type ModalType = "default" | "success" | "danger" | "warning" | "info";

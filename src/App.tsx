@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { TooltipTestPage } from "./test/tooltip/Tooltip.test";
-import { ConfirmProvider } from "./context/confirm/Confirm.context";
+import { ConfirmProvider } from "./ui/overlay/confirm/Confirm.context";
 import ConfirmTestPage from "./test/confirm/Confirm.test";
 import { AlertProvider } from "./ui/feedback/alert/Alert.context";
 import AlertTestPage from "./test/alert/Alert.test";
@@ -31,11 +31,20 @@ function AppRoutes() {
   return (
     <Router>
       <Routes>
-        <Route path="test/components/inputs" element={<InputShowcase/>}/>
-        <Route path="/test/components/window" element={<WindowShowcase/>}/>
-        <Route path="/test/components/action-menu" element={<ActionMenuShowcase/>}/>
-        <Route path="/test/components/options" element={<OptionMenuShowcase/>}/>
-        <Route path="/test/components/date-and-time" element={<DateTimeShowcasePage/>}/>
+        <Route path="test/components/inputs" element={<InputShowcase />} />
+        <Route path="/test/components/window" element={<WindowShowcase />} />
+        <Route
+          path="/test/components/action-menu"
+          element={<ActionMenuShowcase />}
+        />
+        <Route
+          path="/test/components/options"
+          element={<OptionMenuShowcase />}
+        />
+        <Route
+          path="/test/components/date-and-time"
+          element={<DateTimeShowcasePage />}
+        />
         <Route path="/test/components/tooltip" element={<TooltipTestPage />} />
         <Route
           path="/test/components/confirm-modal"
@@ -48,16 +57,32 @@ function AppRoutes() {
             />
           }
         />
-        <Route path="/test/components/alerts" element={<AlertTestPage dark={false} setDark={function (): void {
-          throw new Error("Function not implemented.");
-        } }/>}/>
-        <Route path="/test/components/buttons" element={<ButtonTestPage dark={false} setDark={function (): void {
-          throw new Error("Function not implemented.");
-        } }/>}/>
-        <Route path="/" element={<HomePage/>}/>
-        <Route path="/docs" element={<MainPage/>}/>
-        <Route path="/showcase" element={<ShowcasePage/>}/>
-        <Route path="/docs/components/alerts" element={<AlertDoc/>}/>
+        <Route
+          path="/test/components/alerts"
+          element={
+            <AlertTestPage
+              dark={false}
+              setDark={function (): void {
+                throw new Error("Function not implemented.");
+              }}
+            />
+          }
+        />
+        <Route
+          path="/test/components/buttons"
+          element={
+            <ButtonTestPage
+              dark={false}
+              setDark={function (): void {
+                throw new Error("Function not implemented.");
+              }}
+            />
+          }
+        />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/docs" element={<MainPage />} />
+        <Route path="/showcase" element={<ShowcasePage />} />
+        <Route path="/docs/components/alerts" element={<AlertDoc />} />
       </Routes>
     </Router>
   );
@@ -65,32 +90,30 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <TableProvider>
-    <PaginationProvider>
-    <BreadcrumbProvider>
-    <NavbarProvider>
-    <SidebarProvider>
-    <InputProvider>
-    <WindowProvider>
-    <ActionMenuProvider>
-    <OptionProvider>
-    <DateTimeProvider>
-    <ButtonProvider>
-    <AlertProvider>
-    <ConfirmProvider>
-      <AppRoutes />
-    </ConfirmProvider>
-    </AlertProvider>
-    </ButtonProvider>
-    </DateTimeProvider>
-    </OptionProvider>
-    </ActionMenuProvider>
-    </WindowProvider>
-    </InputProvider>
-    </SidebarProvider>
-    </NavbarProvider>
-    </BreadcrumbProvider>
-    </PaginationProvider>
-    </TableProvider>
+      <PaginationProvider>
+        <BreadcrumbProvider>
+          <NavbarProvider>
+            <SidebarProvider>
+              <InputProvider>
+                <WindowProvider>
+                  <ActionMenuProvider>
+                    <OptionProvider>
+                      <DateTimeProvider>
+                        <ButtonProvider>
+                          <AlertProvider>
+                            <ConfirmProvider>
+                              <AppRoutes />
+                            </ConfirmProvider>
+                          </AlertProvider>
+                        </ButtonProvider>
+                      </DateTimeProvider>
+                    </OptionProvider>
+                  </ActionMenuProvider>
+                </WindowProvider>
+              </InputProvider>
+            </SidebarProvider>
+          </NavbarProvider>
+        </BreadcrumbProvider>
+      </PaginationProvider>
   );
 }
