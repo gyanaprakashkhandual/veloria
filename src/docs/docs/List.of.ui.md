@@ -11,15 +11,15 @@
 9. Toggle Button -Done
 10. Slider - Done
 11. Switch - Done 
-12. Colors 
+12. Colors - Done 
 13. Text Editor - Done
 
 # Data
 
-1. Table
+1. Table -Done 
 2. List
 3. Avatar
-4. Tooltip
+4. Tooltip - Done
 5. Chip
 6. Image
 7. Card
@@ -28,18 +28,18 @@
 
 1. Loader
 2. Skeleton
-3. Alerts
+3. Alerts - Done
 4. Snackbar
 5. Dialog
 6. Message
 
 # Overlays
 
-1. Connect Window
-2. Confirm Window
+1. Connect Window - Done
+2. Confirm Window - Done
 3. Authentication Window
 4. Message Window
-5. Backdrop
+5. Backdrop - Done
 
 # Navigation
 
