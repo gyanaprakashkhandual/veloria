@@ -71,3 +71,10 @@
 3. Forgot Password
 4. Reset Password
 5. OTP
+
+# Chars
+
+1. Pie Chart
+2. Bar Chart
+3. Stick Chart
+4. Table Chart
