@@ -21,7 +21,10 @@ interface NavItemProps {
 
 // ─── Badge ────────────────────────────────────────────────────────────────────
 
-const Badge: React.FC<{ label: string; color: string }> = ({ label, color }) => {
+const Badge: React.FC<{ label: string; color: string }> = ({
+  label,
+  color,
+}) => {
   const colorMap: Record<string, string> = {
     orange: "bg-orange-500 text-white",
     blue: "bg-blue-500 text-white",
@@ -53,16 +56,16 @@ const NavItemComponent: React.FC<NavItemProps> = ({
   // Auto-open if a child is currently active
   const isChildActive = useCallback(
     (navItem: NavItem): boolean => {
-      if (navItem.path && location.pathname.startsWith(navItem.path)) return true;
+      if (navItem.path && location.pathname.startsWith(navItem.path))
+        return true;
       return navItem.children?.some(isChildActive) ?? false;
     },
-    [location.pathname]
+    [location.pathname],
   );
 
   const [open, setOpen] = useState(() => hasChildren && isChildActive(item));
 
-  const isActive =
-    item.path !== undefined && location.pathname === item.path;
+  const isActive = item.path !== undefined && location.pathname === item.path;
 
   const Icon = item.icon;
 
@@ -70,10 +73,10 @@ const NavItemComponent: React.FC<NavItemProps> = ({
     depth === 0
       ? "pl-3"
       : depth === 1
-      ? "pl-6"
-      : depth === 2
-      ? "pl-9"
-      : "pl-12";
+        ? "pl-6"
+        : depth === 2
+          ? "pl-9"
+          : "pl-12";
 
   const baseItemClass = `
     group flex items-center gap-2.5 w-full text-left
@@ -121,7 +124,9 @@ const NavItemComponent: React.FC<NavItemProps> = ({
             <Icon
               size={16}
               className={`shrink-0 transition-colors ${
-                open ? "text-gray-800" : "text-gray-400 group-hover:text-gray-600"
+                open
+                  ? "text-gray-800"
+                  : "text-gray-400 group-hover:text-gray-600"
               }`}
             />
           )}
@@ -180,7 +185,10 @@ const NavItemComponent: React.FC<NavItemProps> = ({
         `}
       >
         {Icon && (
-          <Icon size={16} className="shrink-0 text-gray-400 group-hover:text-gray-600" />
+          <Icon
+            size={16}
+            className="shrink-0 text-gray-400 group-hover:text-gray-600"
+          />
         )}
         <span className="flex-1 leading-snug">{item.label}</span>
         {item.badge && (
@@ -214,7 +222,9 @@ const NavItemComponent: React.FC<NavItemProps> = ({
               <Icon
                 size={16}
                 className={`shrink-0 ${
-                  active ? "text-gray-800" : "text-gray-400 group-hover:text-gray-600"
+                  active
+                    ? "text-gray-800"
+                    : "text-gray-400 group-hover:text-gray-600"
                 }`}
               />
             )}
