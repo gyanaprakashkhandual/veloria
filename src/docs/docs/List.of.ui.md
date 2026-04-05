@@ -60,7 +60,7 @@
 
 1. Layout
 2. Container
-3. Gird
+3. Grid
 4. Box
 
 # Forms

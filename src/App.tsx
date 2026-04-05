@@ -37,6 +37,8 @@ import { ChipProvider } from "./ui/data/chip/Chip.context";
 import { ImageProvider } from "./ui/data/image/Image.context";
 import { AvatarProvider } from "./ui/data/avatar/Avatar.context";
 import { SnackbarProvider } from "./ui/feedback/snackbar/Snackbar.context";
+import { PageLayoutProvider } from "./ui/layout/layout/Layout.context";
+import { ContainerProvider } from "./ui/layout/container/Container.context";
 
 function AppRoutes() {
   return (
@@ -110,6 +112,8 @@ function AppRoutes() {
 
 export default function App() {
   return (
+    <ContainerProvider>
+    <PageLayoutProvider>
     <SnackbarProvider>
       <AvatarProvider>
         <ImageProvider>
@@ -151,5 +155,7 @@ export default function App() {
         </ImageProvider>
       </AvatarProvider>
     </SnackbarProvider>
+    </PageLayoutProvider>
+    </ContainerProvider>
   );
 }
