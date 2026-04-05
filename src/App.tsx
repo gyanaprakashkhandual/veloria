@@ -41,6 +41,7 @@ import { ContainerProvider } from "./ui/layout/container/Container.context";
 import { BoxProvider } from "./ui/layout/box/Box.context";
 import { GridProvider } from "./ui/layout/grid/Grid.context";
 import LoaderShowcase from "./test/feedback/laoder/Loader.test";
+import SnackbarShowcase from "./test/feedback/snackbar/Snack.bar.test";
 
 function AppRoutes() {
   return (
@@ -108,6 +109,7 @@ function AppRoutes() {
         <Route path="/docs" element={<MainPage />} />
         <Route path="/showcase" element={<ShowcasePage />} />
         <Route path="/docs/components/alerts" element={<AlertDoc />} />
+        <Route path="/test/components/snack-bar" element={<SnackbarShowcase/>}/>
       </Routes>
     </Router>
   );
