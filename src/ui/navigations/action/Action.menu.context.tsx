@@ -7,15 +7,48 @@ import React, {
   useRef,
 } from "react";
 
-export type ActionMenuSize = "sm" | "md" | "lg" | "xl";
+export type ActionMenuSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
 export type MenuAlign =
-  | "bottom-left"
-  | "bottom-right"
+  | "top"
+  | "bottom"
+  | "left"
+  | "right"
   | "top-left"
   | "top-right"
+  | "top-center"
+  | "bottom-left"
+  | "bottom-right"
+  | "bottom-center"
   | "auto";
 
-export type ActionItemVariant = "default" | "danger" | "warning" | "success";
+export type ActionItemVariant =
+  | "default"
+  | "danger"
+  | "warning"
+  | "success"
+  | "info";
+export type MenuOpenTrigger = "click" | "hover";
+export type MenuState = "default" | "loading" | "error";
+
+export interface ActionMenuDivider {
+  show?: boolean;
+  thickness?: number;
+  color?: string;
+}
+
+export interface ActionMenuHeader {
+  text?: string;
+  leadingIcon?: React.ReactNode;
+  trailingIcon?: React.ReactNode;
+  color?: string;
+}
+
+export interface ActionMenuFooter {
+  text?: string;
+  leadingIcon?: React.ReactNode;
+  trailingIcon?: React.ReactNode;
+  color?: string;
+}
 
 export interface ActionItem {
   id: string;
@@ -30,9 +63,10 @@ export interface ActionItem {
   header?: string;
   children?: ActionItem[];
   onClick?: () => void;
+  customContent?: React.ReactNode;
 }
 
-export interface ActionMenuState {
+export interface ActionMenuStateData {
   isOpen: boolean;
   activeSubmenuPath: string[];
   size: ActionMenuSize;
@@ -49,7 +83,10 @@ type ActionMenuAction =
   | { type: "RESET_SUBMENU" }
   | { type: "SET_SUBMENU_PATH"; payload: string[] };
 
-function reducer(state: ActionMenuState, action: ActionMenuAction): ActionMenuState {
+function reducer(
+  state: ActionMenuStateData,
+  action: ActionMenuAction,
+): ActionMenuStateData {
   switch (action.type) {
     case "OPEN":
       return { ...state, isOpen: true, activeSubmenuPath: [] };
@@ -58,9 +95,15 @@ function reducer(state: ActionMenuState, action: ActionMenuAction): ActionMenuSt
     case "TOGGLE":
       return { ...state, isOpen: !state.isOpen, activeSubmenuPath: [] };
     case "PUSH_SUBMENU":
-      return { ...state, activeSubmenuPath: [...state.activeSubmenuPath, action.payload] };
+      return {
+        ...state,
+        activeSubmenuPath: [...state.activeSubmenuPath, action.payload],
+      };
     case "POP_SUBMENU":
-      return { ...state, activeSubmenuPath: state.activeSubmenuPath.slice(0, -1) };
+      return {
+        ...state,
+        activeSubmenuPath: state.activeSubmenuPath.slice(0, -1),
+      };
     case "RESET_SUBMENU":
       return { ...state, activeSubmenuPath: [] };
     case "SET_SUBMENU_PATH":
@@ -71,7 +114,7 @@ function reducer(state: ActionMenuState, action: ActionMenuAction): ActionMenuSt
 }
 
 export interface ActionMenuContextValue {
-  state: ActionMenuState;
+  state: ActionMenuStateData;
   dispatch: React.Dispatch<ActionMenuAction>;
   open: () => void;
   close: () => void;
@@ -170,6 +213,9 @@ export function ActionMenuProvider({
 
 export function useActionMenuContext(): ActionMenuContextValue {
   const ctx = useContext(ActionMenuContext);
-  if (!ctx) throw new Error("useActionMenuContext must be used within ActionMenuProvider");
+  if (!ctx)
+    throw new Error(
+      "useActionMenuContext must be used within ActionMenuProvider",
+    );
   return ctx;
 }

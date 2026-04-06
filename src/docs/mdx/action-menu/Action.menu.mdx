@@ -1,0 +1,270 @@
+# ActionMenu
+
+A composable, fully accessible dropdown menu system with infinite nested submenus, multiple open triggers, state management, and complete size/variant control.
+
+---
+
+## Installation
+
+```bash
+import { ActionMenu, DefaultTrigger, IconTrigger } from "@/components/action-menu/Action.menu.ui";
+import "@/components/action-menu/Action.menu.css";
+```
+
+---
+
+## Quick Start
+
+```tsx
+import { ActionMenu, DefaultTrigger } from "./Action.menu.ui";
+
+const items = [
+  { id: "edit", label: "Edit", onClick: () => console.log("edit") },
+  { id: "duplicate", label: "Duplicate" },
+  { id: "delete", label: "Delete", variant: "danger" },
+];
+
+export default function Example() {
+  return (
+    <ActionMenu items={items} trigger={<DefaultTrigger label="Actions" />} />
+  );
+}
+```
+
+---
+
+## Props
+
+### ActionMenu
+
+| Prop                  | Type                                | Default                  | Description                        |
+| --------------------- | ----------------------------------- | ------------------------ | ---------------------------------- |
+| `items`               | `ActionItem[]`                      | required                 | Array of menu items                |
+| `trigger`             | `ReactNode`                         | required                 | Element that opens the menu        |
+| `size`                | `ActionMenuSize`                    | `"md"`                   | Controls sizing of the entire menu |
+| `align`               | `MenuAlign`                         | `"auto"`                 | Menu position relative to trigger  |
+| `openTrigger`         | `"click" \| "hover"`                | `"click"`                | How the menu opens                 |
+| `closeOnOutsideClick` | `boolean`                           | `true`                   | Close when clicking outside        |
+| `header`              | `ActionMenuHeader`                  | —                        | Optional header config             |
+| `footer`              | `ActionMenuFooter`                  | —                        | Optional footer config             |
+| `divider`             | `ActionMenuDivider`                 | —                        | Global divider style override      |
+| `showCloseButton`     | `boolean`                           | `false`                  | Show X button in header            |
+| `menuState`           | `"default" \| "loading" \| "error"` | `"default"`              | Controls loading/error states      |
+| `errorMessage`        | `string`                            | `"Something went wrong"` | Error state headline               |
+| `errorDescription`    | `string`                            | —                        | Error state sub-text               |
+| `disabled`            | `boolean`                           | `false`                  | Disables the entire menu           |
+| `className`           | `string`                            | —                        | Class on the wrapper               |
+| `menuClassName`       | `string`                            | —                        | Class on the menu panel            |
+| `onAction`            | `(item: ActionItem) => void`        | —                        | Fires on any item click            |
+| `onOpen`              | `() => void`                        | —                        | Fires when menu opens              |
+| `onClose`             | `() => void`                        | —                        | Fires when menu closes             |
+| `children`            | `ReactNode`                         | —                        | Custom content inside the menu     |
+
+---
+
+### ActionItem
+
+| Prop            | Type                | Description                                                 |
+| --------------- | ------------------- | ----------------------------------------------------------- |
+| `id`            | `string`            | Unique identifier (required)                                |
+| `label`         | `string`            | Display text (required)                                     |
+| `description`   | `string`            | Secondary line below label                                  |
+| `leadingIcon`   | `ReactNode`         | Icon before label                                           |
+| `trailingIcon`  | `ReactNode`         | Icon after label                                            |
+| `trailingText`  | `string`            | Shortcut or badge text                                      |
+| `variant`       | `ActionItemVariant` | `"default" \| "danger" \| "warning" \| "success" \| "info"` |
+| `disabled`      | `boolean`           | Grays out and disables the item                             |
+| `dividerBefore` | `boolean`           | Renders a divider above this item                           |
+| `header`        | `string`            | Section header label above this item                        |
+| `children`      | `ActionItem[]`      | Nested sub-menu items (infinite depth)                      |
+| `onClick`       | `() => void`        | Click handler                                               |
+| `customContent` | `ReactNode`         | Replaces item with arbitrary content                        |
+
+---
+
+### ActionMenuHeader / ActionMenuFooter
+
+| Prop           | Type        | Description       |
+| -------------- | ----------- | ----------------- |
+| `text`         | `string`    | Display text      |
+| `leadingIcon`  | `ReactNode` | Icon before text  |
+| `trailingIcon` | `ReactNode` | Icon after text   |
+| `color`        | `string`    | Custom text color |
+
+---
+
+### ActionMenuDivider
+
+| Prop        | Type      | Description                  |
+| ----------- | --------- | ---------------------------- |
+| `show`      | `boolean` | Show/hide the divider        |
+| `thickness` | `number`  | Pixel height of divider line |
+| `color`     | `string`  | Custom divider color         |
+
+---
+
+## Sizes
+
+Seven sizes are available: `xs`, `sm`, `md`, `lg`, `xl`, `2xl`, `3xl`.
+
+```tsx
+<ActionMenu size="xs" items={items} trigger={<DefaultTrigger size="xs" label="XS" />} />
+<ActionMenu size="md" items={items} trigger={<DefaultTrigger size="md" label="MD" />} />
+<ActionMenu size="xl" items={items} trigger={<DefaultTrigger size="xl" label="XL" />} />
+```
+
+---
+
+## Variants
+
+Items support five visual variants that change text and icon color, plus hover background.
+
+```tsx
+const items = [
+  { id: "default", label: "Default action", variant: "default" },
+  { id: "success", label: "Mark complete", variant: "success" },
+  { id: "info", label: "View details", variant: "info" },
+  { id: "warning", label: "Archive item", variant: "warning" },
+  { id: "danger", label: "Delete forever", variant: "danger" },
+];
+```
+
+---
+
+## Align / Position
+
+`align` accepts 10 values: `top`, `bottom`, `left`, `right`, `top-left`, `top-right`, `top-center`, `bottom-left`, `bottom-right`, `bottom-center`, and `auto`.
+
+When set to `auto`, the menu calculates which quadrant has the most space and opens there.
+
+```tsx
+<ActionMenu align="bottom-right" ... />
+<ActionMenu align="top-center" ... />
+<ActionMenu align="auto" ... />
+```
+
+---
+
+## Open Triggers
+
+```tsx
+<ActionMenu openTrigger="click" ... />
+<ActionMenu openTrigger="hover" ... />
+```
+
+Set `closeOnOutsideClick={false}` to keep the menu open when the user clicks away — useful in complex editing flows.
+
+---
+
+## Header & Footer
+
+```tsx
+<ActionMenu
+  header={{ text: "My Account", leadingIcon: <UserIcon /> }}
+  footer={{ text: "v1.0.0", color: "var(--color-text-muted)" }}
+  showCloseButton
+  items={items}
+  trigger={<DefaultTrigger label="Profile" />}
+/>
+```
+
+---
+
+## Nested Submenus
+
+Submenus nest infinitely. Any item with a `children` array renders a submenu that opens on hover with automatic left/right side detection.
+
+```tsx
+const items = [
+  {
+    id: "share",
+    label: "Share",
+    children: [
+      { id: "copy-link", label: "Copy Link" },
+      {
+        id: "export",
+        label: "Export As",
+        children: [
+          { id: "pdf", label: "PDF" },
+          { id: "png", label: "PNG" },
+          { id: "csv", label: "CSV" },
+        ],
+      },
+    ],
+  },
+];
+```
+
+---
+
+## Loading & Error States
+
+```tsx
+<ActionMenu menuState="loading" items={[]} trigger={<DefaultTrigger label="Loading..." />} />
+
+<ActionMenu
+  menuState="error"
+  errorMessage="Failed to load"
+  errorDescription="Check your connection and try again."
+  items={[]}
+  trigger={<DefaultTrigger label="Error" />}
+/>
+```
+
+---
+
+## Custom Content
+
+Pass a `children` prop to inject arbitrary React content inside the menu panel below all items.
+
+```tsx
+<ActionMenu items={items} trigger={<DefaultTrigger label="Options" />}>
+  <div
+    style={{
+      padding: "8px 10px",
+      borderTop: "1px solid var(--color-border-primary)",
+    }}
+  >
+    <input placeholder="Search..." />
+  </div>
+</ActionMenu>
+```
+
+---
+
+## Triggers
+
+Two pre-built triggers are exported. You can also pass any element as `trigger`.
+
+```tsx
+<DefaultTrigger label="Actions" variant="default" leadingIcon={<PlusIcon />} />
+<DefaultTrigger label="Options" variant="ghost" />
+<DefaultTrigger label="Edit" variant="outline" />
+
+<IconTrigger icon={<DotsIcon />} variant="ghost" />
+<IconTrigger icon={<DotsIcon />} variant="default" />
+```
+
+---
+
+## CSS Variables
+
+All visual tokens come from your design system variables. Override any part via `className` or `menuClassName` props:
+
+```css
+.my-menu .am-panel {
+  --color-surface-primary: #1e293b;
+  --color-text-primary: #f8fafc;
+  --color-border-primary: #334155;
+}
+```
+
+---
+
+## Accessibility
+
+- `aria-expanded` on the trigger wrapper
+- `aria-haspopup="true"` on the trigger
+- `Escape` key closes the menu
+- `disabled` items receive `disabled` attribute and `cursor: not-allowed`
+- Close button has `aria-label="Close menu"`
