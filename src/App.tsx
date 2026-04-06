@@ -56,6 +56,8 @@ import SkeletonShowcase from "./test/feedback/skeleton/Skeleton.test";
 import CheckboxShowcase from "./test/inputs/check-box/Check.box.test";
 import { CheckboxProvider } from "./ui/inputs/checkbox/Checkbox.context";
 import DialogShowcase from "./test/feedback/dialog/Dialog.test";
+import ListShowcase from "./test/data/list/List.test";
+import { ListProvider } from "./ui/data/list/List.context";
 
 function AppRoutes() {
   return (
@@ -133,6 +135,7 @@ function AppRoutes() {
         <Route path="/test/components/skeleton" element={<SkeletonShowcase />} />
         <Route path="/test/components/check-box" element={<CheckboxShowcase />} />
         <Route path="/test/components/dialog" element={<DialogShowcase />} />
+        <Route path="/test/components/list" element={<ListShowcase />} />
       </Routes>
     </Router>
   );
@@ -140,6 +143,7 @@ function AppRoutes() {
 
 export default function App() {
   return (
+    <ListProvider>
     <DialogProvider>
     <CheckboxProvider>
     <SkeletonProvider>
@@ -201,5 +205,6 @@ export default function App() {
     </SkeletonProvider>
     </CheckboxProvider>
     </DialogProvider>
+    </ListProvider>
   );
 }

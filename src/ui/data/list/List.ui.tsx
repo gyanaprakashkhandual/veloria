@@ -26,7 +26,7 @@ import {
   type ListDensity,
   type ListSelectionMode,
   type ListItemVariant,
-} from "./List.Context";
+} from "./List.context";
 
 const sizeConfig: Record<
   ListSize,

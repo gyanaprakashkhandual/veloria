@@ -4,7 +4,7 @@
 3. Date Picker - Done
 4. Time Picker - Done
 5. Option Menu - Done
-6. Autocomplete
+6. Autocomplete - 
 7. Check Box - Done
 8. Radio Buttons - Done
 9. Toggle Button -Done
