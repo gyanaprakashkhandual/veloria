@@ -46,8 +46,8 @@
 2. Sidebar - Done
 3. Toolbar
 4. Tabs
-5. Stepper
-6. Tree
+5. Stepper - Done
+6. Tree - Done
 7. Breadcrumb - Done
 8. Link
 9. Drawer
@@ -71,7 +71,7 @@
 4. Reset Password
 5. OTP
 
-# Chars
+# Charts
 
 1. Pie Chart
 2. Bar Chart

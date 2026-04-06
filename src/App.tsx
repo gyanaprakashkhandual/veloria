@@ -60,6 +60,12 @@ import ListShowcase from "./test/data/list/List.test";
 import { ListProvider } from "./ui/data/list/List.context";
 import AvatarShowcase from "./test/data/avatar/Avatar.test";
 import ImageShowcase from "./test/data/image/Image.test";
+import { TableProvider } from "./ui/data/table/Table.context";
+import TableShowcase from "./test/data/table/Table.test";
+import StepperShowcase from "./test/navigation/stepper/Stepper.test";
+import { StepperProvider } from "./ui/navigations/stepper/Stepper.context";
+import { TreeProvider } from "./ui/navigations/tree/Tree.context";
+import TreeShowcase from "./test/navigation/tree/Tree.test";
 
 function AppRoutes() {
   return (
@@ -140,6 +146,11 @@ function AppRoutes() {
         <Route path="/test/components/list" element={<ListShowcase />} />
         <Route path="/test/components/avatar" element={<AvatarShowcase />} />
         <Route path="/test/components/image" element={<ImageShowcase />} />
+        <Route path="/test/components/table" element={<TableShowcase />} />
+        <Route path="/test/components/table" element={<TableShowcase />} />
+        <Route path="/test/components/stepper" element={<StepperShowcase />} />
+        <Route path="/test/components/tree" element={<TreeShowcase />} />
+
       </Routes>
     </Router>
   );
@@ -147,6 +158,9 @@ function AppRoutes() {
 
 export default function App() {
   return (
+    <TreeProvider children={undefined} nodes={[]}>
+    <StepperProvider children={undefined} steps={[]}>
+    <TableProvider children={undefined} columns={[]} data={[]}>
     <ListProvider>
     <DialogProvider>
     <CheckboxProvider>
@@ -210,5 +224,8 @@ export default function App() {
     </CheckboxProvider>
     </DialogProvider>
     </ListProvider>
+    </TableProvider>
+    </StepperProvider>
+    </TreeProvider>
   );
 }

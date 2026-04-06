@@ -56,6 +56,7 @@ export interface TableState {
   expandedRows: Set<string>;
   columnVisibility: Record<string, boolean>;
   columnOrder: string[];
+  columnWidths: Record<string, number>;
   pinnedLeft: string[];
   pinnedRight: string[];
   pagination: TablePaginationState;
@@ -64,6 +65,7 @@ export interface TableState {
   size: TableSize;
   variant: TableVariant;
   density: TableDensity;
+  rowOrder: string[]; // tracks reordered row ids
 }
 
 type TableAction =
@@ -83,6 +85,8 @@ type TableAction =
   | { type: "COLLAPSE_ALL" }
   | { type: "SET_COLUMN_VISIBILITY"; payload: { columnId: string; visible: boolean } }
   | { type: "SET_COLUMN_ORDER"; payload: string[] }
+  | { type: "SET_COLUMN_WIDTH"; payload: { columnId: string; width: number } }
+  | { type: "SET_ROW_ORDER"; payload: string[] }
   | { type: "SET_PAGE"; payload: number }
   | { type: "SET_PAGE_SIZE"; payload: number }
   | { type: "SET_TOTAL_ITEMS"; payload: number }
@@ -153,10 +157,7 @@ function tableReducer(state: TableState, action: TableAction): TableState {
       return { ...state, selectedRows: next };
     }
     case "SELECT_ALL":
-      return {
-        ...state,
-        selectedRows: new Set(action.payload),
-      };
+      return { ...state, selectedRows: new Set(action.payload) };
     case "DESELECT_ALL":
       return { ...state, selectedRows: new Set() };
     case "TOGGLE_ROW_EXPANDED": {
@@ -179,6 +180,16 @@ function tableReducer(state: TableState, action: TableAction): TableState {
       };
     case "SET_COLUMN_ORDER":
       return { ...state, columnOrder: action.payload };
+    case "SET_COLUMN_WIDTH":
+      return {
+        ...state,
+        columnWidths: {
+          ...state.columnWidths,
+          [action.payload.columnId]: action.payload.width,
+        },
+      };
+    case "SET_ROW_ORDER":
+      return { ...state, rowOrder: action.payload };
     case "SET_PAGE":
       return {
         ...state,
@@ -207,6 +218,7 @@ function tableReducer(state: TableState, action: TableAction): TableState {
         filterState: { globalFilter: "", columnFilters: {} },
         selectedRows: new Set(),
         expandedRows: new Set(),
+        columnWidths: {},
         pagination: { ...state.pagination, currentPage: 1 },
       };
     default:
@@ -238,12 +250,16 @@ export interface TableContextValue<TData = Record<string, unknown>> {
   toggleRowExpanded: (rowId: string) => void;
   isRowExpanded: (rowId: string) => boolean;
   setColumnVisibility: (columnId: string, visible: boolean) => void;
+  setColumnOrder: (order: string[]) => void;
+  setColumnWidth: (columnId: string, width: number) => void;
+  setRowOrder: (order: string[]) => void;
   setPage: (page: number) => void;
   setPageSize: (size: number) => void;
   setTotalItems: (total: number) => void;
   setLoading: (loading: boolean) => void;
   reset: () => void;
   visibleColumns: TableColumn<TData>[];
+  orderedData: TData[];
   tableRef: React.RefObject<HTMLTableElement | null>;
   onRowClick?: (row: TData, rowId: string) => void;
   onRowDoubleClick?: (row: TData, rowId: string) => void;
@@ -252,6 +268,8 @@ export interface TableContextValue<TData = Record<string, unknown>> {
   onPageChange?: (page: number) => void;
   onPageSizeChange?: (size: number) => void;
   onFilterChange?: (filterState: TableFilterState) => void;
+  onColumnOrderChange?: (order: string[]) => void;
+  onRowOrderChange?: (order: string[]) => void;
 }
 
 const TableContext = createContext<TableContextValue<any> | null>(null);
@@ -278,6 +296,8 @@ export interface TableProviderProps<TData = Record<string, unknown>> {
   onPageChange?: (page: number) => void;
   onPageSizeChange?: (size: number) => void;
   onFilterChange?: (filterState: TableFilterState) => void;
+  onColumnOrderChange?: (order: string[]) => void;
+  onRowOrderChange?: (order: string[]) => void;
 }
 
 export function TableProvider<TData = Record<string, unknown>>({
@@ -302,7 +322,13 @@ export function TableProvider<TData = Record<string, unknown>>({
   onPageChange,
   onPageSizeChange,
   onFilterChange,
+  onColumnOrderChange,
+  onRowOrderChange,
 }: TableProviderProps<TData>) {
+const initialRowOrder = data?.map((row, i) =>
+  getRowId(row, i)
+) || [];
+
   const [state, dispatch] = useReducer(tableReducer, {
     sortState: defaultSort,
     filterState: { globalFilter: defaultGlobalFilter, columnFilters: {} },
@@ -310,6 +336,7 @@ export function TableProvider<TData = Record<string, unknown>>({
     expandedRows: new Set<string>(),
     columnVisibility: {},
     columnOrder: columns.map((c) => c.id),
+    columnWidths: {},
     pinnedLeft: columns.filter((c) => c.pinned === "left").map((c) => c.id),
     pinnedRight: columns.filter((c) => c.pinned === "right").map((c) => c.id),
     pagination: {
@@ -322,6 +349,7 @@ export function TableProvider<TData = Record<string, unknown>>({
     size,
     variant,
     density,
+    rowOrder: initialRowOrder,
   });
 
   const tableRef = useRef<HTMLTableElement>(null);
@@ -379,12 +407,9 @@ export function TableProvider<TData = Record<string, unknown>>({
     [state.filterState, onFilterChange],
   );
 
-  const clearColumnFilter = useCallback(
-    (columnId: string) => {
-      dispatch({ type: "CLEAR_COLUMN_FILTER", payload: columnId });
-    },
-    [],
-  );
+  const clearColumnFilter = useCallback((columnId: string) => {
+    dispatch({ type: "CLEAR_COLUMN_FILTER", payload: columnId });
+  }, []);
 
   const clearAllFilters = useCallback(() => {
     dispatch({ type: "CLEAR_ALL_FILTERS" });
@@ -404,9 +429,7 @@ export function TableProvider<TData = Record<string, unknown>>({
   const toggleRowSelection = useCallback(
     (rowId: string) => {
       dispatch({ type: "TOGGLE_ROW_SELECTION", payload: rowId });
-      const next = new Set(
-        selectionMode === "single" ? [] : state.selectedRows,
-      );
+      const next = new Set(selectionMode === "single" ? [] : state.selectedRows);
       if (next.has(rowId)) next.delete(rowId);
       else next.add(rowId);
       onSelectionChange?.(Array.from(next));
@@ -444,11 +467,28 @@ export function TableProvider<TData = Record<string, unknown>>({
     [state.expandedRows],
   );
 
-  const setColumnVisibility = useCallback(
-    (columnId: string, visible: boolean) => {
-      dispatch({ type: "SET_COLUMN_VISIBILITY", payload: { columnId, visible } });
+  const setColumnVisibility = useCallback((columnId: string, visible: boolean) => {
+    dispatch({ type: "SET_COLUMN_VISIBILITY", payload: { columnId, visible } });
+  }, []);
+
+  const setColumnOrder = useCallback(
+    (order: string[]) => {
+      dispatch({ type: "SET_COLUMN_ORDER", payload: order });
+      onColumnOrderChange?.(order);
     },
-    [],
+    [onColumnOrderChange],
+  );
+
+  const setColumnWidth = useCallback((columnId: string, width: number) => {
+    dispatch({ type: "SET_COLUMN_WIDTH", payload: { columnId, width } });
+  }, []);
+
+  const setRowOrder = useCallback(
+    (order: string[]) => {
+      dispatch({ type: "SET_ROW_ORDER", payload: order });
+      onRowOrderChange?.(order);
+    },
+    [onRowOrderChange],
   );
 
   const setPage = useCallback(
@@ -479,9 +519,20 @@ export function TableProvider<TData = Record<string, unknown>>({
     dispatch({ type: "RESET" });
   }, []);
 
-  const visibleColumns = columns.filter(
-    (col) => !col.hidden && state.columnVisibility[col.id] !== false,
+  // Derive visibleColumns respecting columnOrder
+  const visibleColumns = state.columnOrder
+    .map((id) => columns.find((c) => c.id === id))
+    .filter((col): col is TableColumn<TData> =>
+      !!col && !col.hidden && state.columnVisibility[col.id] !== false,
+    );
+
+  // Derive orderedData respecting rowOrder
+  const rowIdToData = new Map<string, TData>(
+    data.map((row, i) => [getRowId(row, i), row]),
   );
+  const orderedData = state.rowOrder
+    .map((id) => rowIdToData.get(id))
+    .filter((row): row is TData => row !== undefined);
 
   return (
     <TableContext.Provider
@@ -509,12 +560,16 @@ export function TableProvider<TData = Record<string, unknown>>({
         toggleRowExpanded,
         isRowExpanded,
         setColumnVisibility,
+        setColumnOrder,
+        setColumnWidth,
+        setRowOrder,
         setPage,
         setPageSize,
         setTotalItems,
         setLoading,
         reset,
         visibleColumns,
+        orderedData,
         tableRef,
         onRowClick,
         onRowDoubleClick,
@@ -523,6 +578,8 @@ export function TableProvider<TData = Record<string, unknown>>({
         onPageChange,
         onPageSizeChange,
         onFilterChange,
+        onColumnOrderChange,
+        onRowOrderChange,
       }}
     >
       {children}
@@ -532,7 +589,6 @@ export function TableProvider<TData = Record<string, unknown>>({
 
 export function useTableContext<TData = Record<string, unknown>>(): TableContextValue<TData> {
   const ctx = useContext(TableContext);
-  if (!ctx)
-    throw new Error("useTableContext must be used within TableProvider");
+  if (!ctx) throw new Error("useTableContext must be used within TableProvider");
   return ctx as TableContextValue<TData>;
 }
