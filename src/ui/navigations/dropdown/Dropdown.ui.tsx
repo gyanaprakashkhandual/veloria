@@ -1,15 +1,12 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, {
   useEffect,
-  useLayoutEffect,
   useRef,
   useCallback,
   useState,
   useMemo,
-  useId,
 } from "react";
 import { createPortal } from "react-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { Check, ChevronDown, X, Search, Loader2, ChevronsUpDown } from "lucide-react";
 import {
   DropdownProvider,
   useDropdownContext,
@@ -18,361 +15,410 @@ import {
   type DropdownSize,
   type DropdownMode,
   type DropdownAlign,
+  type DropdownDivider,
+  type DropdownOpenTrigger,
+  type DropdownMenuState,
 } from "./Dropdown.context";
+import { sizeConfig, usePortalPosition } from "./utils/Dropdown.util";
+import "./Dropdown.css";
 
-// ─── Size Config ──────────────────────────────────────────────────────────────
+const IcoChevronDown = ({ size }: { size: number }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polyline points="6 9 12 15 18 9" />
+  </svg>
+);
 
-const sizeConfig = {
-  sm: {
-    triggerPx:    "px-2.5",
-    triggerPy:    "py-1",
-    triggerText:  "text-xs",
-    triggerH:     "h-7",
-    chevronSize:  13,
-    clearSize:    11,
-    panelWidth:   "min-w-[176px]",
-    optionPx:     "px-2",
-    optionPy:     "py-1",
-    optionText:   "text-xs",
-    iconSize:     13,
-    checkSize:    11,
-    badgeText:    "text-[9px]",
-    badgePx:      "px-1",
-    groupText:    "text-[10px]",
-    groupPx:      "px-2",
-    groupPy:      "pt-2 pb-0.5",
-    searchPx:     "px-2",
-    searchPy:     "py-1.5",
-    searchText:   "text-xs",
-    searchIcon:   12,
-    tagPx:        "px-1.5",
-    tagPy:        "py-0",
-    tagText:      "text-[10px]",
-    tagClose:     9,
-    maxH:         "max-h-52",
-    descText:     "text-[10px]",
-    gap:          "gap-1.5",
-  },
-  md: {
-    triggerPx:    "px-3",
-    triggerPy:    "py-1.5",
-    triggerText:  "text-sm",
-    triggerH:     "h-9",
-    chevronSize:  15,
-    clearSize:    13,
-    panelWidth:   "min-w-[220px]",
-    optionPx:     "px-2.5",
-    optionPy:     "py-1.5",
-    optionText:   "text-sm",
-    iconSize:     15,
-    checkSize:    13,
-    badgeText:    "text-[10px]",
-    badgePx:      "px-1.5",
-    groupText:    "text-[10px]",
-    groupPx:      "px-2.5",
-    groupPy:      "pt-2.5 pb-1",
-    searchPx:     "px-2.5",
-    searchPy:     "py-2",
-    searchText:   "text-sm",
-    searchIcon:   14,
-    tagPx:        "px-2",
-    tagPy:        "py-0.5",
-    tagText:      "text-xs",
-    tagClose:     10,
-    maxH:         "max-h-64",
-    descText:     "text-xs",
-    gap:          "gap-2",
-  },
-  lg: {
-    triggerPx:    "px-3.5",
-    triggerPy:    "py-2",
-    triggerText:  "text-sm",
-    triggerH:     "h-10",
-    chevronSize:  16,
-    clearSize:    14,
-    panelWidth:   "min-w-[256px]",
-    optionPx:     "px-3",
-    optionPy:     "py-2",
-    optionText:   "text-sm",
-    iconSize:     16,
-    checkSize:    14,
-    badgeText:    "text-xs",
-    badgePx:      "px-1.5",
-    groupText:    "text-[11px]",
-    groupPx:      "px-3",
-    groupPy:      "pt-3 pb-1",
-    searchPx:     "px-3",
-    searchPy:     "py-2",
-    searchText:   "text-sm",
-    searchIcon:   15,
-    tagPx:        "px-2",
-    tagPy:        "py-0.5",
-    tagText:      "text-xs",
-    tagClose:     11,
-    maxH:         "max-h-72",
-    descText:     "text-xs",
-    gap:          "gap-2",
-  },
-  xl: {
-    triggerPx:    "px-4",
-    triggerPy:    "py-2.5",
-    triggerText:  "text-base",
-    triggerH:     "h-11",
-    chevronSize:  17,
-    clearSize:    14,
-    panelWidth:   "min-w-[288px]",
-    optionPx:     "px-3.5",
-    optionPy:     "py-2.5",
-    optionText:   "text-sm",
-    iconSize:     17,
-    checkSize:    15,
-    badgeText:    "text-xs",
-    badgePx:      "px-2",
-    groupText:    "text-xs",
-    groupPx:      "px-3.5",
-    groupPy:      "pt-3 pb-1",
-    searchPx:     "px-3.5",
-    searchPy:     "py-2.5",
-    searchText:   "text-sm",
-    searchIcon:   16,
-    tagPx:        "px-2",
-    tagPy:        "py-0.5",
-    tagText:      "text-xs",
-    tagClose:     11,
-    maxH:         "max-h-80",
-    descText:     "text-sm",
-    gap:          "gap-2",
-  },
-};
+const IcoX = ({ size }: { size: number }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
+  </svg>
+);
 
-// ─── Auto Position Hook ───────────────────────────────────────────────────────
+const IcoCheck = ({ size }: { size: number }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polyline points="20 6 9 17 4 12" />
+  </svg>
+);
 
-interface PanelPosition {
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
-  minWidth: number;
-  transformOrigin: string;
+const IcoSearch = ({ size }: { size: number }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="11" cy="11" r="8" />
+    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+  </svg>
+);
+
+const IcoChevronRight = ({ size }: { size: number }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polyline points="9 18 15 12 9 6" />
+  </svg>
+);
+
+const IcoAlertCircle = ({ size }: { size: number }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <line x1="12" y1="8" x2="12" y2="12" />
+    <line x1="12" y1="16" x2="12.01" y2="16" />
+  </svg>
+);
+
+const IcoInbox = ({ size }: { size: number }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
+    <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
+  </svg>
+);
+
+const IcoLoader = ({ size }: { size: number }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="dd-loading-spinner"
+  >
+    <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+  </svg>
+);
+
+function SkeletonItem({ size }: { size: DropdownSize }) {
+  const s = sizeConfig[size];
+  return (
+    <div className="dd-skeleton-item" style={{ padding: s.itemPadding }}>
+      <div
+        className="dd-skeleton-icon"
+        style={{ width: s.iconSize, height: s.iconSize }}
+      />
+      <div className="dd-skeleton-lines">
+        <div className="dd-skeleton-line" />
+        <div className="dd-skeleton-line dd-skeleton-line--short" />
+      </div>
+    </div>
+  );
 }
 
-function useAutoPosition(
-  open: boolean,
-  triggerRef: React.RefObject<HTMLElement | null>,
-  panelRef: React.RefObject<HTMLElement | null>,
-  preferred: DropdownAlign,
-): PanelPosition {
-  const [pos, setPos] = useState<PanelPosition>({
-    top: 0, left: 0, minWidth: 0, transformOrigin: "top left",
-  });
-
-  const calculate = useCallback(() => {
-    if (!open || !triggerRef.current) return;
-    const trigger  = triggerRef.current.getBoundingClientRect();
-    const panelH   = panelRef.current?.offsetHeight ?? 300;
-    const panelW   = panelRef.current?.offsetWidth  ?? 220;
-    const vw       = window.innerWidth;
-    const vh       = window.innerHeight;
-    const GAP      = 6;
-
-    let resolvedAlign = preferred;
-
-    if (preferred === "auto") {
-      const spaceBelow = vh - trigger.bottom - GAP;
-      const spaceAbove = trigger.top - GAP;
-      const spaceRight = vw - trigger.left;
-      const vert  = spaceBelow >= panelH || spaceBelow >= spaceAbove ? "bottom" : "top";
-      const horiz = spaceRight >= panelW ? "left" : "right";
-      resolvedAlign = `${vert}-${horiz}` as DropdownAlign;
-    }
-
-    const result: PanelPosition = { minWidth: trigger.width, transformOrigin: "top left" };
-
-    // Vertical
-    if (resolvedAlign.startsWith("bottom")) {
-      result.top = trigger.bottom + GAP + window.scrollY;
-      result.transformOrigin = "top";
-    } else {
-      result.bottom = vh - trigger.top + GAP - window.scrollY;
-      result.transformOrigin = "bottom";
-    }
-
-    // Horizontal
-    if (resolvedAlign.endsWith("left")) {
-      result.left = trigger.left + window.scrollX;
-      result.transformOrigin += " left";
-    } else {
-      result.right = vw - trigger.right - window.scrollX;
-      result.transformOrigin += " right";
-    }
-
-    setPos(result);
-  }, [open, triggerRef, panelRef, preferred]);
-
-  useLayoutEffect(() => { calculate(); }, [calculate]);
-
-  useEffect(() => {
-    if (!open) return;
-    window.addEventListener("scroll",  calculate, true);
-    window.addEventListener("resize",  calculate);
-    return () => {
-      window.removeEventListener("scroll", calculate, true);
-      window.removeEventListener("resize", calculate);
-    };
-  }, [open, calculate]);
-
-  return pos;
-}
-
-// ─── Menu animation ───────────────────────────────────────────────────────────
-
-const menuMotion = {
-  initial:    { opacity: 0, scale: 0.97, y: -4 },
-  animate:    { opacity: 1, scale: 1,    y: 0  },
-  exit:       { opacity: 0, scale: 0.97, y: -4 },
-  transition: { duration: 0.13, ease: "easeOut" },
-};
-
-// ─── Multi-select Tag ─────────────────────────────────────────────────────────
-
-function Tag({
-  label,
-  onRemove,
-  size,
-}: {
+interface OptionTag {
   label: string;
   onRemove: () => void;
   size: DropdownSize;
-}) {
+}
+
+function Tag({ label, onRemove, size }: OptionTag) {
   const s = sizeConfig[size];
   return (
     <span
-      className={`
-        inline-flex items-center ${s.gap} ${s.tagPx} ${s.tagPy} ${s.tagText}
-        rounded-md font-medium
-        bg-gray-100 dark:bg-gray-800
-        text-gray-700 dark:text-gray-300
-        border border-gray-200 dark:border-gray-700
-        leading-none
-      `}
+      className="dd-tag"
+      style={{
+        fontSize: s.tagFontSize,
+        padding: s.tagPadding,
+        borderRadius: s.borderRadius,
+      }}
     >
-      <span className="max-w-[80px] truncate">{label}</span>
+      <span className="dd-tag-label">{label}</span>
       <button
         type="button"
-        onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); onRemove(); }}
-        className="flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+        className="dd-tag-remove"
+        onMouseDown={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          onRemove();
+        }}
       >
-        <X size={s.tagClose} />
+        <IcoX size={s.tagCloseSize} />
       </button>
     </span>
   );
 }
 
-// ─── Option Row ───────────────────────────────────────────────────────────────
-
 interface OptionRowProps {
   option: DropdownOption;
+  size: DropdownSize;
   isFocused: boolean;
+  isSelected: boolean;
   onMouseEnter: () => void;
   onClick: () => void;
+  onClose: () => void;
+  divider?: DropdownDivider;
+  depth?: number;
 }
 
-function OptionRow({ option, isFocused, onMouseEnter, onClick }: OptionRowProps) {
-  const { state, isSelected } = useDropdownContext();
-  const s       = sizeConfig[state.size];
-  const selected = isSelected(option.value);
-  const ref = useRef<HTMLDivElement>(null);
+function OptionRow({
+  option,
+  size,
+  isFocused,
+  isSelected,
+  onMouseEnter,
+  onClick,
+  onClose,
+  divider,
+  depth = 0,
+}: OptionRowProps) {
+  const s = sizeConfig[size];
+  const hasChildren = !!option.children?.length;
+  const variant = option.variant ?? "default";
+  const rowRef = useRef<HTMLDivElement>(null);
+  const [submenuOpen, setSubmenuOpen] = useState(false);
 
-  // Scroll focused item into view
   useEffect(() => {
-    if (isFocused && ref.current) {
-      ref.current.scrollIntoView({ block: "nearest" });
+    if (isFocused && rowRef.current) {
+      rowRef.current.scrollIntoView({ block: "nearest" });
     }
   }, [isFocused]);
 
+  const dividerStyle: React.CSSProperties = divider
+    ? {
+        height: divider.thickness ?? 1,
+        background: divider.color ?? "var(--color-divider-primary)",
+      }
+    : {};
+
+  if (option.customContent) {
+    return <div className="dd-custom-content">{option.customContent}</div>;
+  }
+
   return (
     <div
-      ref={ref}
-      role="option"
-      aria-selected={selected}
-      aria-disabled={option.disabled}
-      onMouseEnter={onMouseEnter}
-      onMouseDown={(e) => e.preventDefault()}
-      onClick={option.disabled ? undefined : onClick}
-      className={`
-        flex items-start ${s.gap} ${s.optionPx} ${s.optionPy}
-        rounded-lg cursor-pointer
-        transition-colors duration-100
-        ${option.disabled
-          ? "opacity-40 cursor-not-allowed text-gray-400 dark:text-gray-600"
-          : isFocused || selected
-            ? "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-            : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/60"
-        }
-      `}
+      ref={rowRef}
+      className="dd-option-row"
+      onMouseEnter={() => {
+        onMouseEnter();
+        if (hasChildren) setSubmenuOpen(true);
+      }}
+      onMouseLeave={() => {
+        if (hasChildren) setSubmenuOpen(false);
+      }}
     >
-      {/* Leading icon */}
-      {option.icon && (
-        <span
-          className="shrink-0 flex items-center justify-center mt-0.5 text-gray-400 dark:text-gray-500"
-          style={{ width: s.iconSize, height: s.iconSize }}
-        >
-          {option.icon}
-        </span>
+      {option.dividerBefore && depth === 0 && (
+        <div
+          className="dd-divider"
+          style={divider ? dividerStyle : undefined}
+        />
       )}
 
-      {/* Label + description */}
-      <span className="flex-1 min-w-0">
-        <span className={`block truncate ${s.optionText} font-medium`}>
-          {option.label}
-        </span>
-        {option.description && (
-          <span className={`block truncate ${s.descText} text-gray-400 dark:text-gray-500 font-normal mt-0.5`}>
-            {option.description}
+      <button
+        type="button"
+        disabled={option.disabled}
+        onMouseDown={(e) => e.preventDefault()}
+        onClick={option.disabled || hasChildren ? undefined : onClick}
+        className={[
+          "dd-option",
+          `dd-option--${variant}`,
+          isFocused ? "dd-option--focused" : "",
+          isSelected ? "dd-option--selected" : "",
+        ].join(" ")}
+        style={{
+          padding: s.itemPadding,
+          fontSize: s.itemFontSize,
+          borderRadius: s.borderRadius,
+        }}
+      >
+        {option.leadingIcon && (
+          <span
+            className="dd-option-icon-lead"
+            style={{ width: s.iconSize, height: s.iconSize }}
+          >
+            {option.leadingIcon}
           </span>
         )}
-      </span>
 
-      {/* Badge */}
-      {option.badge !== undefined && option.badge !== false && (
-        <span
-          className={`
-            shrink-0 ${s.badgePx} py-0.5 ${s.badgeText}
-            rounded-full font-semibold
-            bg-gray-100 dark:bg-gray-700
-            text-gray-500 dark:text-gray-400
-          `}
-        >
-          {typeof option.badge === "number" ? option.badge : ""}
+        <span className="dd-option-content">
+          <span className="dd-option-label">{option.label}</span>
+          {option.description && (
+            <span
+              className="dd-option-desc"
+              style={{ fontSize: s.descFontSize }}
+            >
+              {option.description}
+            </span>
+          )}
         </span>
-      )}
 
-      {/* Checkmark */}
-      <span
-        className={`
-          shrink-0 flex items-center justify-center
-          transition-opacity duration-100
-          ${selected
-            ? "opacity-100 text-gray-700 dark:text-gray-200"
-            : "opacity-0"
-          }
-        `}
-        style={{ width: s.checkSize, height: s.checkSize }}
-      >
-        <Check size={s.checkSize} strokeWidth={2.5} />
-      </span>
+        {option.badge !== undefined && (
+          <span
+            className="dd-option-badge"
+            style={{ fontSize: s.badgeFontSize }}
+          >
+            {option.badge}
+          </span>
+        )}
+
+        {option.trailingText && (
+          <span
+            className="dd-option-trailing-text"
+            style={{ fontSize: s.badgeFontSize }}
+          >
+            {option.trailingText}
+          </span>
+        )}
+
+        {option.trailingIcon && !hasChildren && (
+          <span
+            className="dd-option-trailing-icon"
+            style={{ width: s.iconSize - 2, height: s.iconSize - 2 }}
+          >
+            {option.trailingIcon}
+          </span>
+        )}
+
+        {hasChildren ? (
+          <span className="dd-option-chevron">
+            <IcoChevronRight size={s.checkSize} />
+          </span>
+        ) : (
+          <span
+            className={`dd-option-check ${isSelected ? "dd-option-check--visible" : ""}`}
+            style={{ width: s.checkSize, height: s.checkSize }}
+          >
+            <IcoCheck size={s.checkSize} />
+          </span>
+        )}
+      </button>
+
+      {hasChildren && submenuOpen && (
+        <div className="dd-submenu-wrap dd-submenu-wrap--right dd-submenu-enter">
+          <NestedPanel
+            options={option.children!}
+            size={size}
+            onClose={onClose}
+            divider={divider}
+            depth={depth + 1}
+          />
+        </div>
+      )}
     </div>
   );
 }
 
-// ─── Panel (portal) ───────────────────────────────────────────────────────────
+interface NestedPanelProps {
+  options: DropdownOption[];
+  size: DropdownSize;
+  onClose: () => void;
+  divider?: DropdownDivider;
+  depth?: number;
+}
+
+function NestedPanel({
+  options,
+  size,
+  onClose,
+  divider,
+  depth = 0,
+}: NestedPanelProps) {
+  const { isSelected, toggleOption, state } = useDropdownContext();
+  const s = sizeConfig[size];
+
+  return (
+    <div
+      className="dd-panel"
+      style={{ minWidth: s.panelWidth, borderRadius: s.borderRadius }}
+    >
+      <div
+        className="dd-options"
+        style={{ maxHeight: s.maxHeight, padding: s.menuPadding }}
+      >
+        {options.map((opt) => (
+          <OptionRow
+            key={opt.value}
+            option={opt}
+            size={size}
+            isFocused={false}
+            isSelected={isSelected(opt.value)}
+            onMouseEnter={() => {}}
+            onClick={() => {
+              toggleOption(opt.value);
+              if (state.mode === "single") onClose();
+            }}
+            onClose={onClose}
+            divider={divider}
+            depth={depth}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 interface DropdownPanelProps {
   options: DropdownOption[];
   searchable: boolean;
   searchPlaceholder: string;
   emptyLabel: string;
-  className?: string;
+  emptyDescription?: string;
+  showCloseButton?: boolean;
+  menuState: DropdownMenuState;
+  errorMessage: string;
+  errorDescription?: string;
+  divider?: DropdownDivider;
+  panelClassName?: string;
+  children?: React.ReactNode;
+  onClose: () => void;
 }
 
 function DropdownPanel({
@@ -380,24 +426,33 @@ function DropdownPanel({
   searchable,
   searchPlaceholder,
   emptyLabel,
-  className = "",
+  emptyDescription,
+  showCloseButton,
+  menuState,
+  errorMessage,
+  errorDescription,
+  divider,
+  panelClassName = "",
+  children,
+  onClose,
 }: DropdownPanelProps) {
   const {
-    state, close, toggleOption,
-    setSearch, setFocused,
-    triggerRef, panelRef,
+    state,
+    toggleOption,
+    setSearch,
+    setFocused,
     isSelected,
+    triggerRef,
+    panelRef,
+    clear,
   } = useDropdownContext();
 
-  const { isOpen, search, focusedIndex, size, align, loading } = state;
+  const { isOpen, search, focusedIndex, size } = state;
   const s = sizeConfig[size];
-
   const searchRef = useRef<HTMLInputElement>(null);
 
-  // Auto-position
-  const pos = useAutoPosition(isOpen, triggerRef, panelRef, align);
+  const pos = usePortalPosition(isOpen, triggerRef, panelRef, state.align);
 
-  // Filter + group options
   const filtered = useMemo(() => {
     if (!search.trim()) return options;
     const q = search.toLowerCase();
@@ -409,17 +464,16 @@ function DropdownPanel({
     );
   }, [options, search]);
 
-  const groups = useMemo(() => {
+  const grouped = useMemo(() => {
     const map = new Map<string, DropdownOption[]>();
     for (const opt of filtered) {
-      const g = opt.group ?? "__ungrouped__";
+      const g = opt.group ?? "__none__";
       if (!map.has(g)) map.set(g, []);
       map.get(g)!.push(opt);
     }
     return map;
   }, [filtered]);
 
-  // Focus first item when opening
   useEffect(() => {
     if (isOpen) {
       if (searchable) setTimeout(() => searchRef.current?.focus(), 10);
@@ -427,27 +481,28 @@ function DropdownPanel({
     }
   }, [isOpen, searchable, setFocused]);
 
-  // Click outside
   useEffect(() => {
     if (!isOpen) return;
     const handler = (e: MouseEvent) => {
       const t = e.target as Node;
       if (
-        panelRef.current   && panelRef.current.contains(t)   ||
-        triggerRef.current && triggerRef.current.contains(t)
-      ) return;
-      close();
+        (panelRef.current && panelRef.current.contains(t)) ||
+        (triggerRef.current && triggerRef.current.contains(t))
+      )
+        return;
+      onClose();
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [isOpen, close, panelRef, triggerRef]);
+  }, [isOpen, onClose, panelRef, triggerRef]);
 
-  // Keyboard navigation
   useEffect(() => {
     if (!isOpen) return;
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") { close(); return; }
-
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
       if (e.key === "ArrowDown") {
         e.preventDefault();
         setFocused(Math.min(focusedIndex + 1, filtered.length - 1));
@@ -462,326 +517,236 @@ function DropdownPanel({
         setFocused(filtered.length - 1);
       } else if (e.key === "Enter" || e.key === " ") {
         const opt = filtered[focusedIndex];
-        if (opt && !opt.disabled) { e.preventDefault(); toggleOption(opt.value); }
+        if (opt && !opt.disabled) {
+          e.preventDefault();
+          toggleOption(opt.value);
+        }
       }
     };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
-  }, [isOpen, close, focusedIndex, filtered, toggleOption, setFocused]);
+  }, [isOpen, onClose, focusedIndex, filtered, toggleOption, setFocused]);
 
-  // Flat index for focus tracking
-  const flatOptions = filtered;
-  let globalIdx = 0;
+  if (!isOpen) return null;
+
+  const panelStyle: React.CSSProperties = {
+    position: "fixed",
+    zIndex: 9999,
+    minWidth: pos.minWidth,
+    borderRadius: s.borderRadius,
+  };
+
+  if (pos.top !== undefined) panelStyle.top = pos.top;
+  if (pos.bottom !== undefined) panelStyle.bottom = pos.bottom;
+  if (pos.left !== undefined) {
+    if (state.align === "bottom-center" || state.align === "top-center") {
+      panelStyle.left = pos.left;
+      panelStyle.transform = "translateX(-50%)";
+    } else {
+      panelStyle.left = pos.left;
+    }
+  }
+  if (pos.right !== undefined) panelStyle.right = pos.right;
 
   const panel = (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          ref={panelRef}
-          {...menuMotion}
-          style={{
-            position:        "absolute",
-            zIndex:          9999,
-            top:             pos.top,
-            bottom:          pos.bottom,
-            left:            pos.left,
-            right:           pos.right,
-            minWidth:        pos.minWidth,
-            transformOrigin: pos.transformOrigin,
-          }}
-          className={`
-            ${s.panelWidth}
-            bg-white dark:bg-gray-900
-            border border-gray-200 dark:border-gray-700
-            rounded-xl
-            shadow-lg shadow-black/10 dark:shadow-black/40
-            overflow-hidden
-            ${className}
-          `}
-          role="listbox"
-          aria-multiselectable={state.mode === "multi"}
+    <div
+      ref={panelRef}
+      className={`dd-panel dd-enter ${panelClassName}`}
+      style={panelStyle}
+      role="listbox"
+      aria-multiselectable={state.mode === "multi"}
+    >
+      {(searchable || showCloseButton) && (
+        <div
+          className="dd-search-wrap"
+          style={{ padding: `6px ${s.menuPadding}` }}
         >
-          {/* Search input */}
           {searchable && (
-            <div className={`${s.searchPx} ${s.searchPy} border-b border-gray-100 dark:border-gray-800`}>
-              <div className="flex items-center gap-2 px-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                <Search size={s.searchIcon} className="text-gray-400 dark:text-gray-500 shrink-0" />
-                <input
-                  ref={searchRef}
-                  type="text"
-                  value={state.search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder={searchPlaceholder}
-                  className={`
-                    flex-1 bg-transparent outline-none
-                    ${s.searchText} text-gray-700 dark:text-gray-300
-                    placeholder:text-gray-400 dark:placeholder:text-gray-500
-                    py-1.5
-                  `}
-                />
-                {state.search && (
-                  <button
-                    type="button"
-                    onMouseDown={(e) => e.preventDefault()}
-                    onClick={() => setSearch("")}
-                    className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
-                  >
-                    <X size={s.searchIcon} />
-                  </button>
-                )}
-              </div>
+            <div className="dd-search-inner">
+              <span className="dd-search-icon">
+                <IcoSearch size={s.searchIconSize} />
+              </span>
+              <input
+                ref={searchRef}
+                type="text"
+                className="dd-search-input"
+                value={state.search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder={searchPlaceholder}
+                style={{ fontSize: s.searchFontSize }}
+              />
+              {state.search && (
+                <button
+                  type="button"
+                  className="dd-search-clear"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => setSearch("")}
+                >
+                  <IcoX size={s.searchIconSize - 1} />
+                </button>
+              )}
+              {showCloseButton && (
+                <button
+                  type="button"
+                  className="dd-close-btn"
+                  onClick={onClose}
+                  aria-label="Close"
+                >
+                  <IcoX size={s.searchIconSize} />
+                </button>
+              )}
             </div>
           )}
-
-          {/* Options list */}
-          <div className={`${s.maxH} overflow-y-auto overscroll-contain p-1`}>
-            {loading ? (
-              <div className={`flex items-center justify-center gap-2 ${s.optionPy} ${s.optionText} text-gray-400 dark:text-gray-500`}>
-                <Loader2 size={s.iconSize} className="animate-spin" />
-                <span>Loading…</span>
-              </div>
-            ) : flatOptions.length === 0 ? (
-              <div className={`text-center ${s.optionPy} ${s.optionText} text-gray-400 dark:text-gray-500`}>
-                {emptyLabel}
-              </div>
-            ) : (
-              Array.from(groups.entries()).map(([group, opts], gIdx) => (
-                <React.Fragment key={group}>
-                  {group !== "__ungrouped__" && (
-                    <div
-                      className={`
-                        ${s.groupPx} ${s.groupPy}
-                        ${s.groupText} font-semibold uppercase tracking-wider
-                        text-gray-400 dark:text-gray-500
-                        select-none
-                        ${gIdx > 0 ? "mt-1 border-t border-gray-100 dark:border-gray-800" : ""}
-                      `}
-                    >
-                      {group}
-                    </div>
-                  )}
-                  {opts.map((opt) => {
-                    const idx = flatOptions.indexOf(opt);
-                    return (
-                      <OptionRow
-                        key={opt.value}
-                        option={opt}
-                        isFocused={idx === focusedIndex}
-                        onMouseEnter={() => setFocused(idx)}
-                        onClick={() => toggleOption(opt.value)}
-                      />
-                    );
-                  })}
-                </React.Fragment>
-              ))
-            )}
-          </div>
-
-          {/* Multi-select footer with count + clear all */}
-          {state.mode === "multi" && state.selected.size > 0 && (
-            <div className={`
-              flex items-center justify-between
-              ${s.searchPx} ${s.searchPy}
-              border-t border-gray-100 dark:border-gray-800
-              bg-gray-50/80 dark:bg-gray-900/80
-            `}>
-              <span className={`${s.groupText} text-gray-500 dark:text-gray-400`}>
-                {state.selected.size} selected
-              </span>
+          {!searchable && showCloseButton && (
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <button
                 type="button"
+                className="dd-close-btn"
+                onClick={onClose}
+                aria-label="Close"
+              >
+                <IcoX size={s.checkSize} />
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      <div
+        className="dd-options"
+        style={{ maxHeight: s.maxHeight, padding: s.menuPadding }}
+      >
+        {menuState === "loading" && (
+          <>
+            <SkeletonItem size={size} />
+            <SkeletonItem size={size} />
+            <SkeletonItem size={size} />
+          </>
+        )}
+
+        {menuState === "error" && (
+          <div className="dd-error-state">
+            <span className="dd-error-icon">
+              <IcoAlertCircle size={24} />
+            </span>
+            <span className="dd-error-text">{errorMessage}</span>
+            {errorDescription && (
+              <span className="dd-error-desc">{errorDescription}</span>
+            )}
+          </div>
+        )}
+
+        {menuState === "default" && filtered.length === 0 && (
+          <div className="dd-empty">
+            <span className="dd-empty-icon">
+              <IcoInbox size={24} />
+            </span>
+            <span className="dd-empty-text">{emptyLabel}</span>
+            {emptyDescription && (
+              <span className="dd-empty-sub">{emptyDescription}</span>
+            )}
+          </div>
+        )}
+
+        {menuState === "default" &&
+          filtered.length > 0 &&
+          Array.from(grouped.entries()).map(([group, opts], gIdx) => (
+            <React.Fragment key={group}>
+              {group !== "__none__" && (
+                <div
+                  className={`dd-group-label ${gIdx > 0 ? "dd-group-label--bordered" : ""}`}
+                  style={{ padding: s.groupPadding, fontSize: s.groupFontSize }}
+                >
+                  {group}
+                </div>
+              )}
+              {opts.map((opt) => {
+                const flatIdx = filtered.indexOf(opt);
+                return (
+                  <OptionRow
+                    key={opt.value}
+                    option={opt}
+                    size={size}
+                    isFocused={flatIdx === focusedIndex}
+                    isSelected={isSelected(opt.value)}
+                    onMouseEnter={() => setFocused(flatIdx)}
+                    onClick={() => toggleOption(opt.value)}
+                    onClose={onClose}
+                    divider={divider}
+                  />
+                );
+              })}
+            </React.Fragment>
+          ))}
+
+        {menuState === "default" && children && <div>{children}</div>}
+      </div>
+
+      {state.mode === "multi" &&
+        state.selected.size > 0 &&
+        menuState === "default" && (
+          <div
+            className="dd-footer"
+            style={{ padding: s.footerPadding, fontSize: s.footerFontSize }}
+          >
+            <span className="dd-footer-count">
+              {state.selected.size} selected
+            </span>
+            <div style={{ display: "flex", gap: "4px" }}>
+              <button
+                type="button"
+                className="dd-footer-clear"
                 onMouseDown={(e) => e.preventDefault()}
-                onClick={() => { close(); }}
-                className={`
-                  ${s.groupText} font-semibold
-                  text-gray-700 dark:text-gray-300
-                  hover:text-gray-900 dark:hover:text-gray-100
-                  transition-colors duration-100
-                `}
+                onClick={clear}
+              >
+                Clear
+              </button>
+              <button
+                type="button"
+                className="dd-footer-done"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={onClose}
               >
                 Done
               </button>
             </div>
-          )}
-        </motion.div>
-      )}
-    </AnimatePresence>
+          </div>
+        )}
+    </div>
   );
 
   return createPortal(panel, document.body);
 }
 
-// ─── Trigger ──────────────────────────────────────────────────────────────────
-
-interface DropdownTriggerProps {
+interface DropdownTriggerInnerProps {
   options: DropdownOption[];
   placeholder: string;
   clearable: boolean;
   triggerClassName?: string;
+  onClose: () => void;
 }
 
-function DropdownTrigger({
-  options,
-  placeholder,
-  clearable,
-  triggerClassName = "",
-}: DropdownTriggerProps) {
-  const { state, toggle, clear, triggerRef, isSelected } = useDropdownContext();
-  const { size, disabled, loading, selected, mode, isOpen } = state;
-  const s = sizeConfig[size];
-
-  const selectedOptions = options.filter((o) => isSelected(o.value));
-  const hasSelection    = selected.size > 0;
-
-  const handleClear = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    clear();
-  }, [clear]);
-
-  return (
-    <div
-      ref={triggerRef}
-      role="combobox"
-      aria-expanded={isOpen}
-      aria-haspopup="listbox"
-      tabIndex={disabled ? -1 : 0}
-      onClick={() => { if (!disabled) toggle(); }}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
-          e.preventDefault();
-          if (!disabled) toggle();
-        }
-      }}
-      className={`
-        inline-flex items-center ${s.gap} w-full
-        ${s.triggerPx} ${s.triggerH}
-        ${s.triggerText} font-medium
-        rounded-xl
-        bg-white dark:bg-gray-900
-        border
-        ${isOpen
-          ? "border-gray-400 dark:border-gray-500 ring-2 ring-gray-200 dark:ring-gray-700"
-          : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
-        }
-        shadow-sm shadow-black/5 dark:shadow-black/10
-        transition-all duration-100
-        cursor-pointer select-none
-        ${disabled ? "opacity-50 cursor-not-allowed pointer-events-none" : ""}
-        ${triggerClassName}
-      `}
-    >
-      {/* Value display */}
-      <div className="flex-1 min-w-0 flex items-center gap-1 flex-wrap">
-        {!hasSelection && (
-          <span className="text-gray-400 dark:text-gray-500 truncate">
-            {loading ? "Loading…" : placeholder}
-          </span>
-        )}
-
-        {hasSelection && mode === "single" && selectedOptions[0] && (
-          <span className="flex items-center gap-1.5 truncate text-gray-700 dark:text-gray-200">
-            {selectedOptions[0].icon && (
-              <span
-                className="shrink-0 flex items-center text-gray-400 dark:text-gray-500"
-                style={{ width: s.iconSize - 1, height: s.iconSize - 1 }}
-              >
-                {selectedOptions[0].icon}
-              </span>
-            )}
-            <span className="truncate">{selectedOptions[0].label}</span>
-          </span>
-        )}
-
-        {hasSelection && mode === "multi" && (
-          <div className="flex flex-wrap gap-1">
-            {selectedOptions.map((opt) => (
-              <Tag
-                key={opt.value}
-                label={opt.label}
-                size={size}
-                onRemove={() => {
-                  const { deselectOption } = useDropdownContext();
-                }}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Right side controls */}
-      <div className="shrink-0 flex items-center gap-1">
-        {loading && (
-          <Loader2
-            size={s.chevronSize - 1}
-            className="animate-spin text-gray-400 dark:text-gray-500"
-          />
-        )}
-
-        {clearable && hasSelection && !loading && (
-          <button
-            type="button"
-            onClick={handleClear}
-            aria-label="Clear selection"
-            className="flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors duration-100 rounded p-0.5 hover:bg-gray-100 dark:hover:bg-gray-800"
-          >
-            <X size={s.clearSize} />
-          </button>
-        )}
-
-        <ChevronsUpDown
-          size={s.chevronSize}
-          className={`text-gray-400 dark:text-gray-500 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
-        />
-      </div>
-    </div>
-  );
-}
-
-// ─── Multi-select Tag with context fix ───────────────────────────────────────
-// Separate component so the hook call is valid inside a component
-
-function MultiTags({
-  options,
-  size,
-}: {
-  options: DropdownOption[];
-  size: DropdownSize;
-}) {
-  const { deselectOption, state } = useDropdownContext();
-  const selected = options.filter((o) => state.selected.has(o.value));
-
-  return (
-    <>
-      {selected.map((opt) => (
-        <Tag
-          key={opt.value}
-          label={opt.label}
-          size={size}
-          onRemove={() => deselectOption(opt.value)}
-        />
-      ))}
-    </>
-  );
-}
-
-// Reworked trigger that properly calls hooks
 function DropdownTriggerInner({
   options,
   placeholder,
   clearable,
   triggerClassName = "",
-}: DropdownTriggerProps) {
-  const { state, toggle, clear, triggerRef, isSelected } = useDropdownContext();
+}: DropdownTriggerInnerProps) {
+  const { state, toggle, clear, triggerRef, isSelected, deselectOption } =
+    useDropdownContext();
   const { size, disabled, loading, selected, mode, isOpen } = state;
   const s = sizeConfig[size];
 
   const selectedOptions = options.filter((o) => isSelected(o.value));
-  const hasSelection    = selected.size > 0;
+  const hasSelection = selected.size > 0;
 
-  const handleClear = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    clear();
-  }, [clear]);
+  const handleClear = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      clear();
+    },
+    [clear],
+  );
 
   return (
     <div
@@ -790,83 +755,102 @@ function DropdownTriggerInner({
       aria-expanded={isOpen}
       aria-haspopup="listbox"
       tabIndex={disabled ? -1 : 0}
-      onClick={() => { if (!disabled && !loading) toggle(); }}
+      onClick={() => {
+        if (!disabled && !loading) toggle();
+      }}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
           e.preventDefault();
           if (!disabled && !loading) toggle();
         }
       }}
-      className={`
-        inline-flex items-center ${s.gap} w-full
-        ${s.triggerPx} ${s.triggerH}
-        ${s.triggerText} font-medium
-        rounded-xl
-        bg-white dark:bg-gray-900
-        border
-        ${isOpen
-          ? "border-gray-400 dark:border-gray-500 ring-2 ring-gray-200 dark:ring-gray-700"
-          : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
-        }
-        shadow-sm shadow-black/5 dark:shadow-black/10
-        transition-all duration-100
-        cursor-pointer select-none
-        ${disabled ? "opacity-50 cursor-not-allowed pointer-events-none" : ""}
-        ${triggerClassName}
-      `}
+      className={[
+        "dd-trigger",
+        isOpen ? "dd-trigger--open" : "",
+        disabled ? "dd-trigger--disabled" : "",
+        triggerClassName,
+      ].join(" ")}
+      style={{
+        height: s.triggerHeight,
+        padding: s.triggerPadding,
+        fontSize: s.triggerFontSize,
+        borderRadius: s.borderRadius,
+        gap: s.gap,
+      }}
     >
-      {/* Value area */}
-      <div className="flex-1 min-w-0 flex items-center flex-wrap gap-1">
+      <div className="dd-trigger-value">
         {!hasSelection && (
-          <span className="text-gray-400 dark:text-gray-500 truncate">
+          <span className="dd-trigger-placeholder">
             {loading ? "Loading…" : placeholder}
           </span>
         )}
 
         {hasSelection && mode === "single" && selectedOptions[0] && (
-          <span className="flex items-center gap-1.5 min-w-0 text-gray-700 dark:text-gray-200">
-            {selectedOptions[0].icon && (
+          <span className="dd-trigger-single">
+            {selectedOptions[0].leadingIcon && (
               <span
-                className="shrink-0 flex items-center text-gray-400 dark:text-gray-500"
-                style={{ width: s.iconSize - 1, height: s.iconSize - 1 }}
+                className="dd-trigger-icon-lead"
+                style={{
+                  width: s.triggerIconSize - 1,
+                  height: s.triggerIconSize - 1,
+                }}
               >
-                {selectedOptions[0].icon}
+                {selectedOptions[0].leadingIcon}
               </span>
             )}
-            <span className="truncate">{selectedOptions[0].label}</span>
+            <span className="dd-trigger-single-label">
+              {selectedOptions[0].label}
+            </span>
           </span>
         )}
 
         {hasSelection && mode === "multi" && (
-          <MultiTags options={options} size={size} />
+          <>
+            {selectedOptions.map((opt) => (
+              <Tag
+                key={opt.value}
+                label={opt.label}
+                size={size}
+                onRemove={() => deselectOption(opt.value)}
+              />
+            ))}
+          </>
         )}
       </div>
 
-      {/* Controls */}
-      <div className="shrink-0 flex items-center gap-1">
+      <div className="dd-trigger-controls">
         {loading && (
-          <Loader2 size={s.chevronSize - 1} className="animate-spin text-gray-400 dark:text-gray-500" />
+          <span
+            style={{
+              display: "flex",
+              alignItems: "center",
+              color: "var(--color-text-muted)",
+            }}
+          >
+            <IcoLoader size={s.chevronSize - 1} />
+          </span>
         )}
+
         {clearable && hasSelection && !loading && (
           <button
             type="button"
+            className="dd-trigger-clear"
             onClick={handleClear}
-            aria-label="Clear selection"
-            className="flex items-center justify-center p-0.5 rounded text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-100"
+            aria-label="Clear"
           >
-            <X size={s.clearSize} />
+            <IcoX size={s.clearSize} />
           </button>
         )}
-        <ChevronDown
-          size={s.chevronSize}
-          className={`text-gray-400 dark:text-gray-500 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
-        />
+
+        <span
+          className={`dd-trigger-chevron ${isOpen ? "dd-trigger-chevron--open" : ""}`}
+        >
+          <IcoChevronDown size={s.chevronSize} />
+        </span>
       </div>
     </div>
   );
 }
-
-// ─── Root Dropdown Component ──────────────────────────────────────────────────
 
 export interface DropdownProps extends Omit<DropdownProviderProps, "children"> {
   options: DropdownOption[];
@@ -875,33 +859,103 @@ export interface DropdownProps extends Omit<DropdownProviderProps, "children"> {
   searchPlaceholder?: string;
   clearable?: boolean;
   emptyLabel?: string;
-  /** Extra class on the root wrapper */
+  emptyDescription?: string;
+  showCloseButton?: boolean;
+  openTrigger?: DropdownOpenTrigger;
+  closeOnOutsideClick?: boolean;
+  menuState?: DropdownMenuState;
+  errorMessage?: string;
+  errorDescription?: string;
+  divider?: DropdownDivider;
   className?: string;
-  /** Extra class on the trigger button */
   triggerClassName?: string;
-  /** Extra class on the dropdown panel */
   panelClassName?: string;
+  children?: React.ReactNode;
+}
+
+function DropdownInner({
+  options,
+  placeholder = "Select an option…",
+  searchable = false,
+  searchPlaceholder = "Search…",
+  clearable = true,
+  emptyLabel = "No options found",
+  emptyDescription,
+  showCloseButton = false,
+  openTrigger = "click",
+  menuState = "default",
+  errorMessage = "Something went wrong",
+  errorDescription,
+  divider,
+  triggerClassName = "",
+  panelClassName = "",
+  children,
+}: Omit<DropdownProps, "className">) {
+  const { state, open, close } = useDropdownContext();
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleClose = useCallback(() => {
+    close();
+  }, [close]);
+
+  const handleMouseEnter = useCallback(() => {
+    if (openTrigger !== "hover" || state.disabled) return;
+    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+    open();
+  }, [openTrigger, state.disabled, open]);
+
+  const handleMouseLeave = useCallback(() => {
+    if (openTrigger !== "hover") return;
+    hoverTimerRef.current = setTimeout(() => close(), 80);
+  }, [openTrigger, close]);
+
+  return (
+    <div
+      ref={wrapRef}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      style={{ position: "relative", width: "100%" }}
+    >
+      <DropdownTriggerInner
+        options={options}
+        placeholder={placeholder}
+        clearable={clearable}
+        triggerClassName={triggerClassName}
+        onClose={handleClose}
+      />
+      <DropdownPanel
+        options={options}
+        searchable={searchable}
+        searchPlaceholder={searchPlaceholder}
+        emptyLabel={emptyLabel}
+        emptyDescription={emptyDescription}
+        showCloseButton={showCloseButton}
+        menuState={menuState}
+        errorMessage={errorMessage}
+        errorDescription={errorDescription}
+        divider={divider}
+        panelClassName={panelClassName}
+        onClose={handleClose}
+      >
+        {children}
+      </DropdownPanel>
+    </div>
+  );
 }
 
 export function Dropdown({
-  options,
-  placeholder         = "Select an option…",
-  searchable          = false,
-  searchPlaceholder   = "Search…",
-  clearable           = true,
-  emptyLabel          = "No options found",
-  className           = "",
-  triggerClassName    = "",
-  panelClassName      = "",
-  size                = "md",
-  mode                = "single",
-  align               = "auto",
-  disabled            = false,
-  loading             = false,
+  className = "",
+  size = "md",
+  mode = "single",
+  align = "auto",
+  disabled = false,
+  loading = false,
   defaultValue,
   onValueChange,
   onOpen,
   onClose,
+  ...rest
 }: DropdownProps) {
   return (
     <DropdownProvider
@@ -915,44 +969,81 @@ export function Dropdown({
       onOpen={onOpen}
       onClose={onClose}
     >
-      <div className={`relative inline-block w-full ${className}`}>
-        <DropdownTriggerInner
-          options={options}
-          placeholder={placeholder}
-          clearable={clearable}
-          triggerClassName={triggerClassName}
-        />
-        <DropdownPanel
-          options={options}
-          searchable={searchable}
-          searchPlaceholder={searchPlaceholder}
-          emptyLabel={emptyLabel}
-          className={panelClassName}
-        />
+      <div className={`dd-wrapper ${className}`}>
+        <DropdownInner {...rest} />
       </div>
     </DropdownProvider>
   );
 }
 
-// ─── Controlled Dropdown ──────────────────────────────────────────────────────
-
-export interface ControlledDropdownProps extends Omit<DropdownProps, "defaultValue"> {
+export interface ControlledDropdownProps extends Omit<
+  DropdownProps,
+  "defaultValue"
+> {
   value: string | string[];
 }
 
-/**
- * Fully controlled — manage value externally.
- *
- * ```tsx
- * const [val, setVal] = useState("apple");
- * <ControlledDropdown value={val} onValueChange={(v) => setVal(v as string)} options={...} />
- * ```
- */
-export function ControlledDropdown({ value, ...rest }: ControlledDropdownProps) {
-  return <Dropdown {...rest} defaultValue={value} key={JSON.stringify(value)} />;
+export function ControlledDropdown({
+  value,
+  ...rest
+}: ControlledDropdownProps) {
+  return (
+    <Dropdown {...rest} defaultValue={value} key={JSON.stringify(value)} />
+  );
 }
 
-// ─── Re-exports ───────────────────────────────────────────────────────────────
+export interface IconButtonTriggerProps {
+  icon: React.ReactNode;
+  size?: DropdownSize;
+  variant?: "ghost" | "default";
+  className?: string;
+}
+
+const iconBtnDim: Record<DropdownSize, string> = {
+  xs: "26px",
+  sm: "28px",
+  md: "32px",
+  lg: "36px",
+  xl: "40px",
+  "2xl": "44px",
+  "3xl": "48px",
+};
+
+export function IconButtonTrigger({
+  icon,
+  size = "md",
+  variant = "ghost",
+  className = "",
+}: IconButtonTriggerProps) {
+  const s = sizeConfig[size];
+  return (
+    <button
+      type="button"
+      className={`dd-icon-btn-trigger dd-icon-btn-trigger--${variant} ${className}`}
+      style={{ width: iconBtnDim[size], height: iconBtnDim[size] }}
+    >
+      <span
+        style={{
+          width: s.triggerIconSize,
+          height: s.triggerIconSize,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {icon}
+      </span>
+    </button>
+  );
+}
 
 export { DropdownProvider, useDropdownContext };
-export type { DropdownOption, DropdownSize, DropdownMode, DropdownAlign };
+export type {
+  DropdownOption,
+  DropdownSize,
+  DropdownMode,
+  DropdownAlign,
+  DropdownDivider,
+  DropdownOpenTrigger,
+  DropdownMenuState,
+};

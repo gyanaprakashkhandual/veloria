@@ -7,24 +7,43 @@ import React, {
   useRef,
 } from "react";
 
-// ─── Public Types ─────────────────────────────────────────────────────────────
+export type DropdownSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
+export type DropdownMode = "single" | "multi";
+export type DropdownAlign =
+  | "top"
+  | "bottom"
+  | "left"
+  | "right"
+  | "top-left"
+  | "top-right"
+  | "top-center"
+  | "bottom-left"
+  | "bottom-right"
+  | "bottom-center"
+  | "auto";
+export type DropdownOpenTrigger = "click" | "hover";
+export type DropdownMenuState = "default" | "loading" | "error";
 
-export type DropdownSize     = "sm" | "md" | "lg" | "xl";
-export type DropdownMode     = "single" | "multi";
-export type DropdownAlign    = "bottom-left" | "bottom-right" | "top-left" | "top-right" | "auto";
+export interface DropdownDivider {
+  thickness?: number;
+  color?: string;
+}
 
 export interface DropdownOption {
   value: string;
   label: string;
   description?: string;
-  icon?: React.ReactNode;
-  badge?: number | boolean;
+  leadingIcon?: React.ReactNode;
+  trailingIcon?: React.ReactNode;
+  trailingText?: string;
+  badge?: number | string;
   disabled?: boolean;
-  /** Group key — options with the same group are visually clustered */
   group?: string;
+  dividerBefore?: boolean;
+  variant?: "default" | "danger" | "warning" | "success" | "info";
+  children?: DropdownOption[];
+  customContent?: React.ReactNode;
 }
-
-// ─── State & Actions ──────────────────────────────────────────────────────────
 
 export interface DropdownState {
   isOpen: boolean;
@@ -62,7 +81,13 @@ function reducer(state: DropdownState, action: DropdownAction): DropdownState {
         : { ...state, isOpen: true, focusedIndex: -1 };
     case "SELECT": {
       if (state.mode === "single") {
-        return { ...state, selected: new Set([action.payload]), isOpen: false, search: "", focusedIndex: -1 };
+        return {
+          ...state,
+          selected: new Set([action.payload]),
+          isOpen: false,
+          search: "",
+          focusedIndex: -1,
+        };
       }
       const next = new Set(state.selected);
       next.add(action.payload);
@@ -78,7 +103,13 @@ function reducer(state: DropdownState, action: DropdownAction): DropdownState {
       if (next.has(action.payload)) next.delete(action.payload);
       else next.add(action.payload);
       if (state.mode === "single") {
-        return { ...state, selected: next, isOpen: false, search: "", focusedIndex: -1 };
+        return {
+          ...state,
+          selected: next,
+          isOpen: false,
+          search: "",
+          focusedIndex: -1,
+        };
       }
       return { ...state, selected: next };
     }
@@ -95,8 +126,6 @@ function reducer(state: DropdownState, action: DropdownAction): DropdownState {
   }
 }
 
-// ─── Context ──────────────────────────────────────────────────────────────────
-
 export interface DropdownContextValue {
   state: DropdownState;
   dispatch: React.Dispatch<DropdownAction>;
@@ -110,16 +139,12 @@ export interface DropdownContextValue {
   setSearch: (q: string) => void;
   setFocused: (idx: number) => void;
   isSelected: (value: string) => boolean;
-  /** Ref on the trigger element for positioning */
   triggerRef: React.RefObject<HTMLDivElement | null>;
-  /** Ref on the dropdown panel */
   panelRef: React.RefObject<HTMLDivElement | null>;
   onValueChange?: (value: string | string[]) => void;
 }
 
 const DropdownContext = createContext<DropdownContextValue | null>(null);
-
-// ─── Provider ─────────────────────────────────────────────────────────────────
 
 export interface DropdownProviderProps {
   children: React.ReactNode;
@@ -163,7 +188,7 @@ export function DropdownProvider({
   });
 
   const triggerRef = useRef<HTMLDivElement>(null);
-  const panelRef   = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   const open = useCallback(() => {
     if (disabled) return;
@@ -178,53 +203,87 @@ export function DropdownProvider({
 
   const toggle = useCallback(() => {
     if (disabled) return;
-    if (state.isOpen) { dispatch({ type: "CLOSE" }); onClose?.(); }
-    else              { dispatch({ type: "OPEN"  }); onOpen?.();  }
+    if (state.isOpen) {
+      dispatch({ type: "CLOSE" });
+      onClose?.();
+    } else {
+      dispatch({ type: "OPEN" });
+      onOpen?.();
+    }
   }, [disabled, state.isOpen, onOpen, onClose]);
 
-  const selectOption = useCallback((value: string) => {
-    dispatch({ type: "SELECT", payload: value });
-    const next = mode === "single" ? value : [...state.selected, value];
-    onValueChange?.(next);
-  }, [mode, state.selected, onValueChange]);
-
-  const deselectOption = useCallback((value: string) => {
-    dispatch({ type: "DESELECT", payload: value });
-    const next = [...state.selected].filter(v => v !== value);
-    onValueChange?.(next);
-  }, [state.selected, onValueChange]);
-
-  const toggleOption = useCallback((value: string) => {
-    dispatch({ type: "TOGGLE_OPTION", payload: value });
-    const wasSelected = state.selected.has(value);
-    if (mode === "single") {
-      onValueChange?.(wasSelected ? "" : value);
-    } else {
-      const next = wasSelected
-        ? [...state.selected].filter(v => v !== value)
-        : [...state.selected, value];
+  const selectOption = useCallback(
+    (value: string) => {
+      dispatch({ type: "SELECT", payload: value });
+      const next = mode === "single" ? value : [...state.selected, value];
       onValueChange?.(next);
-    }
-  }, [mode, state.selected, onValueChange]);
+    },
+    [mode, state.selected, onValueChange],
+  );
+
+  const deselectOption = useCallback(
+    (value: string) => {
+      dispatch({ type: "DESELECT", payload: value });
+      const next = [...state.selected].filter((v) => v !== value);
+      onValueChange?.(next);
+    },
+    [state.selected, onValueChange],
+  );
+
+  const toggleOption = useCallback(
+    (value: string) => {
+      dispatch({ type: "TOGGLE_OPTION", payload: value });
+      const wasSelected = state.selected.has(value);
+      if (mode === "single") {
+        onValueChange?.(wasSelected ? "" : value);
+      } else {
+        const next = wasSelected
+          ? [...state.selected].filter((v) => v !== value)
+          : [...state.selected, value];
+        onValueChange?.(next);
+      }
+    },
+    [mode, state.selected, onValueChange],
+  );
 
   const clear = useCallback(() => {
     dispatch({ type: "CLEAR" });
     onValueChange?.(mode === "single" ? "" : []);
   }, [mode, onValueChange]);
 
-  const setSearch  = useCallback((q: string) => dispatch({ type: "SET_SEARCH", payload: q }), []);
-  const setFocused = useCallback((idx: number) => dispatch({ type: "SET_FOCUSED", payload: idx }), []);
-  const isSelected = useCallback((value: string) => state.selected.has(value), [state.selected]);
+  const setSearch = useCallback(
+    (q: string) => dispatch({ type: "SET_SEARCH", payload: q }),
+    [],
+  );
+  const setFocused = useCallback(
+    (idx: number) => dispatch({ type: "SET_FOCUSED", payload: idx }),
+    [],
+  );
+  const isSelected = useCallback(
+    (value: string) => state.selected.has(value),
+    [state.selected],
+  );
 
   return (
-    <DropdownContext.Provider value={{
-      state, dispatch,
-      open, close, toggle,
-      selectOption, deselectOption, toggleOption, clear,
-      setSearch, setFocused, isSelected,
-      triggerRef, panelRef,
-      onValueChange,
-    }}>
+    <DropdownContext.Provider
+      value={{
+        state,
+        dispatch,
+        open,
+        close,
+        toggle,
+        selectOption,
+        deselectOption,
+        toggleOption,
+        clear,
+        setSearch,
+        setFocused,
+        isSelected,
+        triggerRef,
+        panelRef,
+        onValueChange,
+      }}
+    >
       {children}
     </DropdownContext.Provider>
   );
@@ -232,6 +291,7 @@ export function DropdownProvider({
 
 export function useDropdownContext(): DropdownContextValue {
   const ctx = useContext(DropdownContext);
-  if (!ctx) throw new Error("useDropdownContext must be used within DropdownProvider");
+  if (!ctx)
+    throw new Error("useDropdownContext must be used within DropdownProvider");
   return ctx;
 }
