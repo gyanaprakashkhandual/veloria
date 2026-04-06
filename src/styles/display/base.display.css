@@ -1,0 +1,455 @@
+:root {
+  --display-none: none;
+  --display-block: block;
+  --display-inline: inline;
+  --display-inline-block: inline-block;
+  --display-flex: flex;
+  --display-inline-flex: inline-flex;
+  --display-grid: grid;
+  --display-inline-grid: inline-grid;
+  --display-flow-root: flow-root;
+  --display-contents: contents;
+  --display-table: table;
+  --display-table-row: table-row;
+  --display-table-cell: table-cell;
+  --display-list-item: list-item;
+
+  --visibility-visible: visible;
+  --visibility-hidden: hidden;
+  --visibility-collapse: collapse;
+
+  --overflow-auto: auto;
+  --overflow-hidden: hidden;
+  --overflow-visible: visible;
+  --overflow-scroll: scroll;
+  --overflow-clip: clip;
+
+  --overflow-x-auto: auto;
+  --overflow-x-hidden: hidden;
+  --overflow-x-visible: visible;
+  --overflow-x-scroll: scroll;
+
+  --overflow-y-auto: auto;
+  --overflow-y-hidden: hidden;
+  --overflow-y-visible: visible;
+  --overflow-y-scroll: scroll;
+
+  --position-static: static;
+  --position-relative: relative;
+  --position-absolute: absolute;
+  --position-fixed: fixed;
+  --position-sticky: sticky;
+
+  --inset-auto: auto;
+  --inset-full: 100%;
+  --inset-0: 0;
+
+  --top-auto: auto;
+  --top-0: 0;
+  --top-full: 100%;
+  --top-half: 50%;
+
+  --right-auto: auto;
+  --right-0: 0;
+  --right-full: 100%;
+  --right-half: 50%;
+
+  --bottom-auto: auto;
+  --bottom-0: 0;
+  --bottom-full: 100%;
+  --bottom-half: 50%;
+
+  --left-auto: auto;
+  --left-0: 0;
+  --left-full: 100%;
+  --left-half: 50%;
+
+  --flex-direction-row: row;
+  --flex-direction-row-reverse: row-reverse;
+  --flex-direction-column: column;
+  --flex-direction-column-reverse: column-reverse;
+
+  --flex-wrap-nowrap: nowrap;
+  --flex-wrap-wrap: wrap;
+  --flex-wrap-wrap-reverse: wrap-reverse;
+
+  --justify-content-start: flex-start;
+  --justify-content-end: flex-end;
+  --justify-content-center: center;
+  --justify-content-between: space-between;
+  --justify-content-around: space-around;
+  --justify-content-evenly: space-evenly;
+  --justify-content-stretch: stretch;
+
+  --align-items-start: flex-start;
+  --align-items-end: flex-end;
+  --align-items-center: center;
+  --align-items-baseline: baseline;
+  --align-items-stretch: stretch;
+
+  --align-content-start: flex-start;
+  --align-content-end: flex-end;
+  --align-content-center: center;
+  --align-content-between: space-between;
+  --align-content-around: space-around;
+  --align-content-evenly: space-evenly;
+  --align-content-stretch: stretch;
+
+  --gap-flex-xs: 0.25rem;
+  --gap-flex-sm: 0.5rem;
+  --gap-flex-md: 1rem;
+  --gap-flex-lg: 1.5rem;
+  --gap-flex-xl: 2rem;
+  --gap-flex-2xl: 3rem;
+
+  --flex-1: 1 1 0%;
+  --flex-auto: 1 1 auto;
+  --flex-none: none;
+  --flex-initial: 0 1 auto;
+
+  --flex-grow-0: 0;
+  --flex-grow-1: 1;
+
+  --flex-shrink-0: 0;
+  --flex-shrink-1: 1;
+
+  --flex-basis-auto: auto;
+  --flex-basis-full: 100%;
+  --flex-basis-half: 50%;
+  --flex-basis-third: 33.333%;
+  --flex-basis-quarter: 25%;
+
+  --align-self-auto: auto;
+  --align-self-start: flex-start;
+  --align-self-end: flex-end;
+  --align-self-center: center;
+  --align-self-baseline: baseline;
+  --align-self-stretch: stretch;
+
+  --justify-self-auto: auto;
+  --justify-self-start: start;
+  --justify-self-end: end;
+  --justify-self-center: center;
+  --justify-self-stretch: stretch;
+
+  --order-first: -9999;
+  --order-last: 9999;
+  --order-none: 0;
+
+  --grid-cols-1: repeat(1, minmax(0, 1fr));
+  --grid-cols-2: repeat(2, minmax(0, 1fr));
+  --grid-cols-3: repeat(3, minmax(0, 1fr));
+  --grid-cols-4: repeat(4, minmax(0, 1fr));
+  --grid-cols-5: repeat(5, minmax(0, 1fr));
+  --grid-cols-6: repeat(6, minmax(0, 1fr));
+  --grid-cols-7: repeat(7, minmax(0, 1fr));
+  --grid-cols-8: repeat(8, minmax(0, 1fr));
+  --grid-cols-9: repeat(9, minmax(0, 1fr));
+  --grid-cols-10: repeat(10, minmax(0, 1fr));
+  --grid-cols-11: repeat(11, minmax(0, 1fr));
+  --grid-cols-12: repeat(12, minmax(0, 1fr));
+  --grid-cols-none: none;
+  --grid-cols-auto: auto;
+  --grid-cols-subgrid: subgrid;
+
+  --grid-rows-1: repeat(1, minmax(0, 1fr));
+  --grid-rows-2: repeat(2, minmax(0, 1fr));
+  --grid-rows-3: repeat(3, minmax(0, 1fr));
+  --grid-rows-4: repeat(4, minmax(0, 1fr));
+  --grid-rows-5: repeat(5, minmax(0, 1fr));
+  --grid-rows-6: repeat(6, minmax(0, 1fr));
+  --grid-rows-none: none;
+  --grid-rows-auto: auto;
+  --grid-rows-subgrid: subgrid;
+
+  --grid-auto-flow-row: row;
+  --grid-auto-flow-column: column;
+  --grid-auto-flow-dense: dense;
+  --grid-auto-flow-row-dense: row dense;
+  --grid-auto-flow-column-dense: column dense;
+
+  --grid-auto-cols-auto: auto;
+  --grid-auto-cols-min: min-content;
+  --grid-auto-cols-max: max-content;
+  --grid-auto-cols-fr: minmax(0, 1fr);
+
+  --grid-auto-rows-auto: auto;
+  --grid-auto-rows-min: min-content;
+  --grid-auto-rows-max: max-content;
+  --grid-auto-rows-fr: minmax(0, 1fr);
+
+  --gap-grid-xs: 0.25rem;
+  --gap-grid-sm: 0.5rem;
+  --gap-grid-md: 1rem;
+  --gap-grid-lg: 1.5rem;
+  --gap-grid-xl: 2rem;
+  --gap-grid-2xl: 3rem;
+
+  --column-gap-xs: 0.25rem;
+  --column-gap-sm: 0.5rem;
+  --column-gap-md: 1rem;
+  --column-gap-lg: 1.5rem;
+  --column-gap-xl: 2rem;
+
+  --row-gap-xs: 0.25rem;
+  --row-gap-sm: 0.5rem;
+  --row-gap-md: 1rem;
+  --row-gap-lg: 1.5rem;
+  --row-gap-xl: 2rem;
+
+  --col-span-1: span 1 / span 1;
+  --col-span-2: span 2 / span 2;
+  --col-span-3: span 3 / span 3;
+  --col-span-4: span 4 / span 4;
+  --col-span-5: span 5 / span 5;
+  --col-span-6: span 6 / span 6;
+  --col-span-7: span 7 / span 7;
+  --col-span-8: span 8 / span 8;
+  --col-span-9: span 9 / span 9;
+  --col-span-10: span 10 / span 10;
+  --col-span-11: span 11 / span 11;
+  --col-span-12: span 12 / span 12;
+  --col-span-full: 1 / -1;
+  --col-span-auto: auto;
+
+  --col-start-1: 1;
+  --col-start-2: 2;
+  --col-start-3: 3;
+  --col-start-4: 4;
+  --col-start-auto: auto;
+
+  --col-end-1: 1;
+  --col-end-2: 2;
+  --col-end-3: 3;
+  --col-end-4: 4;
+  --col-end-auto: auto;
+
+  --row-span-1: span 1 / span 1;
+  --row-span-2: span 2 / span 2;
+  --row-span-3: span 3 / span 3;
+  --row-span-4: span 4 / span 4;
+  --row-span-5: span 5 / span 5;
+  --row-span-6: span 6 / span 6;
+  --row-span-full: 1 / -1;
+  --row-span-auto: auto;
+
+  --row-start-1: 1;
+  --row-start-2: 2;
+  --row-start-3: 3;
+  --row-start-auto: auto;
+
+  --row-end-1: 1;
+  --row-end-2: 2;
+  --row-end-3: 3;
+  --row-end-auto: auto;
+
+  --width-auto: auto;
+  --width-full: 100%;
+  --width-screen: 100vw;
+  --width-min: min-content;
+  --width-max: max-content;
+  --width-fit: fit-content;
+
+  --width-xs: 20rem;
+  --width-sm: 24rem;
+  --width-md: 28rem;
+  --width-lg: 32rem;
+  --width-xl: 36rem;
+  --width-2xl: 42rem;
+  --width-3xl: 48rem;
+  --width-4xl: 56rem;
+  --width-5xl: 64rem;
+  --width-6xl: 72rem;
+  --width-7xl: 80rem;
+
+  --min-width-0: 0;
+  --min-width-full: 100%;
+  --min-width-min: min-content;
+  --min-width-max: max-content;
+  --min-width-fit: fit-content;
+
+  --min-width-xs: 20rem;
+  --min-width-sm: 24rem;
+  --min-width-md: 28rem;
+  --min-width-lg: 32rem;
+  --min-width-xl: 36rem;
+
+  --max-width-none: none;
+  --max-width-full: 100%;
+  --max-width-screen: 100vw;
+  --max-width-min: min-content;
+  --max-width-max: max-content;
+  --max-width-fit: fit-content;
+  --max-width-prose: 65ch;
+
+  --max-width-xs: 20rem;
+  --max-width-sm: 24rem;
+  --max-width-md: 28rem;
+  --max-width-lg: 32rem;
+  --max-width-xl: 36rem;
+  --max-width-2xl: 42rem;
+  --max-width-3xl: 48rem;
+  --max-width-4xl: 56rem;
+  --max-width-5xl: 64rem;
+  --max-width-6xl: 72rem;
+  --max-width-7xl: 80rem;
+
+  --height-auto: auto;
+  --height-full: 100%;
+  --height-screen: 100vh;
+  --height-svh: 100svh;
+  --height-dvh: 100dvh;
+  --height-lvh: 100lvh;
+  --height-min: min-content;
+  --height-max: max-content;
+  --height-fit: fit-content;
+
+  --height-xs: 20rem;
+  --height-sm: 24rem;
+  --height-md: 28rem;
+  --height-lg: 32rem;
+  --height-xl: 36rem;
+  --height-2xl: 42rem;
+  --height-3xl: 48rem;
+
+  --min-height-0: 0;
+  --min-height-full: 100%;
+  --min-height-screen: 100vh;
+  --min-height-svh: 100svh;
+  --min-height-dvh: 100dvh;
+  --min-height-min: min-content;
+  --min-height-max: max-content;
+  --min-height-fit: fit-content;
+
+  --min-height-xs: 20rem;
+  --min-height-sm: 24rem;
+  --min-height-md: 28rem;
+  --min-height-lg: 32rem;
+
+  --max-height-none: none;
+  --max-height-full: 100%;
+  --max-height-screen: 100vh;
+  --max-height-svh: 100svh;
+  --max-height-dvh: 100dvh;
+  --max-height-min: min-content;
+  --max-height-max: max-content;
+  --max-height-fit: fit-content;
+
+  --max-height-xs: 20rem;
+  --max-height-sm: 24rem;
+  --max-height-md: 28rem;
+  --max-height-lg: 32rem;
+  --max-height-xl: 36rem;
+  --max-height-2xl: 42rem;
+
+  --aspect-ratio-auto: auto;
+  --aspect-ratio-square: 1 / 1;
+  --aspect-ratio-video: 16 / 9;
+  --aspect-ratio-portrait: 9 / 16;
+  --aspect-ratio-landscape: 4 / 3;
+  --aspect-ratio-golden: 1.618 / 1;
+  --aspect-ratio-ultrawide: 21 / 9;
+  --aspect-ratio-4-3: 4 / 3;
+  --aspect-ratio-3-2: 3 / 2;
+  --aspect-ratio-2-1: 2 / 1;
+
+  --object-fit-contain: contain;
+  --object-fit-cover: cover;
+  --object-fit-fill: fill;
+  --object-fit-none: none;
+  --object-fit-scale-down: scale-down;
+
+  --object-position-center: center;
+  --object-position-top: top;
+  --object-position-top-right: top right;
+  --object-position-right: right;
+  --object-position-bottom-right: bottom right;
+  --object-position-bottom: bottom;
+  --object-position-bottom-left: bottom left;
+  --object-position-left: left;
+  --object-position-top-left: top left;
+
+  --float-left: left;
+  --float-right: right;
+  --float-none: none;
+  --float-inline-start: inline-start;
+  --float-inline-end: inline-end;
+
+  --clear-left: left;
+  --clear-right: right;
+  --clear-both: both;
+  --clear-none: none;
+  --clear-inline-start: inline-start;
+  --clear-inline-end: inline-end;
+
+  --columns-1: 1;
+  --columns-2: 2;
+  --columns-3: 3;
+  --columns-4: 4;
+  --columns-5: 5;
+  --columns-6: 6;
+  --columns-auto: auto;
+  --columns-xs: 16rem;
+  --columns-sm: 24rem;
+  --columns-md: 28rem;
+  --columns-lg: 32rem;
+  --columns-xl: 36rem;
+
+  --column-fill-auto: auto;
+  --column-fill-balance: balance;
+  --column-fill-balance-all: balance-all;
+
+  --column-rule-width-sm: 1px;
+  --column-rule-width-md: 2px;
+  --column-rule-width-lg: 3px;
+
+  --column-rule-style-solid: solid;
+  --column-rule-style-dashed: dashed;
+  --column-rule-style-dotted: dotted;
+
+  --box-sizing-border-box: border-box;
+  --box-sizing-content-box: content-box;
+
+  --box-decoration-clone: clone;
+  --box-decoration-slice: slice;
+
+  --isolation-auto: auto;
+  --isolation-isolate: isolate;
+
+  --pointer-events-auto: auto;
+  --pointer-events-none: none;
+
+  --user-select-none: none;
+  --user-select-text: text;
+  --user-select-all: all;
+  --user-select-auto: auto;
+
+  --cursor-auto: auto;
+  --cursor-default: default;
+  --cursor-pointer: pointer;
+  --cursor-wait: wait;
+  --cursor-text: text;
+  --cursor-move: move;
+  --cursor-not-allowed: not-allowed;
+  --cursor-crosshair: crosshair;
+  --cursor-grab: grab;
+  --cursor-grabbing: grabbing;
+  --cursor-zoom-in: zoom-in;
+  --cursor-zoom-out: zoom-out;
+  --cursor-help: help;
+  --cursor-progress: progress;
+  --cursor-cell: cell;
+  --cursor-col-resize: col-resize;
+  --cursor-row-resize: row-resize;
+  --cursor-ns-resize: ns-resize;
+  --cursor-ew-resize: ew-resize;
+  --cursor-none: none;
+
+  --resize-none: none;
+  --resize-both: both;
+  --resize-horizontal: horizontal;
+  --resize-vertical: vertical;
+
+  --appearance-none: none;
+  --appearance-auto: auto;
+}

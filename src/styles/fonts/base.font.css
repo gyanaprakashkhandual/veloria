@@ -1,0 +1,200 @@
+:root {
+  --font-family-base: "Inter", sans-serif;
+  --font-family-heading: "Cal Sans", "Inter", sans-serif;
+  --font-family-display: "Clash Display", "Cal Sans", sans-serif;
+  --font-family-mono: "JetBrains Mono", "Fira Code", monospace;
+  --font-family-code: "JetBrains Mono", "Fira Code", monospace;
+  --font-family-prose: "Lora", "Georgia", serif;
+  --font-family-ui: "Inter", sans-serif;
+  --font-family-brand: "Clash Display", sans-serif;
+
+  --font-size-2xs: 0.625rem;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+  --font-size-6xl: 3.75rem;
+  --font-size-7xl: 4.5rem;
+  --font-size-8xl: 6rem;
+  --font-size-9xl: 8rem;
+
+  --font-size-label-xs: 0.625rem;
+  --font-size-label-sm: 0.75rem;
+  --font-size-label-md: 0.875rem;
+  --font-size-label-lg: 1rem;
+
+  --font-size-body-xs: 0.75rem;
+  --font-size-body-sm: 0.875rem;
+  --font-size-body-md: 1rem;
+  --font-size-body-lg: 1.125rem;
+
+  --font-size-heading-xs: 1.25rem;
+  --font-size-heading-sm: 1.5rem;
+  --font-size-heading-md: 1.875rem;
+  --font-size-heading-lg: 2.25rem;
+  --font-size-heading-xl: 3rem;
+  --font-size-heading-2xl: 3.75rem;
+
+  --font-size-display-sm: 4rem;
+  --font-size-display-md: 5rem;
+  --font-size-display-lg: 6.5rem;
+  --font-size-display-xl: 8rem;
+
+  --font-size-caption: 0.75rem;
+  --font-size-overline: 0.6875rem;
+  --font-size-footnote: 0.75rem;
+  --font-size-code: 0.875rem;
+
+  --font-weight-thin: 100;
+  --font-weight-extralight: 200;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
+  --font-weight-body: 400;
+  --font-weight-label: 500;
+  --font-weight-heading: 700;
+  --font-weight-display: 700;
+  --font-weight-emphasis: 500;
+  --font-weight-strong: 600;
+  --font-weight-code: 400;
+
+  --font-style-normal: normal;
+  --font-style-italic: italic;
+  --font-style-oblique: oblique;
+
+  --line-height-none: 1;
+  --line-height-2xs: 1.1;
+  --line-height-xs: 1.2;
+  --line-height-sm: 1.3;
+  --line-height-md: 1.5;
+  --line-height-lg: 1.6;
+  --line-height-xl: 1.75;
+  --line-height-2xl: 2;
+
+  --line-height-tight: 1.2;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+
+  --line-height-body: 1.625;
+  --line-height-heading: 1.2;
+  --line-height-display: 1.05;
+  --line-height-code: 1.75;
+
+  --letter-spacing-2xs: -0.05em;
+  --letter-spacing-xs: -0.025em;
+  --letter-spacing-sm: -0.01em;
+  --letter-spacing-md: 0em;
+  --letter-spacing-lg: 0.025em;
+  --letter-spacing-xl: 0.05em;
+  --letter-spacing-2xl: 0.1em;
+
+  --letter-spacing-tighter: -0.05em;
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0em;
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+  --letter-spacing-widest: 0.1em;
+
+  --letter-spacing-body: 0em;
+  --letter-spacing-heading: -0.025em;
+  --letter-spacing-display: -0.04em;
+  --letter-spacing-overline: 0.1em;
+  --letter-spacing-code: 0em;
+
+  --text-transform-none: none;
+  --text-transform-uppercase: uppercase;
+  --text-transform-lowercase: lowercase;
+  --text-transform-capitalize: capitalize;
+
+  --text-decoration-none: none;
+  --text-decoration-underline: underline;
+  --text-decoration-line-through: line-through;
+  --text-decoration-overline: overline;
+
+  --text-decoration-style-solid: solid;
+  --text-decoration-style-dashed: dashed;
+  --text-decoration-style-dotted: dotted;
+  --text-decoration-style-wavy: wavy;
+
+  --text-decoration-thickness-xs: 1px;
+  --text-decoration-thickness-sm: 2px;
+  --text-decoration-thickness-md: 3px;
+  --text-decoration-thickness-lg: 4px;
+
+  --text-underline-offset-xs: 2px;
+  --text-underline-offset-sm: 3px;
+  --text-underline-offset-md: 4px;
+  --text-underline-offset-lg: 6px;
+
+  --text-indent-sm: 1rem;
+  --text-indent-md: 2rem;
+  --text-indent-lg: 3rem;
+
+  --text-overflow-clip: clip;
+  --text-overflow-ellipsis: ellipsis;
+
+  --vertical-align-baseline: baseline;
+  --vertical-align-top: top;
+  --vertical-align-middle: middle;
+  --vertical-align-bottom: bottom;
+  --vertical-align-sub: sub;
+  --vertical-align-super: super;
+
+  --whitespace-normal: normal;
+  --whitespace-nowrap: nowrap;
+  --whitespace-pre: pre;
+  --whitespace-pre-wrap: pre-wrap;
+  --whitespace-pre-line: pre-line;
+
+  --word-break-normal: normal;
+  --word-break-all: break-all;
+  --word-break-keep-all: keep-all;
+  --overflow-wrap-normal: normal;
+  --overflow-wrap-break-word: break-word;
+  --overflow-wrap-anywhere: anywhere;
+
+  --font-feature-normal: normal;
+  --font-feature-ligatures: "liga" 1, "calt" 1;
+  --font-feature-no-ligatures: "liga" 0, "calt" 0;
+  --font-feature-tabular-nums: "tnum" 1;
+  --font-feature-oldstyle-nums: "onum" 1;
+  --font-feature-lining-nums: "lnum" 1;
+  --font-feature-small-caps: "smcp" 1;
+  --font-feature-all-small-caps: "c2sc" 1, "smcp" 1;
+  --font-feature-ordinal: "ordn" 1;
+  --font-feature-slashed-zero: "zero" 1;
+  --font-feature-fractions: "frac" 1;
+
+  --font-variant-numeric-normal: normal;
+  --font-variant-numeric-ordinal: ordinal;
+  --font-variant-numeric-tabular: tabular-nums;
+  --font-variant-numeric-lining: lining-nums;
+  --font-variant-numeric-oldstyle: oldstyle-nums;
+  --font-variant-numeric-diagonal-fractions: diagonal-fractions;
+  --font-variant-numeric-stacked-fractions: stacked-fractions;
+
+  --font-smoothing-auto: auto;
+  --font-smoothing-antialiased: antialiased;
+  --font-smoothing-subpixel: subpixel-antialiased;
+
+  --font-optical-sizing-auto: auto;
+  --font-optical-sizing-none: none;
+
+  --font-stretch-condensed: condensed;
+  --font-stretch-semi-condensed: semi-condensed;
+  --font-stretch-normal: normal;
+  --font-stretch-semi-expanded: semi-expanded;
+  --font-stretch-expanded: expanded;
+}
