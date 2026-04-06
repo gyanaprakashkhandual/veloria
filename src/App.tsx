@@ -66,6 +66,11 @@ import StepperShowcase from "./test/navigation/stepper/Stepper.test";
 import { StepperProvider } from "./ui/navigations/stepper/Stepper.context";
 import { TreeProvider } from "./ui/navigations/tree/Tree.context";
 import TreeShowcase from "./test/navigation/tree/Tree.test";
+import { ToolbarProvider } from "./ui/navigations/toolbar/Toolbar.context";
+import { SpeedDialProvider } from "./ui/navigations/speed-dial/Speed.dial.context";
+import { TabsProvider } from "./ui/navigations/tab/Tab.context";
+import { DrawerProvider } from "./ui/navigations/drawer/Drawer.context";
+import { DropdownProvider } from "./ui/navigations/dropdown/Dropdown.context";
 
 function AppRoutes() {
   return (
@@ -150,6 +155,9 @@ function AppRoutes() {
         <Route path="/test/components/table" element={<TableShowcase />} />
         <Route path="/test/components/stepper" element={<StepperShowcase />} />
         <Route path="/test/components/tree" element={<TreeShowcase />} />
+        <Route path="/test/components/toolbar" element={<TreeShowcase />} />
+        <Route path="/test/components/speed-dial" element={<TreeShowcase />} />
+        <Route path="/test/components/tabs" element={<TreeShowcase />} />
 
       </Routes>
     </Router>
@@ -158,6 +166,11 @@ function AppRoutes() {
 
 export default function App() {
   return (
+    <DropdownProvider>
+    <DrawerProvider>
+    <TabsProvider children={undefined} defaultActiveId={""}>
+    <SpeedDialProvider>
+    <ToolbarProvider>
     <TreeProvider children={undefined} nodes={[]}>
     <StepperProvider children={undefined} steps={[]}>
     <TableProvider children={undefined} columns={[]} data={[]}>
@@ -227,5 +240,10 @@ export default function App() {
     </TableProvider>
     </StepperProvider>
     </TreeProvider>
+    </ToolbarProvider>
+    </SpeedDialProvider>
+    </TabsProvider>
+    </DrawerProvider>
+    </DropdownProvider>
   );
 }
