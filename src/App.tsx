@@ -58,6 +58,8 @@ import { CheckboxProvider } from "./ui/inputs/checkbox/Checkbox.context";
 import DialogShowcase from "./test/feedback/dialog/Dialog.test";
 import ListShowcase from "./test/data/list/List.test";
 import { ListProvider } from "./ui/data/list/List.context";
+import AvatarShowcase from "./test/data/avatar/Avatar.test";
+import ImageShowcase from "./test/data/image/Image.test";
 
 function AppRoutes() {
   return (
@@ -136,6 +138,8 @@ function AppRoutes() {
         <Route path="/test/components/check-box" element={<CheckboxShowcase />} />
         <Route path="/test/components/dialog" element={<DialogShowcase />} />
         <Route path="/test/components/list" element={<ListShowcase />} />
+        <Route path="/test/components/avatar" element={<AvatarShowcase />} />
+        <Route path="/test/components/image" element={<ImageShowcase />} />
       </Routes>
     </Router>
   );
