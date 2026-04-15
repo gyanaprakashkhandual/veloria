@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, {
   createContext,
   useContext,
@@ -7,7 +8,12 @@ import React, {
 } from "react";
 
 export type CardSize = "sm" | "md" | "lg" | "xl";
-export type CardVariant = "default" | "outlined" | "elevated" | "filled" | "ghost";
+export type CardVariant =
+  | "default"
+  | "outlined"
+  | "elevated"
+  | "filled"
+  | "ghost";
 export type CardRadius = "none" | "sm" | "md" | "lg" | "xl" | "2xl";
 export type CardOrientation = "vertical" | "horizontal";
 
@@ -120,7 +126,15 @@ export function CardProvider({
 
   return (
     <CardContext.Provider
-      value={{ state, dispatch, open, close, toggleCollapse, setLoading, cardRef }}
+      value={{
+        state,
+        dispatch,
+        open,
+        close,
+        toggleCollapse,
+        setLoading,
+        cardRef,
+      }}
     >
       {children}
     </CardContext.Provider>

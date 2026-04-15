@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, ChevronDown, ExternalLink, Loader2 } from "lucide-react";
+/* eslint-disable react-refresh/only-export-components */
+import React, { useEffect, useRef, useState } from "react";
 import {
   CardProvider,
   useCardContext,
@@ -10,152 +9,205 @@ import {
   type CardRadius,
   type CardOrientation,
 } from "./Card.context";
+import {
+  IconX,
+  IconChevronDown,
+  IconExternalLink,
+  IconLoader,
+} from "./Card.icon";
 
 const sizeConfig = {
   sm: {
-    padding: "p-3",
-    headerPx: "px-3",
-    headerPy: "py-2.5",
-    footerPx: "px-3",
-    footerPy: "py-2.5",
-    bodyPx: "px-3",
-    bodyPy: "py-2",
-    titleText: "text-sm",
-    subtitleText: "text-xs",
-    bodyText: "text-xs",
-    buttonText: "text-xs",
-    buttonPx: "px-2.5",
-    buttonPy: "py-1.5",
+    padding: "0.75rem",
+    headerPx: "0.75rem",
+    headerPy: "0.625rem",
+    bodyPx: "0.75rem",
+    bodyPy: "0.5rem",
+    footerPx: "0.75rem",
+    footerPy: "0.625rem",
+    titleSize: "0.875rem",
+    subtitleSize: "0.75rem",
+    bodySize: "0.75rem",
+    buttonSize: "0.75rem",
+    buttonPx: "0.625rem",
+    buttonPy: "0.375rem",
     iconSize: 13,
     closeSize: 14,
-    gap: "gap-2",
-    imageHeightV: "h-32",
-    imageHeightH: "w-28",
-    badgeText: "text-[10px]",
-    badgePx: "px-1.5",
-    badgePy: "py-0.5",
+    gap: "0.5rem",
+    imageHeightV: "8rem",
+    imageHeightH: "7rem",
+    badgeSize: "0.625rem",
+    badgePx: "0.375rem",
+    badgePy: "0.125rem",
   },
   md: {
-    padding: "p-4",
-    headerPx: "px-4",
-    headerPy: "py-3",
-    footerPx: "px-4",
-    footerPy: "py-3",
-    bodyPx: "px-4",
-    bodyPy: "py-3",
-    titleText: "text-base",
-    subtitleText: "text-sm",
-    bodyText: "text-sm",
-    buttonText: "text-sm",
-    buttonPx: "px-3.5",
-    buttonPy: "py-2",
+    padding: "1rem",
+    headerPx: "1rem",
+    headerPy: "0.75rem",
+    bodyPx: "1rem",
+    bodyPy: "0.75rem",
+    footerPx: "1rem",
+    footerPy: "0.75rem",
+    titleSize: "1rem",
+    subtitleSize: "0.875rem",
+    bodySize: "0.875rem",
+    buttonSize: "0.875rem",
+    buttonPx: "0.875rem",
+    buttonPy: "0.5rem",
     iconSize: 15,
     closeSize: 16,
-    gap: "gap-3",
-    imageHeightV: "h-44",
-    imageHeightH: "w-36",
-    badgeText: "text-xs",
-    badgePx: "px-2",
-    badgePy: "py-0.5",
+    gap: "0.75rem",
+    imageHeightV: "11rem",
+    imageHeightH: "9rem",
+    badgeSize: "0.75rem",
+    badgePx: "0.5rem",
+    badgePy: "0.125rem",
   },
   lg: {
-    padding: "p-5",
-    headerPx: "px-5",
-    headerPy: "py-3.5",
-    footerPx: "px-5",
-    footerPy: "py-3.5",
-    bodyPx: "px-5",
-    bodyPy: "py-3.5",
-    titleText: "text-lg",
-    subtitleText: "text-sm",
-    bodyText: "text-sm",
-    buttonText: "text-sm",
-    buttonPx: "px-4",
-    buttonPy: "py-2",
+    padding: "1.25rem",
+    headerPx: "1.25rem",
+    headerPy: "0.875rem",
+    bodyPx: "1.25rem",
+    bodyPy: "0.875rem",
+    footerPx: "1.25rem",
+    footerPy: "0.875rem",
+    titleSize: "1.125rem",
+    subtitleSize: "0.875rem",
+    bodySize: "0.875rem",
+    buttonSize: "0.875rem",
+    buttonPx: "1rem",
+    buttonPy: "0.5rem",
     iconSize: 16,
     closeSize: 17,
-    gap: "gap-3",
-    imageHeightV: "h-52",
-    imageHeightH: "w-44",
-    badgeText: "text-xs",
-    badgePx: "px-2",
-    badgePy: "py-0.5",
+    gap: "0.75rem",
+    imageHeightV: "13rem",
+    imageHeightH: "11rem",
+    badgeSize: "0.75rem",
+    badgePx: "0.5rem",
+    badgePy: "0.125rem",
   },
   xl: {
-    padding: "p-6",
-    headerPx: "px-6",
-    headerPy: "py-4",
-    footerPx: "px-6",
-    footerPy: "py-4",
-    bodyPx: "px-6",
-    bodyPy: "py-4",
-    titleText: "text-xl",
-    subtitleText: "text-base",
-    bodyText: "text-base",
-    buttonText: "text-base",
-    buttonPx: "px-5",
-    buttonPy: "py-2.5",
+    padding: "1.5rem",
+    headerPx: "1.5rem",
+    headerPy: "1rem",
+    bodyPx: "1.5rem",
+    bodyPy: "1rem",
+    footerPx: "1.5rem",
+    footerPy: "1rem",
+    titleSize: "1.25rem",
+    subtitleSize: "1rem",
+    bodySize: "1rem",
+    buttonSize: "1rem",
+    buttonPx: "1.25rem",
+    buttonPy: "0.625rem",
     iconSize: 18,
     closeSize: 19,
-    gap: "gap-4",
-    imageHeightV: "h-64",
-    imageHeightH: "w-56",
-    badgeText: "text-xs",
-    badgePx: "px-2.5",
-    badgePy: "py-1",
+    gap: "1rem",
+    imageHeightV: "16rem",
+    imageHeightH: "14rem",
+    badgeSize: "0.75rem",
+    badgePx: "0.625rem",
+    badgePy: "0.25rem",
   },
 };
 
-const variantStyles: Record<CardVariant, string> = {
-  default:
-    "bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-sm shadow-black/5 dark:shadow-black/30",
-  outlined: "bg-transparent border border-gray-300 dark:border-gray-600",
-  elevated:
-    "bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xl shadow-black/10 dark:shadow-black/50",
-  filled:
-    "bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700",
-  ghost: "bg-transparent border border-transparent",
+const variantStyles: Record<CardVariant, React.CSSProperties> = {
+  default: {
+    background: "var(--color-bg-primary)",
+    border: "1px solid var(--color-border-primary)",
+    boxShadow: "0 1px 3px var(--color-shadow-primary)",
+  },
+  outlined: {
+    background: "transparent",
+    border: "1px solid var(--color-border-secondary)",
+  },
+  elevated: {
+    background: "var(--color-bg-primary)",
+    border: "1px solid var(--color-border-primary)",
+    boxShadow: "0 10px 25px var(--color-shadow-secondary)",
+  },
+  filled: {
+    background: "var(--color-bg-secondary)",
+    border: "1px solid var(--color-border-primary)",
+  },
+  ghost: {
+    background: "transparent",
+    border: "1px solid transparent",
+  },
 };
 
-const radiusStyles: Record<CardRadius, string> = {
-  none: "rounded-none",
-  sm: "rounded-sm",
-  md: "rounded-md",
-  lg: "rounded-lg",
-  xl: "rounded-xl",
-  "2xl": "rounded-2xl",
+const radiusMap: Record<CardRadius, string> = {
+  none: "0",
+  sm: "0.25rem",
+  md: "0.375rem",
+  lg: "0.5rem",
+  xl: "0.75rem",
+  "2xl": "1rem",
 };
 
-const dividerClass = "border-t border-gray-100 dark:border-gray-800";
+const badgeColorMap: Record<string, React.CSSProperties> = {
+  gray: {
+    background: "var(--color-bg-tertiary)",
+    color: "var(--color-text-quinary)",
+  },
+  red: {
+    background: "var(--color-error-bg)",
+    color: "var(--color-error-text)",
+  },
+  amber: {
+    background: "var(--color-warning-bg)",
+    color: "var(--color-warning-text)",
+  },
+  emerald: {
+    background: "var(--color-success-bg)",
+    color: "var(--color-success-text)",
+  },
+  blue: {
+    background: "var(--color-info-bg)",
+    color: "var(--color-info-text)",
+  },
+  violet: {
+    background: "#f5f3ff",
+    color: "#5b21b6",
+  },
+  rose: {
+    background: "#fff1f2",
+    color: "#be123c",
+  },
+};
+
+const dividerStyle: React.CSSProperties = {
+  borderTop: "1px solid var(--color-divider-primary)",
+};
 
 export interface CardBadgeProps {
   label: string;
   color?: "gray" | "red" | "amber" | "emerald" | "blue" | "violet" | "rose";
   className?: string;
+  style?: React.CSSProperties;
 }
-
-const badgeColorMap: Record<NonNullable<CardBadgeProps["color"]>, string> = {
-  gray: "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400",
-  red: "bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400",
-  amber: "bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400",
-  emerald:
-    "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400",
-  blue: "bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400",
-  violet:
-    "bg-violet-50 dark:bg-violet-950/40 text-violet-600 dark:text-violet-400",
-  rose: "bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400",
-};
 
 export function CardBadge({
   label,
   color = "gray",
   className = "",
+  style,
 }: CardBadgeProps) {
   const { state } = useCardContext();
   const s = sizeConfig[state.size];
   return (
     <span
-      className={`inline-flex items-center font-semibold rounded-full ${s.badgeText} ${s.badgePx} ${s.badgePy} ${badgeColorMap[color]} ${className}`}
+      className={className}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        fontWeight: 600,
+        borderRadius: "9999px",
+        fontSize: s.badgeSize,
+        padding: `${s.badgePy} ${s.badgePx}`,
+        ...badgeColorMap[color],
+        ...style,
+      }}
     >
       {label}
     </span>
@@ -168,6 +220,7 @@ export interface CardImageProps {
   objectFit?: "cover" | "contain" | "fill" | "none";
   aspectRatio?: string;
   className?: string;
+  style?: React.CSSProperties;
   overlay?: React.ReactNode;
 }
 
@@ -177,27 +230,44 @@ export function CardImage({
   objectFit = "cover",
   aspectRatio,
   className = "",
+  style,
   overlay,
 }: CardImageProps) {
   const { state } = useCardContext();
   const s = sizeConfig[state.size];
-  const { radius } = state;
-  const r = radiusStyles[radius];
-
+  const radius = radiusMap[state.radius];
   const isHorizontal = state.orientation === "horizontal";
 
   return (
     <div
-      className={`relative overflow-hidden shrink-0 ${isHorizontal ? `${s.imageHeightH} self-stretch` : `w-full ${s.imageHeightV}`} ${!isHorizontal ? `${r} rounded-b-none` : `${r} rounded-r-none`} ${className}`}
-      style={aspectRatio ? { aspectRatio, height: "auto" } : undefined}
+      className={className}
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        flexShrink: 0,
+        ...(isHorizontal
+          ? {
+              width: s.imageHeightH,
+              alignSelf: "stretch",
+              borderRadius: `${radius} 0 0 ${radius}`,
+            }
+          : {
+              width: "100%",
+              height: s.imageHeightV,
+              borderRadius: `${radius} ${radius} 0 0`,
+            }),
+        ...(aspectRatio ? { aspectRatio, height: "auto" } : {}),
+        ...style,
+      }}
     >
       <img
         src={src}
         alt={alt}
-        className={`w-full h-full`}
-        style={{ objectFit }}
+        style={{ width: "100%", height: "100%", objectFit }}
       />
-      {overlay && <div className="absolute inset-0">{overlay}</div>}
+      {overlay && (
+        <div style={{ position: "absolute", inset: 0 }}>{overlay}</div>
+      )}
     </div>
   );
 }
@@ -211,6 +281,7 @@ export interface CardHeaderProps {
   collapsible?: boolean;
   divider?: boolean;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export function CardHeader({
@@ -222,26 +293,58 @@ export function CardHeader({
   collapsible = false,
   divider = true,
   className = "",
+  style,
 }: CardHeaderProps) {
   const { state, toggleCollapse, close } = useCardContext();
   const s = sizeConfig[state.size];
 
   return (
     <div
-      className={`flex items-start gap-3 ${s.headerPx} ${s.headerPy} ${divider ? dividerClass : ""} ${collapsible ? "cursor-pointer select-none" : ""} ${className}`}
+      className={className}
       onClick={collapsible ? toggleCollapse : undefined}
+      style={{
+        display: "flex",
+        alignItems: "flex-start",
+        gap: "0.75rem",
+        padding: `${s.headerPy} ${s.headerPx}`,
+        ...(divider ? dividerStyle : {}),
+        ...(collapsible ? { cursor: "pointer", userSelect: "none" } : {}),
+        ...style,
+      }}
     >
       {leading && (
-        <div className="shrink-0 flex items-center justify-center text-gray-400 dark:text-gray-500 mt-0.5">
+        <div
+          style={{
+            flexShrink: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "var(--color-text-muted)",
+            marginTop: "0.125rem",
+          }}
+        >
           {leading}
         </div>
       )}
 
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 flex-wrap">
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            flexWrap: "wrap",
+          }}
+        >
           {title && (
             <span
-              className={`block font-semibold text-gray-900 dark:text-white ${s.titleText} leading-snug`}
+              style={{
+                display: "block",
+                fontWeight: 600,
+                color: "var(--color-text-primary)",
+                fontSize: s.titleSize,
+                lineHeight: 1.3,
+              }}
             >
               {title}
             </span>
@@ -250,23 +353,41 @@ export function CardHeader({
         </div>
         {subtitle && (
           <span
-            className={`block ${s.subtitleText} text-gray-500 dark:text-gray-400 mt-0.5 leading-snug`}
+            style={{
+              display: "block",
+              fontSize: s.subtitleSize,
+              color: "var(--color-text-quinary)",
+              marginTop: "0.125rem",
+              lineHeight: 1.3,
+            }}
           >
             {subtitle}
           </span>
         )}
       </div>
 
-      <div className="shrink-0 flex items-center gap-1.5 ml-auto">
+      <div
+        style={{
+          flexShrink: 0,
+          display: "flex",
+          alignItems: "center",
+          gap: "0.375rem",
+          marginLeft: "auto",
+        }}
+      >
         {trailing}
         {collapsible && (
-          <motion.span
-            animate={{ rotate: state.isCollapsed ? -90 : 0 }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="flex items-center text-gray-400 dark:text-gray-500"
+          <span
+            style={{
+              display: "flex",
+              alignItems: "center",
+              color: "var(--color-text-muted)",
+              transition: "transform 0.2s ease-in-out",
+              transform: state.isCollapsed ? "rotate(-90deg)" : "rotate(0deg)",
+            }}
           >
-            <ChevronDown size={s.iconSize} />
-          </motion.span>
+            <IconChevronDown size={s.iconSize} />
+          </span>
         )}
         {state.isModal && (
           <button
@@ -275,9 +396,33 @@ export function CardHeader({
               e.stopPropagation();
               close();
             }}
-            className="flex items-center justify-center w-7 h-7 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "1.75rem",
+              height: "1.75rem",
+              borderRadius: "0.375rem",
+              border: "none",
+              background: "transparent",
+              color: "var(--color-text-muted)",
+              cursor: "pointer",
+              transition: "background 0.1s, color 0.1s",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.background =
+                "var(--color-bg-tertiary)";
+              (e.currentTarget as HTMLButtonElement).style.color =
+                "var(--color-text-primary)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.background =
+                "transparent";
+              (e.currentTarget as HTMLButtonElement).style.color =
+                "var(--color-text-muted)";
+            }}
           >
-            <X size={s.closeSize} />
+            <IconX size={s.closeSize} />
           </button>
         )}
       </div>
@@ -287,11 +432,13 @@ export function CardHeader({
 
 export interface CardCloseButtonProps {
   className?: string;
+  style?: React.CSSProperties;
   icon?: React.ReactNode;
 }
 
 export function CardCloseButton({
   className = "",
+  style,
   icon,
 }: CardCloseButtonProps) {
   const { state, close } = useCardContext();
@@ -300,9 +447,34 @@ export function CardCloseButton({
     <button
       type="button"
       onClick={close}
-      className={`flex items-center justify-center w-7 h-7 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${className}`}
+      className={className}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "1.75rem",
+        height: "1.75rem",
+        borderRadius: "0.375rem",
+        border: "none",
+        background: "transparent",
+        color: "var(--color-text-muted)",
+        cursor: "pointer",
+        transition: "background 0.1s, color 0.1s",
+        ...style,
+      }}
+      onMouseEnter={(e) => {
+        (e.currentTarget as HTMLButtonElement).style.background =
+          "var(--color-bg-tertiary)";
+        (e.currentTarget as HTMLButtonElement).style.color =
+          "var(--color-text-primary)";
+      }}
+      onMouseLeave={(e) => {
+        (e.currentTarget as HTMLButtonElement).style.background = "transparent";
+        (e.currentTarget as HTMLButtonElement).style.color =
+          "var(--color-text-muted)";
+      }}
     >
-      {icon ?? <X size={s.closeSize} />}
+      {icon ?? <IconX size={s.closeSize} />}
     </button>
   );
 }
@@ -311,34 +483,67 @@ export interface CardBodyProps {
   children?: React.ReactNode;
   noPadding?: boolean;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export function CardBody({
   children,
   noPadding = false,
   className = "",
+  style,
 }: CardBodyProps) {
   const { state } = useCardContext();
   const s = sizeConfig[state.size];
+  const [height, setHeight] = useState<number | "auto">(
+    state.isCollapsed ? 0 : "auto",
+  );
+  const [opacity, setOpacity] = useState(state.isCollapsed ? 0 : 1);
+  const innerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!state.isCollapsed) {
+      const el = innerRef.current;
+      if (el) {
+        setHeight(el.scrollHeight);
+        setOpacity(1);
+        const t = setTimeout(() => setHeight("auto"), 220);
+        return () => clearTimeout(t);
+      }
+    } else {
+      const el = innerRef.current;
+      if (el) setHeight(el.scrollHeight);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setHeight(0);
+          setOpacity(0);
+        });
+      });
+    }
+  }, [state.isCollapsed]);
 
   return (
-    <AnimatePresence initial={false}>
-      {!state.isCollapsed && (
-        <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: "auto", opacity: 1 }}
-          exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: 0.22, ease: "easeInOut" }}
-          style={{ overflow: "hidden" }}
-        >
-          <div
-            className={`${s.bodyText} text-gray-600 dark:text-gray-300 leading-relaxed ${!noPadding ? `${s.bodyPx} ${s.bodyPy}` : ""} ${className}`}
-          >
-            {children}
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <div
+      style={{
+        overflow: "hidden",
+        height: height === "auto" ? "auto" : `${height}px`,
+        opacity,
+        transition: "height 0.22s ease-in-out, opacity 0.22s ease-in-out",
+      }}
+    >
+      <div
+        ref={innerRef}
+        className={className}
+        style={{
+          fontSize: s.bodySize,
+          color: "var(--color-text-quaternary)",
+          lineHeight: 1.7,
+          ...(noPadding ? {} : { padding: `${s.bodyPy} ${s.bodyPx}` }),
+          ...style,
+        }}
+      >
+        {children}
+      </div>
+    </div>
   );
 }
 
@@ -346,19 +551,24 @@ export interface CardMediaProps {
   children?: React.ReactNode;
   noPadding?: boolean;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export function CardMedia({
   children,
   noPadding = false,
   className = "",
+  style,
 }: CardMediaProps) {
   const { state } = useCardContext();
   const s = sizeConfig[state.size];
-
   return (
     <div
-      className={`${!noPadding ? `${s.bodyPx} ${s.bodyPy}` : ""} ${className}`}
+      className={className}
+      style={{
+        ...(noPadding ? {} : { padding: `${s.bodyPy} ${s.bodyPx}` }),
+        ...style,
+      }}
     >
       {children}
     </div>
@@ -367,15 +577,30 @@ export function CardMedia({
 
 type FooterButtonVariant = "primary" | "secondary" | "ghost" | "danger";
 
-const footerBtnVariant: Record<FooterButtonVariant, string> = {
-  primary:
-    "bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-100 border border-transparent shadow-sm",
-  secondary:
-    "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 shadow-sm",
-  ghost:
-    "bg-transparent text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 border border-transparent",
-  danger:
-    "bg-red-600 dark:bg-red-500 text-white hover:bg-red-700 dark:hover:bg-red-400 border border-transparent shadow-sm",
+const footerBtnStyles: Record<FooterButtonVariant, React.CSSProperties> = {
+  primary: {
+    background: "var(--color-brand-primary)",
+    color: "var(--color-text-inverse)",
+    border: "1px solid transparent",
+    boxShadow: "0 1px 2px var(--color-shadow-primary)",
+  },
+  secondary: {
+    background: "var(--color-bg-primary)",
+    color: "var(--color-text-tertiary)",
+    border: "1px solid var(--color-border-primary)",
+    boxShadow: "0 1px 2px var(--color-shadow-primary)",
+  },
+  ghost: {
+    background: "transparent",
+    color: "var(--color-text-quinary)",
+    border: "1px solid transparent",
+  },
+  danger: {
+    background: "var(--color-error-primary)",
+    color: "var(--color-text-inverse)",
+    border: "1px solid transparent",
+    boxShadow: "0 1px 2px var(--color-shadow-primary)",
+  },
 };
 
 export interface CardFooterButtonProps {
@@ -387,6 +612,7 @@ export interface CardFooterButtonProps {
   leadingIcon?: React.ReactNode;
   trailingIcon?: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export function CardFooterButton({
@@ -398,6 +624,7 @@ export function CardFooterButton({
   leadingIcon,
   trailingIcon,
   className = "",
+  style,
 }: CardFooterButtonProps) {
   const { state } = useCardContext();
   const s = sizeConfig[state.size];
@@ -408,14 +635,33 @@ export function CardFooterButton({
       type="button"
       disabled={isDisabled}
       onClick={onClick}
-      className={`inline-flex items-center gap-1.5 font-medium rounded-lg transition-colors duration-100 ${s.buttonText} ${s.buttonPx} ${s.buttonPy} ${footerBtnVariant[variant]} ${isDisabled ? "opacity-50 cursor-not-allowed" : ""} ${className}`}
+      className={className}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "0.375rem",
+        fontWeight: 500,
+        borderRadius: "0.5rem",
+        cursor: isDisabled ? "not-allowed" : "pointer",
+        opacity: isDisabled ? 0.5 : 1,
+        fontSize: s.buttonSize,
+        padding: `${s.buttonPy} ${s.buttonPx}`,
+        transition: "background 0.1s, opacity 0.1s",
+        ...footerBtnStyles[variant],
+        ...style,
+      }}
     >
       {loading ? (
-        <Loader2 size={s.iconSize - 1} className="animate-spin shrink-0" />
+        <IconLoader size={s.iconSize - 1} />
       ) : leadingIcon ? (
         <span
-          className="shrink-0 flex items-center"
-          style={{ width: s.iconSize, height: s.iconSize }}
+          style={{
+            flexShrink: 0,
+            display: "flex",
+            alignItems: "center",
+            width: s.iconSize,
+            height: s.iconSize,
+          }}
         >
           {leadingIcon}
         </span>
@@ -423,8 +669,13 @@ export function CardFooterButton({
       <span>{label}</span>
       {!loading && trailingIcon && (
         <span
-          className="shrink-0 flex items-center"
-          style={{ width: s.iconSize, height: s.iconSize }}
+          style={{
+            flexShrink: 0,
+            display: "flex",
+            alignItems: "center",
+            width: s.iconSize,
+            height: s.iconSize,
+          }}
         >
           {trailingIcon}
         </span>
@@ -439,6 +690,7 @@ export interface CardFooterLinkProps {
   onClick?: () => void;
   external?: boolean;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export function CardFooterLink({
@@ -447,11 +699,36 @@ export function CardFooterLink({
   onClick,
   external = false,
   className = "",
+  style,
 }: CardFooterLinkProps) {
   const { state } = useCardContext();
   const s = sizeConfig[state.size];
 
-  const cls = `inline-flex items-center gap-1 font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors ${s.buttonText} ${className}`;
+  const baseStyle: React.CSSProperties = {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "0.25rem",
+    fontWeight: 500,
+    fontSize: s.buttonSize,
+    color: "var(--color-text-quinary)",
+    textDecoration: "none",
+    background: "none",
+    border: "none",
+    cursor: "pointer",
+    transition: "color 0.1s",
+    ...style,
+  };
+
+  const hoverHandlers = {
+    onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
+      (e.currentTarget as HTMLElement).style.color =
+        "var(--color-text-primary)";
+    },
+    onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
+      (e.currentTarget as HTMLElement).style.color =
+        "var(--color-text-quinary)";
+    },
+  };
 
   if (href) {
     return (
@@ -459,20 +736,26 @@ export function CardFooterLink({
         href={href}
         target={external ? "_blank" : undefined}
         rel={external ? "noopener noreferrer" : undefined}
-        className={cls}
+        className={className}
+        style={baseStyle}
+        {...hoverHandlers}
       >
         <span>{label}</span>
-        {external && (
-          <ExternalLink size={s.iconSize - 3} className="shrink-0" />
-        )}
+        {external && <IconExternalLink size={s.iconSize - 3} />}
       </a>
     );
   }
 
   return (
-    <button type="button" onClick={onClick} className={cls}>
+    <button
+      type="button"
+      onClick={onClick}
+      className={className}
+      style={baseStyle}
+      {...hoverHandlers}
+    >
       <span>{label}</span>
-      {external && <ExternalLink size={s.iconSize - 3} className="shrink-0" />}
+      {external && <IconExternalLink size={s.iconSize - 3} />}
     </button>
   );
 }
@@ -482,6 +765,7 @@ export interface CardFooterProps {
   align?: "left" | "right" | "between" | "center";
   divider?: boolean;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export function CardFooter({
@@ -489,20 +773,31 @@ export function CardFooter({
   align = "right",
   divider = true,
   className = "",
+  style,
 }: CardFooterProps) {
   const { state } = useCardContext();
   const s = sizeConfig[state.size];
 
-  const alignClass = {
-    left: "justify-start",
-    right: "justify-end",
-    between: "justify-between",
-    center: "justify-center",
-  }[align];
+  const justifyMap: Record<string, string> = {
+    left: "flex-start",
+    right: "flex-end",
+    between: "space-between",
+    center: "center",
+  };
 
   return (
     <div
-      className={`flex items-center flex-wrap gap-2 ${s.footerPx} ${s.footerPy} ${divider ? dividerClass : ""} ${alignClass} ${className}`}
+      className={className}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        flexWrap: "wrap",
+        gap: "0.5rem",
+        padding: `${s.footerPy} ${s.footerPx}`,
+        justifyContent: justifyMap[align],
+        ...(divider ? dividerStyle : {}),
+        ...style,
+      }}
     >
       {children}
     </div>
@@ -511,10 +806,16 @@ export function CardFooter({
 
 export interface CardDividerProps {
   className?: string;
+  style?: React.CSSProperties;
 }
 
-export function CardDivider({ className = "" }: CardDividerProps) {
-  return <div className={`${dividerClass} ${className}`} />;
+export function CardDivider({ className = "", style }: CardDividerProps) {
+  return (
+    <div
+      className={className}
+      style={{ borderTop: "1px solid var(--color-divider-primary)", ...style }}
+    />
+  );
 }
 
 export interface CardSkeletonProps {
@@ -522,6 +823,7 @@ export interface CardSkeletonProps {
   showImage?: boolean;
   showHeader?: boolean;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export function CardSkeleton({
@@ -529,29 +831,58 @@ export function CardSkeleton({
   showImage = false,
   showHeader = true,
   className = "",
+  style,
 }: CardSkeletonProps) {
   const { state } = useCardContext();
   const s = sizeConfig[state.size];
 
+  const skeletonBase: React.CSSProperties = {
+    background: "var(--color-skeleton-base)",
+    borderRadius: "0.25rem",
+    animation: "card-pulse 1.5s ease-in-out infinite",
+  };
+
   return (
-    <div className={`animate-pulse ${className}`}>
+    <div className={className} style={style}>
       {showImage && (
         <div
-          className={`w-full ${s.imageHeightV} bg-gray-100 dark:bg-gray-800`}
+          style={{ width: "100%", height: s.imageHeightV, ...skeletonBase }}
         />
       )}
       {showHeader && (
-        <div className={`${s.headerPx} ${s.headerPy} ${dividerClass}`}>
-          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/5 mb-2" />
-          <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded w-3/5" />
+        <div
+          style={{
+            padding: `${s.headerPy} ${s.headerPx}`,
+            ...dividerStyle,
+          }}
+        >
+          <div
+            style={{
+              height: "1rem",
+              width: "40%",
+              marginBottom: "0.5rem",
+              ...skeletonBase,
+            }}
+          />
+          <div style={{ height: "0.75rem", width: "60%", ...skeletonBase }} />
         </div>
       )}
-      <div className={`${s.bodyPx} ${s.bodyPy} flex flex-col gap-2`}>
+      <div
+        style={{
+          padding: `${s.bodyPy} ${s.bodyPx}`,
+          display: "flex",
+          flexDirection: "column",
+          gap: "0.5rem",
+        }}
+      >
         {Array.from({ length: lines }).map((_, i) => (
           <div
             key={i}
-            className="h-3 bg-gray-100 dark:bg-gray-800 rounded"
-            style={{ width: i === lines - 1 ? "60%" : "100%" }}
+            style={{
+              height: "0.75rem",
+              width: i === lines - 1 ? "60%" : "100%",
+              ...skeletonBase,
+            }}
           />
         ))}
       </div>
@@ -561,89 +892,118 @@ export function CardSkeleton({
 
 export interface CardLoadingOverlayProps {
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export function CardLoadingOverlay({
   className = "",
+  style,
 }: CardLoadingOverlayProps) {
   const { state } = useCardContext();
 
+  if (!state.isLoading) return null;
+
   return (
-    <AnimatePresence>
-      {state.isLoading && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.15 }}
-          className={`absolute inset-0 flex items-center justify-center bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm z-10 rounded-[inherit] ${className}`}
-        >
-          <Loader2
-            size={24}
-            className="animate-spin text-gray-400 dark:text-gray-500"
-          />
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <div
+      className={className}
+      style={{
+        position: "absolute",
+        inset: 0,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "var(--color-overlay-light)",
+        backdropFilter: "blur(2px)",
+        zIndex: 10,
+        borderRadius: "inherit",
+        animation: "card-fade-in 0.15s ease-out both",
+        ...style,
+      }}
+    >
+      <IconLoader size={24} style={{ color: "var(--color-text-muted)" }} />
+    </div>
   );
 }
 
 export interface CardRootProps {
   children?: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
   onClick?: () => void;
   hoverable?: boolean;
   selectable?: boolean;
   selected?: boolean;
-  style?: React.CSSProperties;
 }
 
 function CardRoot({
   children,
   className = "",
+  style,
   onClick,
   hoverable = false,
   selectable = false,
   selected = false,
-  style,
 }: CardRootProps) {
   const { state, cardRef } = useCardContext();
-  const s = sizeConfig[state.size];
-  const { variant, radius } = state;
+  const { variant, radius, orientation } = state;
+  const isHorizontal = orientation === "horizontal";
+  const [hovered, setHovered] = useState(false);
 
-  const isHorizontal = state.orientation === "horizontal";
-
-  const interactiveClass =
-    hoverable || onClick
-      ? "cursor-pointer transition-all duration-150 hover:shadow-md dark:hover:shadow-black/40 hover:-translate-y-px active:translate-y-0"
-      : "";
-
-  const selectedClass =
-    selectable && selected ? "ring-2 ring-gray-900 dark:ring-white" : "";
+  const interactive = hoverable || !!onClick;
 
   return (
     <div
       ref={cardRef}
       onClick={onClick}
-      style={style}
-      className={`relative overflow-hidden ${isHorizontal ? "flex flex-row" : "flex flex-col"} ${variantStyles[variant]} ${radiusStyles[radius]} ${interactiveClass} ${selectedClass} ${className}`}
+      onMouseEnter={() => interactive && setHovered(true)}
+      onMouseLeave={() => interactive && setHovered(false)}
+      className={className}
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        display: "flex",
+        flexDirection: isHorizontal ? "row" : "column",
+        borderRadius: radiusMap[radius],
+        ...variantStyles[variant],
+        ...(interactive
+          ? {
+              cursor: "pointer",
+              transition: "box-shadow 0.15s, transform 0.15s",
+              ...(hovered
+                ? {
+                    boxShadow: "0 4px 12px var(--color-shadow-secondary)",
+                    transform: "translateY(-1px)",
+                  }
+                : {}),
+            }
+          : {}),
+        ...(selectable && selected
+          ? {
+              outline: "2px solid var(--color-border-focus)",
+              outlineOffset: "0",
+            }
+          : {}),
+        ...style,
+      }}
     >
       {children}
     </div>
   );
 }
 
-export interface CardModalOverlayProps {
+export interface CardModalProps {
   children?: React.ReactNode;
   blur?: boolean;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export function CardModal({
   children,
   blur = true,
   className = "",
-}: CardModalOverlayProps) {
+  style,
+}: CardModalProps) {
   const { state, close } = useCardContext();
 
   useEffect(() => {
@@ -660,73 +1020,111 @@ export function CardModal({
   }, [state.isOpen, state.isModal, close]);
 
   if (!state.isModal) return <>{children}</>;
+  if (!state.isOpen) return null;
 
   return (
-    <AnimatePresence>
-      {state.isOpen && (
-        <>
-          <motion.div
-            key="overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            onClick={close}
-            className={`fixed inset-0 z-40 bg-black/40 ${blur ? "backdrop-blur-sm" : ""} ${className}`}
-          />
-          <motion.div
-            key="modal"
-            initial={{ opacity: 0, scale: 0.96, y: 12 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96, y: 12 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none"
-          >
-            <div className="pointer-events-auto w-full max-w-md">
-              {children}
-            </div>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+    <>
+      <div
+        onClick={close}
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 40,
+          background: "var(--color-backdrop)",
+          ...(blur ? { backdropFilter: "blur(4px)" } : {}),
+          animation: "card-fade-in 0.2s ease-out both",
+        }}
+      />
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 50,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "1rem",
+          pointerEvents: "none",
+        }}
+      >
+        <div
+          className={className}
+          style={{
+            pointerEvents: "auto",
+            width: "100%",
+            maxWidth: "28rem",
+            animation: "card-scale-in 0.2s ease-out both",
+            ...style,
+          }}
+        >
+          {children}
+        </div>
+      </div>
+    </>
   );
+}
+
+const KEYFRAMES = `
+@keyframes card-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes card-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+@keyframes card-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes card-scale-in {
+  from { opacity: 0; transform: scale(0.96) translateY(12px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+`;
+
+function CardKeyframes() {
+  return <style>{KEYFRAMES}</style>;
 }
 
 export interface CardProps extends Omit<CardProviderProps, "children"> {
   children?: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
   onClick?: () => void;
   hoverable?: boolean;
   selectable?: boolean;
   selected?: boolean;
   isModal?: boolean;
   modalBlur?: boolean;
-  style?: React.CSSProperties;
 }
 
 export function Card({
   children,
   className = "",
+  style,
   onClick,
   hoverable = false,
   selectable = false,
   selected = false,
   isModal = false,
   modalBlur = true,
-  style,
   ...providerProps
 }: CardProps) {
   const inner = (
-    <CardRoot
-      className={className}
-      onClick={onClick}
-      hoverable={hoverable}
-      selectable={selectable}
-      selected={selected}
-      style={style}
-    >
-      {children}
-    </CardRoot>
+    <>
+      <CardKeyframes />
+      <CardRoot
+        className={className}
+        style={style}
+        onClick={onClick}
+        hoverable={hoverable}
+        selectable={selectable}
+        selected={selected}
+      >
+        {children}
+      </CardRoot>
+    </>
   );
 
   return (
