@@ -1,0 +1,466 @@
+@keyframes tooltip-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes tooltip-out {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9) translateY(4px);
+  }
+}
+
+@keyframes tooltip-in-up {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes tooltip-in-left {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateX(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+  }
+}
+
+@keyframes tooltip-in-right {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateX(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+  }
+}
+
+@keyframes copy-success {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-box {
+  position: absolute;
+  z-index: 9999;
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-md, 0.375rem);
+  box-shadow:
+    0 4px 16px var(--color-shadow-secondary),
+    0 1px 4px var(--color-shadow-primary);
+  font-family: var(--font-family-ui, sans-serif);
+  pointer-events: none;
+  max-width: var(--tooltip-max-width, 200px);
+  width: max-content;
+}
+
+.tooltip-box.interactive {
+  pointer-events: auto;
+}
+
+.tooltip-box.animating-in {
+  animation: tooltip-in 0.18s cubic-bezier(0.05, 0.7, 0.1, 1) both;
+}
+
+.tooltip-box.animating-out {
+  animation: tooltip-out 0.14s cubic-bezier(0.3, 0, 0.8, 0.15) both;
+}
+
+.tooltip-box.placement-top.animating-in,
+.tooltip-box.placement-top-left.animating-in,
+.tooltip-box.placement-top-right.animating-in,
+.tooltip-box.placement-top-center.animating-in {
+  animation-name: tooltip-in-up;
+}
+
+.tooltip-box.placement-left.animating-in,
+.tooltip-box.placement-left-top.animating-in,
+.tooltip-box.placement-left-bottom.animating-in {
+  animation-name: tooltip-in-left;
+}
+
+.tooltip-box.placement-right.animating-in,
+.tooltip-box.placement-right-top.animating-in,
+.tooltip-box.placement-right-bottom.animating-in {
+  animation-name: tooltip-in-right;
+}
+
+.tooltip-box--xs {
+  font-size: var(--font-size-2xs, 0.625rem);
+  line-height: 1.4;
+}
+
+.tooltip-box--sm {
+  font-size: var(--font-size-xs, 0.75rem);
+  line-height: 1.4;
+}
+
+.tooltip-box--md {
+  font-size: var(--font-size-sm, 0.875rem);
+  line-height: 1.5;
+}
+
+.tooltip-box--lg {
+  font-size: var(--font-size-md, 1rem);
+  line-height: 1.5;
+}
+
+.tooltip-box--xl {
+  font-size: var(--font-size-lg, 1.125rem);
+  line-height: 1.5;
+}
+
+.tooltip-box--2xl {
+  font-size: var(--font-size-xl, 1.25rem);
+  line-height: 1.5;
+}
+
+.tooltip-box--3xl {
+  font-size: var(--font-size-2xl, 1.5rem);
+  line-height: 1.4;
+}
+
+.tooltip-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-weight: var(--font-weight-semibold, 600);
+}
+
+.tooltip-body {
+  padding: 8px 12px;
+  font-weight: var(--font-weight-regular, 400);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.tooltip-body--no-header {
+  padding: 8px 12px;
+}
+
+.tooltip-footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.8em;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.tooltip-icon-leading {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.tooltip-icon-trailing {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: auto;
+  opacity: 0.85;
+}
+
+.tooltip-copy-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  border-radius: var(--radius-sm, 0.25rem);
+  color: var(--color-text-inverse);
+  cursor: pointer;
+  padding: 3px;
+  margin-left: auto;
+  transition: background 0.15s ease;
+  pointer-events: auto;
+}
+
+.tooltip-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.tooltip-copy-btn.copied {
+  animation: copy-success 0.3s ease;
+  color: #86efac;
+}
+
+.tooltip-arrow {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: var(--color-brand-primary);
+  transform: rotate(45deg);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.placement-top .tooltip-arrow,
+.placement-top-left .tooltip-arrow,
+.placement-top-right .tooltip-arrow,
+.placement-top-center .tooltip-arrow {
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.placement-top-left .tooltip-arrow {
+  left: auto;
+  right: 12px;
+  transform: rotate(45deg);
+}
+
+.placement-top-right .tooltip-arrow {
+  left: 12px;
+  transform: rotate(45deg);
+}
+
+.placement-bottom .tooltip-arrow,
+.placement-bottom-left .tooltip-arrow,
+.placement-bottom-right .tooltip-arrow,
+.placement-bottom-center .tooltip-arrow {
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.placement-bottom-left .tooltip-arrow {
+  left: auto;
+  right: 12px;
+  transform: rotate(45deg);
+}
+
+.placement-bottom-right .tooltip-arrow {
+  left: 12px;
+  transform: rotate(45deg);
+}
+
+.placement-left .tooltip-arrow,
+.placement-left-top .tooltip-arrow,
+.placement-left-bottom .tooltip-arrow {
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.placement-left-top .tooltip-arrow {
+  top: auto;
+  bottom: 12px;
+  transform: rotate(45deg);
+}
+
+.placement-left-bottom .tooltip-arrow {
+  top: 12px;
+  transform: rotate(45deg);
+}
+
+.placement-right .tooltip-arrow,
+.placement-right-top .tooltip-arrow,
+.placement-right-bottom .tooltip-arrow {
+  left: -5px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.placement-right-top .tooltip-arrow {
+  top: auto;
+  bottom: 12px;
+  transform: rotate(45deg);
+}
+
+.placement-right-bottom .tooltip-arrow {
+  top: 12px;
+  transform: rotate(45deg);
+}
+
+.placement-center .tooltip-arrow {
+  display: none;
+}
+
+.placement-top,
+.placement-top-left,
+.placement-top-right,
+.placement-top-center {
+  bottom: calc(100% + 10px);
+}
+
+.placement-top {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.placement-top-left {
+  right: 0;
+}
+
+.placement-top-right {
+  left: 0;
+}
+
+.placement-top-center {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.placement-bottom,
+.placement-bottom-left,
+.placement-bottom-right,
+.placement-bottom-center {
+  top: calc(100% + 10px);
+}
+
+.placement-bottom {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.placement-bottom-left {
+  right: 0;
+}
+
+.placement-bottom-right {
+  left: 0;
+}
+
+.placement-bottom-center {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.placement-left,
+.placement-left-top,
+.placement-left-bottom {
+  right: calc(100% + 10px);
+}
+
+.placement-left {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.placement-left-top {
+  bottom: 0;
+}
+
+.placement-left-bottom {
+  top: 0;
+}
+
+.placement-right,
+.placement-right-top,
+.placement-right-bottom {
+  left: calc(100% + 10px);
+}
+
+.placement-right {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.placement-right-top {
+  bottom: 0;
+}
+
+.placement-right-bottom {
+  top: 0;
+}
+
+.placement-center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.tooltip-box--xs .tooltip-header {
+  padding: 5px 8px 4px;
+}
+.tooltip-box--xs .tooltip-body {
+  padding: 5px 8px;
+}
+.tooltip-box--xs .tooltip-footer {
+  padding: 4px 8px 5px;
+}
+
+.tooltip-box--sm .tooltip-header {
+  padding: 6px 10px 5px;
+}
+.tooltip-box--sm .tooltip-body {
+  padding: 6px 10px;
+}
+.tooltip-box--sm .tooltip-footer {
+  padding: 5px 10px 6px;
+}
+
+.tooltip-box--lg .tooltip-header {
+  padding: 10px 14px 7px;
+}
+.tooltip-box--lg .tooltip-body {
+  padding: 10px 14px;
+}
+.tooltip-box--lg .tooltip-footer {
+  padding: 7px 14px 10px;
+}
+
+.tooltip-box--xl .tooltip-header {
+  padding: 12px 16px 8px;
+}
+.tooltip-box--xl .tooltip-body {
+  padding: 12px 16px;
+}
+.tooltip-box--xl .tooltip-footer {
+  padding: 8px 16px 12px;
+}
+
+.tooltip-box--2xl .tooltip-header {
+  padding: 14px 18px 9px;
+}
+.tooltip-box--2xl .tooltip-body {
+  padding: 14px 18px;
+}
+.tooltip-box--2xl .tooltip-footer {
+  padding: 9px 18px 14px;
+}
+
+.tooltip-box--3xl .tooltip-header {
+  padding: 16px 20px 10px;
+}
+.tooltip-box--3xl .tooltip-body {
+  padding: 16px 20px;
+}
+.tooltip-box--3xl .tooltip-footer {
+  padding: 10px 20px 16px;
+}

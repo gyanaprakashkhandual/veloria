@@ -1,81 +1,238 @@
-import React, { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import {
-  positionClasses,
-  calculatePosition,
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  type ReactNode,
+} from "react";
+import "./Tooltip.css";
+import { CopyIcon, CheckIcon } from "./Tooltip.icon";
+import {
+  type TooltipSize,
+  type TooltipPlacement,
+  type TooltipTrigger,
+  flipPlacement,
 } from "./Tooltip.context";
 
 interface TooltipProps {
-  content?: string;
-  children: React.ReactNode;
-  position?: "top" | "bottom" | "left" | "right";
+  content: ReactNode;
+  children: ReactNode;
+  size?: TooltipSize;
+  placement?: TooltipPlacement;
+  trigger?: TooltipTrigger;
   delay?: number;
   maxWidth?: number;
+  showArrow?: boolean;
+  interactive?: boolean;
+  header?: ReactNode;
+  headerLeadingIcon?: ReactNode;
+  headerTrailingIcon?: ReactNode;
+  footer?: ReactNode;
+  footerLeadingIcon?: ReactNode;
+  footerTrailingIcon?: ReactNode;
+  showCopyButton?: boolean;
   className?: string;
+  disabled?: boolean;
 }
 
 export const Tooltip = ({
-  content = "",
+  content,
   children,
-  position = "bottom",
+  size = "md",
+  placement = "bottom",
+  trigger = "hover",
   delay = 0,
-  maxWidth = 200,
+  maxWidth = 240,
+  showArrow = true,
+  interactive = false,
+  header,
+  headerLeadingIcon,
+  headerTrailingIcon,
+  footer,
+  footerLeadingIcon,
+  footerTrailingIcon,
+  showCopyButton = false,
   className = "",
+  disabled = false,
 }: TooltipProps) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [calculatedPosition, setCalculatedPosition] = useState(position);
-  const triggerRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+  const [animClass, setAnimClass] = useState<
+    "animating-in" | "animating-out" | ""
+  >("");
+  const [resolvedPlacement, setResolvedPlacement] =
+    useState<TooltipPlacement>(placement);
+  const [copied, setCopied] = useState(false);
+
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
+  const showTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const outTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // ...existing code...
-
-  useEffect(() => {
-    if (isVisible && triggerRef.current && tooltipRef.current) {
-      const trigger = triggerRef.current.getBoundingClientRect();
-      const tooltip = tooltipRef.current.getBoundingClientRect();
-      const newPosition = calculatePosition(trigger, tooltip, position);
-      setCalculatedPosition(newPosition as "top" | "bottom" | "left" | "right");
-    }
-  }, [isVisible, position]);
-
-  // ...existing code...
-  const animationVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: { opacity: 1, scale: 1 },
-    exit: { opacity: 0, scale: 0.8 },
+  const clearTimers = () => {
+    if (showTimer.current) clearTimeout(showTimer.current);
+    if (hideTimer.current) clearTimeout(hideTimer.current);
+    if (outTimer.current) clearTimeout(outTimer.current);
   };
 
-  return (
-    <div className={`relative inline-block ${className}`}>
-      <div
-        ref={triggerRef}
-        onMouseEnter={() => setTimeout(() => setIsVisible(true), delay)}
-        onMouseLeave={() => setIsVisible(false)}
-        onFocus={() => setIsVisible(true)}
-        onBlur={() => setIsVisible(false)}
-      >
-        {children}
-      </div>
+  const show = useCallback(() => {
+    if (disabled) return;
+    clearTimers();
+    showTimer.current = setTimeout(() => {
+      setVisible(true);
+      setAnimClass("animating-in");
+    }, delay);
+  }, [delay, disabled]);
 
-      <AnimatePresence>
-        {isVisible && (
-          <motion.div
-            ref={tooltipRef}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            variants={animationVariants}
-            transition={{ duration: 0.2 }}
-            className={`
-              absolute z-9999 bg-[#3c4043] text-white text-[13px] leading-4.5 px-2.5 py-1.5 rounded shadow-[0_2px_8px_rgba(0,0,0,0.26)] whitespace-nowrap font-semi-bold pointer-events-none
-              ${positionClasses[calculatedPosition] || positionClasses.top}
-            `}
-            style={{ maxWidth: `${maxWidth}px` }}
+  const hide = useCallback(() => {
+    clearTimers();
+    setAnimClass("animating-out");
+    outTimer.current = setTimeout(() => {
+      setVisible(false);
+      setAnimClass("");
+    }, 140);
+  }, []);
+
+  useEffect(() => {
+    if (visible && wrapperRef.current && tooltipRef.current) {
+      const triggerRect = wrapperRef.current.getBoundingClientRect();
+      const tooltipRect = tooltipRef.current.getBoundingClientRect();
+      const flipped = flipPlacement(placement, triggerRect, tooltipRect);
+      setResolvedPlacement(flipped);
+    }
+  }, [visible, placement]);
+
+  useEffect(() => {
+    if (trigger === "click") {
+      const handleOutside = (e: MouseEvent) => {
+        if (
+          wrapperRef.current &&
+          !wrapperRef.current.contains(e.target as Node) &&
+          tooltipRef.current &&
+          !tooltipRef.current.contains(e.target as Node)
+        ) {
+          hide();
+        }
+      };
+      document.addEventListener("mousedown", handleOutside);
+      return () => document.removeEventListener("mousedown", handleOutside);
+    }
+  }, [trigger, hide]);
+
+  useEffect(() => () => clearTimers(), []);
+
+  const handleCopy = () => {
+    const text =
+      typeof content === "string"
+        ? content
+        : tooltipRef.current?.innerText || "";
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+
+  const triggerProps =
+    trigger === "hover"
+      ? {
+          onMouseEnter: show,
+          onMouseLeave: hide,
+          onFocus: show,
+          onBlur: hide,
+        }
+      : {
+          onClick: () => (visible ? hide() : show()),
+        };
+
+  const tooltipHoverProps =
+    interactive && trigger === "hover"
+      ? {
+          onMouseEnter: show,
+          onMouseLeave: hide,
+        }
+      : {};
+
+  const hasHeader = !!(header || headerLeadingIcon || headerTrailingIcon);
+  const hasFooter = !!(footer || footerLeadingIcon || footerTrailingIcon);
+
+  return (
+    <div className="tooltip-wrapper" ref={wrapperRef} {...triggerProps}>
+      {children}
+
+      {visible && (
+        <div
+          ref={tooltipRef}
+          role="tooltip"
+          className={[
+            "tooltip-box",
+            `tooltip-box--${size}`,
+            `placement-${resolvedPlacement}`,
+            animClass,
+            interactive ? "interactive" : "",
+            className,
+          ]
+            .filter(Boolean)
+            .join(" ")}
+          style={{ maxWidth: `${maxWidth}px` }}
+          {...tooltipHoverProps}
+        >
+          {showArrow && <span className="tooltip-arrow" />}
+
+          {hasHeader && (
+            <div className="tooltip-header">
+              {headerLeadingIcon && (
+                <span className="tooltip-icon-leading">
+                  {headerLeadingIcon}
+                </span>
+              )}
+              <span>{header}</span>
+              {headerTrailingIcon && (
+                <span className="tooltip-icon-trailing">
+                  {headerTrailingIcon}
+                </span>
+              )}
+            </div>
+          )}
+
+          <div
+            className={`tooltip-body${!hasHeader ? " tooltip-body--no-header" : ""}`}
           >
-            {content}
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <span>{content}</span>
+            {showCopyButton && (
+              <button
+                className={`tooltip-copy-btn${copied ? " copied" : ""}`}
+                onClick={handleCopy}
+                title={copied ? "Copied!" : "Copy"}
+                style={{
+                  marginLeft: "8px",
+                  display: "inline-flex",
+                  verticalAlign: "middle",
+                }}
+              >
+                {copied ? <CheckIcon size={12} /> : <CopyIcon size={12} />}
+              </button>
+            )}
+          </div>
+
+          {hasFooter && (
+            <div className="tooltip-footer">
+              {footerLeadingIcon && (
+                <span className="tooltip-icon-leading">
+                  {footerLeadingIcon}
+                </span>
+              )}
+              <span>{footer}</span>
+              {footerTrailingIcon && (
+                <span className="tooltip-icon-trailing">
+                  {footerTrailingIcon}
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
+
+export default Tooltip;

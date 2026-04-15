@@ -1,4 +1,5 @@
 ### Sizes
+
 1. xs
 2. sm
 3. md
@@ -29,5 +30,22 @@
 
 ### Buttons
 
-1. With Copy button 
+1. With Copy button
 2. Without Copy button
+
+### UI
+
+1. Arrow Tooltip
+2. No Arrow Tooltip
+3. Index High So that Display all over the elements
+
+### Actions
+
+1. On Hover Show
+2. On Click Show
+3. User can not hover the cursor on the tooltip
+4. User can hover the cursor on the tooltip
+
+### Props
+
+1. className so that user can override the UI using classname when use this component
