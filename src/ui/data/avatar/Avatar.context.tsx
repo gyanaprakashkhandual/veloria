@@ -1,17 +1,23 @@
-import React, {
+/* eslint-disable react-refresh/only-export-components */
+import {
   createContext,
   useContext,
   useReducer,
   useCallback,
   useRef,
 } from "react";
+import type { ReactNode, RefObject, Dispatch } from "react";
 
 export type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 export type AvatarShape = "circle" | "square" | "rounded";
 export type AvatarStatus = "online" | "offline" | "away" | "busy" | "none";
 export type AvatarVariant = "image" | "initials" | "icon" | "fallback";
 export type AvatarGroupLayout = "stack" | "grid" | "list";
-export type PresencePosition = "top-right" | "top-left" | "bottom-right" | "bottom-left";
+export type PresencePosition =
+  | "top-right"
+  | "top-left"
+  | "bottom-right"
+  | "bottom-left";
 
 export interface AvatarState {
   size: AvatarSize;
@@ -48,17 +54,17 @@ function reducer(state: AvatarState, action: AvatarAction): AvatarState {
 
 export interface AvatarContextValue {
   state: AvatarState;
-  dispatch: React.Dispatch<AvatarAction>;
+  dispatch: Dispatch<AvatarAction>;
   setLoading: (v: boolean) => void;
   setError: (v: boolean) => void;
   setStatus: (v: AvatarStatus) => void;
-  avatarRef: React.RefObject<HTMLDivElement | null>;
+  avatarRef: RefObject<HTMLDivElement | null>;
 }
 
 const AvatarContext = createContext<AvatarContextValue | null>(null);
 
 export interface AvatarProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
   size?: AvatarSize;
   shape?: AvatarShape;
   status?: AvatarStatus;
@@ -92,20 +98,23 @@ export function AvatarProvider({
 
   const avatarRef = useRef<HTMLDivElement>(null);
 
-  const setLoading = useCallback((v: boolean) => {
-    dispatch({ type: "SET_LOADING", payload: v });
-  }, []);
-
-  const setError = useCallback((v: boolean) => {
-    dispatch({ type: "SET_ERROR", payload: v });
-  }, []);
-
-  const setStatus = useCallback((v: AvatarStatus) => {
-    dispatch({ type: "SET_STATUS", payload: v });
-  }, []);
+  const setLoading = useCallback(
+    (v: boolean) => dispatch({ type: "SET_LOADING", payload: v }),
+    [],
+  );
+  const setError = useCallback(
+    (v: boolean) => dispatch({ type: "SET_ERROR", payload: v }),
+    [],
+  );
+  const setStatus = useCallback(
+    (v: AvatarStatus) => dispatch({ type: "SET_STATUS", payload: v }),
+    [],
+  );
 
   return (
-    <AvatarContext.Provider value={{ state, dispatch, setLoading, setError, setStatus, avatarRef }}>
+    <AvatarContext.Provider
+      value={{ state, dispatch, setLoading, setError, setStatus, avatarRef }}
+    >
       {children}
     </AvatarContext.Provider>
   );
@@ -113,7 +122,8 @@ export function AvatarProvider({
 
 export function useAvatarContext(): AvatarContextValue {
   const ctx = useContext(AvatarContext);
-  if (!ctx) throw new Error("useAvatarContext must be used within AvatarProvider");
+  if (!ctx)
+    throw new Error("useAvatarContext must be used within AvatarProvider");
   return ctx;
 }
 
@@ -136,9 +146,11 @@ export function AvatarGroupProvider({
   max = 5,
   total = 0,
   spacing = -8,
-}: AvatarGroupContextValue & { children: React.ReactNode }) {
+}: AvatarGroupContextValue & { children: ReactNode }) {
   return (
-    <AvatarGroupContext.Provider value={{ size, shape, layout, max, total, spacing }}>
+    <AvatarGroupContext.Provider
+      value={{ size, shape, layout, max, total, spacing }}
+    >
       {children}
     </AvatarGroupContext.Provider>
   );
